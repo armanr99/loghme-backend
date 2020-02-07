@@ -13,35 +13,35 @@ public class Food {
         this.price = price;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    double getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
-    double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    void setPopularity(double popularity) {
+    public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
 
-    void setPrice(double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }
