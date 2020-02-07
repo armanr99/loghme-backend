@@ -4,7 +4,9 @@ import com.google.gson.*;
 import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Loghme {
     private HashMap<String, Restaurant> restaurants;
@@ -30,5 +32,9 @@ public class Loghme {
         if (!restaurants.containsKey(restaurantName))
             throw new RestaurantDoesntExist(restaurantName);
         restaurants.get(restaurantName).addFood(foodWithRestaurantName);
+    }
+
+    public List<String> getRestaurants() {
+        return new ArrayList<>(restaurants.keySet());
     }
 }
