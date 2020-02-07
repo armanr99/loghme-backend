@@ -6,10 +6,10 @@ public class Food {
     private double popularity;
     private double price;
 
-    public Food(String _name, String _description, double _popularity, double _price) {
-        name = _name;
-        description = _description;
-        popularity = _popularity;
-        price = _price;
+    public Food(String name, String description, double popularity, double price) {
+        this.name = name;
+        this.description = description;
+        this.popularity = popularity;
+        this.price = price;
     }
 }
