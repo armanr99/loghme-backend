@@ -37,4 +37,13 @@ public class Loghme {
     public List<String> getRestaurants() {
         return new ArrayList<>(restaurants.keySet());
     }
+
+    public String getRestaurant(String restaurantInfo) throws JsonParseException, RestaurantDoesntExist{
+        JsonElement restaurantNameElement = gson.fromJson(restaurantInfo, JsonObject.class).get("name");
+        String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+
+        if (!restaurants.containsKey(restaurantName))
+            throw new RestaurantDoesntExist(restaurantName);
+        return gson.toJson(restaurants.get(restaurantName));
+    }
 }
