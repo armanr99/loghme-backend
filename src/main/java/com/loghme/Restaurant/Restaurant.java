@@ -1,6 +1,9 @@
 package com.loghme.Restaurant;
 
+import com.loghme.Food.Food;
+
 import java.util.HashMap;
+import java.util.List;
 
 public class Restaurant {
     private String name;
@@ -8,14 +11,11 @@ public class Restaurant {
     private Location location;
     private HashMap<String, Food> foodMenu;
 
-    public Restaurant() {
-        foodMenu = new HashMap<>();
-    }
-
     public Restaurant(String name, String description, Location location, List<Food> foodMenu) {
         this.name = name;
         this.description = description;
         this.location = location;
+        this.foodMenu = new HashMap<>();
         for (Food food : foodMenu) {
             this.foodMenu.put(food.getName(), food);
         }
@@ -34,13 +34,13 @@ public class Restaurant {
     }
 
     public Food getFood(String foodName) {
-        foodMenu.getOrDefault(foodName, null);
+        return foodMenu.getOrDefault(foodName, null);
     }
 
     public void addFood(Food newFood) {
         String newFoodName = newFood.getName();
         if (foodMenu.containsKey(newFoodName))
-            throw FoodAlreadyExistsInRestaurant(newFood, this.name);
+            throw new FoodAlreadyExistsInRestaurant(newFood.getName(), this.name);
         foodMenu.put(newFoodName, newFood);
     }
 }
