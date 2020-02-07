@@ -3,6 +3,7 @@ package com.loghme.Loghme;
 import com.google.gson.*;
 import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public class Loghme {
 
     public Loghme() {
         gson = new Gson();
+        restaurants = new HashMap<>();
     }
 
     public void addRestaurant(String serializedRestaurant) throws JsonSyntaxException, RestaurantAlreadyExists {
@@ -25,7 +27,8 @@ public class Loghme {
         restaurants.put(newRestaurantName, newRestaurant);
     }
 
-    public void addFood(String serializedFood) throws JsonParseException, FoodAlreadyExistsInRestaurant, RestaurantDoesntExist {
+    public void addFood(String serializedFood)
+            throws JsonParseException, FoodAlreadyExistsInRestaurant, RestaurantDoesntExist {
         JsonObject foodWithRestaurantName = gson.fromJson(serializedFood, JsonObject.class);
         JsonElement restaurantNameElement = foodWithRestaurantName.remove("restaurantName");
         String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
@@ -57,5 +60,17 @@ public class Loghme {
             throw new RestaurantDoesntExist(restaurantName);
 
         return gson.toJson(restaurants.get(restaurantName).getFood(foodName));
+    }
+
+    public void addToCart(String foodInfo) {
+        throw new NotImplementedException();
+    }
+
+    public String getCart() {
+        throw new NotImplementedException();
+    }
+
+    public String getRecommendedRestaurants() {
+        throw new NotImplementedException();
     }
 }
