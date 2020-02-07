@@ -11,15 +11,15 @@ public class Restaurant {
     private String name;
     private String description;
     private Location location;
-    private HashMap<String, Food> foodMenu;
+    private HashMap<String, Food> menu;
 
-    public Restaurant(String name, String description, Location location, List<Food> foodMenu) {
+    public Restaurant(String name, String description, Location location, List<Food> menu) {
         this.name = name;
         this.description = description;
         this.location = location;
-        this.foodMenu = new HashMap<>();
-        for (Food food : foodMenu) {
-            this.foodMenu.put(food.getName(), food);
+        this.menu = new HashMap<>();
+        for (Food food : menu) {
+            this.menu.put(food.getName(), food);
         }
     }
 
@@ -36,14 +36,14 @@ public class Restaurant {
     }
 
     public Food getFood(String foodName) {
-        return foodMenu.getOrDefault(foodName, null);
+        return menu.getOrDefault(foodName, null);
     }
 
     private void addFood(Food newFood) throws FoodAlreadyExistsInRestaurant {
         String newFoodName = newFood.getName();
-        if (foodMenu.containsKey(newFoodName))
+        if (menu.containsKey(newFoodName))
             throw new FoodAlreadyExistsInRestaurant(newFood.getName(), this.name);
-        foodMenu.put(newFoodName, newFood);
+        menu.put(newFoodName, newFood);
     }
 
     public void addFood(JsonObject newFoodJsonObj) throws FoodAlreadyExistsInRestaurant{
@@ -54,5 +54,9 @@ public class Restaurant {
         Food newFood = new Food(foodName, foodDescription, foodPopularity, foodPrice);
 
         this.addFood(newFood);
+    }
+
+    public HashMap<String, Food> getFoods() {
+        return menu;
     }
 }
