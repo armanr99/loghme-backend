@@ -1,6 +1,7 @@
 package com.loghme.Restaurant;
 
 import com.loghme.Food.Food;
+import com.loghme.Location.Location;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Restaurant {
         return foodMenu.getOrDefault(foodName, null);
     }
 
-    public void addFood(Food newFood) {
+    public void addFood(Food newFood) throws FoodAlreadyExistsInRestaurant {
         String newFoodName = newFood.getName();
         if (foodMenu.containsKey(newFoodName))
             throw new FoodAlreadyExistsInRestaurant(newFood.getName(), this.name);
