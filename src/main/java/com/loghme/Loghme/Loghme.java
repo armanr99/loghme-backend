@@ -1,7 +1,7 @@
 package com.loghme.Loghme;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
 
 import java.util.HashMap;
@@ -21,5 +21,14 @@ public class Loghme {
         if (restaurants.containsKey(newRestaurantName))
             throw new RestaurantAlreadyExists(newRestaurantName);
         restaurants.put(newRestaurantName, newRestaurant);
+    }
+
+    public void addFood(String serializedFood) throws JsonParseException, FoodAlreadyExistsInRestaurant, RestaurantDoesntExist {
+        JsonObject foodWithRestaurantName = gson.fromJson(serializedFood, JsonObject.class);
+        JsonElement restaurantNameElement = foodWithRestaurantName.remove("restaurantName");
+        String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+        if (!restaurants.containsKey(restaurantName))
+            throw new RestaurantDoesntExist(restaurantName);
+        restaurants.get(restaurantName).addFood(foodWithRestaurantName);
     }
 }
