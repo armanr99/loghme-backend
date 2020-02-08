@@ -3,6 +3,7 @@ package com.loghme.Loghme;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.loghme.Cart.DifferentRestaurant;
+import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
@@ -106,7 +107,18 @@ public class Loghme {
     }
 
     public String getCart() {
-        throw new NotImplementedException();
+        ArrayList<CartItem> userCartItems = user.getCartItemsList();
+        ArrayList<JsonObject> serializedUserCartItems = new ArrayList<>();
+
+        for(CartItem cartItem : userCartItems) {
+            JsonObject cartObject = new JsonObject();
+            cartObject.addProperty("foodName", cartItem.getFoodName());
+            cartObject.addProperty("restaurantName", cartItem.getRestaurantName());
+            cartObject.addProperty("count", cartItem.getCount());
+            serializedUserCartItems.add(cartObject);
+        }
+
+        return gson.toJson(serializedUserCartItems);
     }
 
     public String finalizeOrder() {

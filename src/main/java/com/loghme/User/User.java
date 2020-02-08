@@ -2,9 +2,12 @@ package com.loghme.User;
 
 import com.loghme.Cart.Cart;
 import com.loghme.Cart.DifferentRestaurant;
+import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 import com.loghme.Restaurant.Restaurant;
+
+import java.util.ArrayList;
 
 public class User {
     private Cart cart;
@@ -17,5 +20,9 @@ public class User {
 
     public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant {
         cart.addToCart(food, restaurant);
+    }
+
+    public ArrayList<CartItem> getCartItemsList() {
+        return cart.getCartItemsList();
     }
 }

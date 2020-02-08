@@ -4,6 +4,7 @@ import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.Restaurant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Cart {
@@ -17,6 +18,10 @@ public class Cart {
     public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant {
         handleRestaurant(restaurant);
         handleAddCartItem(food, restaurant);
+    }
+
+    public ArrayList<CartItem> getCartItemsList() {
+        return new ArrayList<>(cartItems.values());
     }
 
     private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {
