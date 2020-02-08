@@ -6,7 +6,7 @@ import com.loghme.Loghme.Loghme;
 import java.util.Scanner;
 
 public class Interface {
-    Loghme loghme;
+    private Loghme loghme;
 
     public Interface() {
         loghme = new Loghme();
