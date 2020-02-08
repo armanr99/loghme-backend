@@ -2,9 +2,11 @@ package com.loghme.Loghme;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.loghme.Cart.DifferentRestaurant;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
+import com.loghme.User.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.Type;
@@ -13,11 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Loghme {
+    private User user;
     private HashMap<String, Restaurant> restaurants;
     private Gson gson;
 
     public Loghme() {
         gson = new Gson();
+        user = new User();
         restaurants = new HashMap<>();
     }
 
@@ -81,8 +85,24 @@ public class Loghme {
         return gson.toJson(restaurants.get(restaurantName).getFood(foodName));
     }
 
-    public void addToCart(String foodInfo) {
-        throw new NotImplementedException();
+    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant {
+        JsonObject foodInfoObject = gson.fromJson(foodInfo, JsonObject.class);
+        JsonElement foodNameElement = foodInfoObject.get("foodName");
+        JsonElement restaurantNameElement = foodInfoObject.get("restaurantName");
+        String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+        String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
+
+        if (!restaurants.containsKey(restaurantName))
+            throw new RestaurantDoesntExist(restaurantName);
+
+        Restaurant restaurant = restaurants.get(restaurantName);
+        Food food = restaurant.getFood(foodName);
+
+        if(food == null)
+            throw new FoodDoesntExist(foodName, restaurantName);
+        else
+            user.addToCart(food, restaurant);
+
     }
 
     public String getCart() {
