@@ -33,7 +33,7 @@ public class Interface {
                     loghme.addFood(lineParts[1]);
                     break;
                 case Commands.GET_RESTAURANTS:
-                    System.out.println(loghme.getRestaurants()); //TODO: better format?
+                    System.out.println(loghme.getRestaurants());
                     break;
                 case Commands.GET_RESTAURANT:
                     System.out.println(loghme.getRestaurant(lineParts[1]));
@@ -48,7 +48,8 @@ public class Interface {
                     System.out.println(loghme.getCart());
                     break;
                 case Commands.FINALIZE_ORDER:
-                    System.out.println(loghme.finalizeOrder()); //TODO: better implementation?
+                    System.out.println(loghme.finalizeOrder());
+                    System.out.println("Order was successfully submitted");
                     break;
                 case Commands.GET_RECOMMENDED_RESTAURANTS:
                     System.out.println(loghme.getRecommendedRestaurants());
