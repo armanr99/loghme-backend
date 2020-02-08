@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,11 +15,19 @@ public class Restaurant {
     private Location location;
     private HashMap<String, Food> menu;
 
-    public Restaurant(String name, String description, Location location, List<Food> menu) {
+    public Restaurant() {
+        this.menu = new HashMap<>();
+    }
+
+    public Restaurant(String name, String description, Location location, ArrayList<Food> menu) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.menu = new HashMap<>();
+        this.addFoods(menu);
+    }
+
+    public void addFoods(ArrayList<Food> menu) {
         for (Food food : menu) {
             this.menu.put(food.getName(), food);
         }
@@ -46,7 +56,7 @@ public class Restaurant {
         menu.put(newFoodName, newFood);
     }
 
-    public void addFood(JsonObject newFoodJsonObj) throws FoodAlreadyExistsInRestaurant{
+    public void addFood(JsonObject newFoodJsonObj) throws FoodAlreadyExistsInRestaurant {
         String foodName = newFoodJsonObj.get("name").getAsString();
         String foodDescription = newFoodJsonObj.get("description").getAsString();
         double foodPopularity = newFoodJsonObj.get("popularity").getAsDouble();

@@ -25,8 +25,8 @@ public class LoghmeTest {
     @Test
     public void testAddRestaurant() throws NoSuchFieldException, IllegalAccessException {
         String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
-                "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it’s yummy!\", \"popularity\": 0.8, \"price\":" +
-                "20000}, {\"name\": \"Kabab\", \"description\": \"it’s delicious!\", \"popularity\": 0.6, \"price\":" +
+                "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
+                "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
@@ -40,11 +40,10 @@ public class LoghmeTest {
             Assert.assertEquals(hesturan.getDescription(), "luxury");
             Assert.assertEquals(hesturan.getLocation().getX(), 1, 1e-9);
             HashMap<String, Food> foods = hesturan.getFoods();
-            Assert.assertNull(foods);
             Assert.assertNotNull(hesturan.getFood("Gheime"));
             Food gheime = hesturan.getFood("Gheime");
             Assert.assertEquals(gheime.getName(), "Gheime");
-            Assert.assertEquals(gheime.getDescription(), "its's yummy!");
+            Assert.assertEquals(gheime.getDescription(), "it's yummy!");
             Assert.assertEquals(gheime.getPopularity(), 0.8, 1e-9);
             Assert.assertEquals(gheime.getPrice(), 20000, 1e-9);
         } catch (RestaurantAlreadyExists restaurantAlreadyExists) {
