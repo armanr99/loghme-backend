@@ -83,6 +83,10 @@ public class Loghme {
         throw new NotImplementedException();
     }
 
+    public String finalizeOrder() {
+        throw new NotImplementedException();
+    }
+
     public String getRecommendedRestaurants() {
         throw new NotImplementedException();
     }
