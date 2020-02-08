@@ -60,7 +60,13 @@ public class Loghme {
         if (!restaurants.containsKey(restaurantName))
             throw new RestaurantDoesntExist(restaurantName);
 
-        return gson.toJson(restaurants.get(restaurantName));
+        Restaurant restaurant = restaurants.get(restaurantName);
+        JsonObject restaurantObject = gson.toJsonTree(restaurant, Restaurant.class).getAsJsonObject();
+        restaurantObject.remove("menu");
+        JsonElement menuElement = gson.toJsonTree(restaurant.getListMenu());
+        restaurantObject.add("menu", menuElement);
+
+        return gson.toJson(restaurantObject, JsonObject.class);
     }
 
     public String getFood(String foodInfo) throws JsonParseException, RestaurantDoesntExist {
