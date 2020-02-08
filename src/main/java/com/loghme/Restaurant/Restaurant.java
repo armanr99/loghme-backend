@@ -66,6 +66,10 @@ public class Restaurant {
         this.addFood(newFood);
     }
 
+    public ArrayList<Food> getListMenu() {
+        return new ArrayList<>(menu.values());
+    }
+
     public HashMap<String, Food> getFoods() {
         return menu;
     }
