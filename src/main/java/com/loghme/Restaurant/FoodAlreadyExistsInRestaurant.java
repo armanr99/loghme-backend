@@ -10,6 +10,6 @@ public class FoodAlreadyExistsInRestaurant extends Exception {
     }
 
     public String toString() {
-        return String.format("FoodAlreadyExistsInRestaurant Exception %s already exists in %s", foodName, restaurantName);
+        return String.format("Food %s already exists in %s", foodName, restaurantName);
     }
 }

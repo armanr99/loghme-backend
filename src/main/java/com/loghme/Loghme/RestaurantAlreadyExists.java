@@ -8,7 +8,7 @@ public class RestaurantAlreadyExists extends Exception {
     }
 
     public String toString() {
-        return String.format("RestaurantAlreadyExists: Restaurant with name: %s already exists", restaurantName);
+        return String.format("Restaurant with name: %s already exists", restaurantName);
     }
 
 }

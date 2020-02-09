@@ -8,6 +8,6 @@ public class UndefinedCommand extends Exception {
     }
 
     public String toString() {
-        return String.format("UndefinedCommand Exception %s command is not defined", command);
+        return String.format("Command %s is not defined", command);
     }
 }

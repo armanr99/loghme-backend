@@ -61,7 +61,7 @@ public class Interface {
                     throw new UndefinedCommand(command);
             }
         } catch(Exception exception) {
-            System.out.println(exception.toString());
+            System.out.println("Error: " + exception.toString());
         }
     }
 
