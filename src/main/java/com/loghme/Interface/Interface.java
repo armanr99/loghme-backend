@@ -14,6 +14,7 @@ public class Interface {
 
     public void start() {
         Scanner input = new Scanner(System.in);
+
         while (input.hasNext()) {
             String inputLine = input.nextLine();
             processLine(inputLine);
