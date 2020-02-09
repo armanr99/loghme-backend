@@ -4,12 +4,11 @@ import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.Restaurant;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Cart {
     private Restaurant restaurant;
-    private HashMap<String, CartItem> cartItems;
+    private Map<String, CartItem> cartItems;
 
     public Cart() {
         cartItems = new HashMap<>();
@@ -22,6 +21,10 @@ public class Cart {
 
     public ArrayList<CartItem> getCartItemsList() {
         return new ArrayList<>(cartItems.values());
+    }
+
+    public void finalizeOrder() {
+        cartItems = Collections.emptyMap();
     }
 
     private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {

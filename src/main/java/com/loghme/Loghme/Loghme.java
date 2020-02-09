@@ -122,7 +122,11 @@ public class Loghme {
     }
 
     public String finalizeOrder() {
-        throw new NotImplementedException();
+        String jsonCart = getCart();
+
+        user.finalizeOrder();
+
+        return jsonCart;
     }
 
     public String getRecommendedRestaurants() {

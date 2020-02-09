@@ -25,4 +25,8 @@ public class User {
     public ArrayList<CartItem> getCartItemsList() {
         return cart.getCartItemsList();
     }
+
+    public void finalizeOrder() {
+        cart.finalizeOrder();
+    }
 }
