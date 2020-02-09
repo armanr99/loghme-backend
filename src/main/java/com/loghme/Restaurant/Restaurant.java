@@ -1,6 +1,7 @@
 package com.loghme.Restaurant;
 
 import com.google.gson.JsonObject;
+import com.loghme.Constants.Fields;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 
@@ -57,10 +58,10 @@ public class Restaurant {
     }
 
     public void addFood(JsonObject newFoodJsonObj) throws FoodAlreadyExistsInRestaurant {
-        String foodName = newFoodJsonObj.get("name").getAsString();
-        String foodDescription = newFoodJsonObj.get("description").getAsString();
-        double foodPopularity = newFoodJsonObj.get("popularity").getAsDouble();
-        double foodPrice = newFoodJsonObj.get("price").getAsDouble();
+        String foodName = newFoodJsonObj.get(Fields.NAME).getAsString();
+        String foodDescription = newFoodJsonObj.get(Fields.DESCRIPTION).getAsString();
+        double foodPopularity = newFoodJsonObj.get(Fields.POPULARITY).getAsDouble();
+        double foodPrice = newFoodJsonObj.get(Fields.PRICE).getAsDouble();
         Food newFood = new Food(foodName, foodDescription, foodPopularity, foodPrice);
 
         this.addFood(newFood);

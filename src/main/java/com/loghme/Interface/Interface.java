@@ -1,6 +1,7 @@
 package com.loghme.Interface;
 
 import com.loghme.Constants.Commands;
+import com.loghme.Constants.GeneralConstants;
 import com.loghme.Loghme.Loghme;
 
 import java.util.Scanner;
@@ -65,6 +66,6 @@ public class Interface {
     }
 
     private String[] splitBySpace(String string) {
-        return string.split(" ", 2);
+        return string.split(GeneralConstants.SPACE, 2);
     }
 }
