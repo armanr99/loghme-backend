@@ -76,7 +76,7 @@ public class Loghme {
         return gson.toJson(restaurantObject, JsonObject.class);
     }
 
-    public String getFood(String foodInfo) throws JsonParseException, RestaurantDoesntExist {
+    public String getFood(String foodInfo) throws JsonParseException, RestaurantDoesntExist, FoodDoesntExist {
         JsonElement restaurantNameElement = gson.fromJson(foodInfo, JsonObject.class).get(Fields.RESTAURANT_NAME);
         JsonElement foodNameElement = gson.fromJson(foodInfo, JsonObject.class).get(Fields.FOOD_NAME);
         String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
@@ -85,7 +85,12 @@ public class Loghme {
         if (!restaurants.containsKey(restaurantName))
             throw new RestaurantDoesntExist(restaurantName);
 
-        return gson.toJson(restaurants.get(restaurantName).getFood(foodName));
+        Food food = restaurants.get(restaurantName).getFood(foodName);
+
+        if(food == null)
+            throw new FoodDoesntExist(foodName, restaurantName);
+        else
+            return gson.toJson(restaurants.get(restaurantName).getFood(foodName));
     }
 
     public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant {
