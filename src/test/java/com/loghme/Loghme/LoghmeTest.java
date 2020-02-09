@@ -1,5 +1,6 @@
 package com.loghme.Loghme;
 
+import com.loghme.Cart.DifferentRestaurant;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.Restaurant;
@@ -164,4 +165,27 @@ public class LoghmeTest {
             Assert.fail();
         }
     }
+
+   @Test(expected = DifferentRestaurant.class)
+   public void testAddToCartDifferentRestaurant() throws DifferentRestaurant {
+       String testAddRestaurantJson1 = "{\"name\": \"Bonab\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+               "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
+               "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+               "30000}]}";
+       String testAddRestaurantJson2 = "{\"name\": \"Hani\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+               "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
+               "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+               "30000}]}";
+       String testAddToCart1 = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Bonab\"}";
+       String testAddToCart2 = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Hani\"}";
+
+       try {
+           loghmeTest.addRestaurant(testAddRestaurantJson1);
+           loghmeTest.addRestaurant(testAddRestaurantJson2);
+           loghmeTest.addToCart(testAddToCart1);
+           loghmeTest.addToCart(testAddToCart2);
+       } catch(RestaurantAlreadyExists | FoodDoesntExist | RestaurantDoesntExist exception) {
+           Assert.fail();
+       }
+   }
 }
