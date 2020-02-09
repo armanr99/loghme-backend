@@ -9,6 +9,7 @@ import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.User.User;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +32,12 @@ public class LoghmeTest {
         loghmeClass = loghmeTest.getClass();
     }
 
+    @After
+    public void teardown() {
+        loghmeTest = null;
+        loghmeClass = null;
+    }
+
     @Test
     public void testAddRestaurant() throws NoSuchFieldException, IllegalAccessException {
         String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
@@ -41,7 +48,7 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurantJson);
             Field restaurantsField = loghmeClass.getDeclaredField("restaurants");
             restaurantsField.setAccessible(true);
-            HashMap<String, Restaurant> restaurants = (HashMap<String, Restaurant>) restaurantsField.get(loghmeTest);
+            HashMap<String, Restaurant> restaurants = (HashMap<String, Restaurant>)  restaurantsField.get(loghmeTest);
 
             Assert.assertTrue(restaurants.containsKey("Hesturan"));
             Restaurant hesturan = restaurants.get("Hesturan");
