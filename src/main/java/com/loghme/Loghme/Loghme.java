@@ -5,15 +5,13 @@ import com.google.gson.reflect.TypeToken;
 import com.loghme.Cart.DifferentRestaurant;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
+import com.loghme.Location.Location;
 import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.User.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Loghme {
     private User user;
@@ -129,7 +127,34 @@ public class Loghme {
         return jsonCart;
     }
 
-    public String getRecommendedRestaurants() {
-        throw new NotImplementedException();
+    public ArrayList<String> getRecommendedRestaurants() {
+        ArrayList<String> recommendedRestaurants = new ArrayList<>();
+        ArrayList<Double> popularities = new ArrayList<>();
+
+        for(Restaurant restaurant : restaurants.values()) {
+            double popularity = getPopularity(restaurant);
+            if(recommendedRestaurants.size() < 3) {
+                recommendedRestaurants.add(restaurant.getName());
+                popularities.add(popularity);
+            }
+            else {
+                int minIndex = popularities.indexOf(Collections.min(popularities));
+                if(popularity > popularities.get(minIndex)) {
+                    recommendedRestaurants.set(minIndex, restaurant.getName());
+                    popularities.set(minIndex, popularity);
+                }
+            }
+        }
+
+        return recommendedRestaurants;
+    }
+
+    private double getPopularity(Restaurant restaurant) {
+        Location userLocation = user.getLocation();
+        Location restaurantLocation = restaurant.getLocation();
+        double distanceFromUser = userLocation.getEuclideanDistanceFrom(restaurantLocation);
+        double averageFoodsPopularity = restaurant.getAverageFoodsPopulation();
+
+        return (averageFoodsPopularity / distanceFromUser);
     }
 }

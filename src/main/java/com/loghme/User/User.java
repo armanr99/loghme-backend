@@ -18,6 +18,10 @@ public class User {
         location = new Location(0, 0);
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
     public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant {
         cart.addToCart(food, restaurant);
     }

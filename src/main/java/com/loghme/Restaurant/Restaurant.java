@@ -73,4 +73,13 @@ public class Restaurant {
     public HashMap<String, Food> getFoods() {
         return menu;
     }
+
+    public double getAverageFoodsPopulation() {
+        double sum = 0;
+
+        for(Food food : menu.values())
+            sum += food.getPopularity();
+
+        return (menu.size() == 0 ? 0 : sum / menu.size());
+    }
 }
