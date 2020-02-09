@@ -6,8 +6,11 @@ import com.loghme.Restaurant.Restaurant;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +100,24 @@ public class LoghmeTest {
             Assert.assertTrue(restaurants.contains("Hani"));
         } catch(Exception exception) {
             Assert.fail();
+        }
+    }
+
+    @Test
+    public void testGetRestaurant() {
+        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+                "\"menu\": [{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+                "30000}]}";
+        String testGetRestaurantJson = "{\"name\": \"Hesturan\"}";
+
+        try {
+            loghmeTest.addRestaurant(testAddRestaurantJson);
+
+            String restaurantJson = loghmeTest.getRestaurant(testGetRestaurantJson);
+            JSONAssert.assertEquals(testAddRestaurantJson, restaurantJson, JSONCompareMode.LENIENT);
+
+        } catch(Exception exception) {
+                Assert.fail();
         }
     }
 }
