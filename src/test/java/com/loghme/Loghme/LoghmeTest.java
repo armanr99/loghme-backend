@@ -8,7 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LoghmeTest {
 
@@ -73,6 +75,27 @@ public class LoghmeTest {
             Assert.assertEquals(gheime.getPopularity(), 0.8, 1e-9);
             Assert.assertEquals(gheime.getPrice(), 20000, 1e-9);
         } catch (Exception exception) {
+            Assert.fail();
+        }
+    }
+
+    @Test
+    public void testGetRestaurants() {
+        String testAddRestaurantJson1 = "{\"name\": \"Bonab\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+                "\"menu\": [{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+                "30000}]}";
+        String testAddRestaurantJson2 = "{\"name\": \"Hani\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+                "\"menu\": [{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+                "30000}]}";
+
+        try {
+            loghmeTest.addRestaurant(testAddRestaurantJson1);
+            loghmeTest.addRestaurant(testAddRestaurantJson2);
+
+            List<String> restaurants = loghmeTest.getRestaurants();
+            Assert.assertTrue(restaurants.contains("Bonab"));
+            Assert.assertTrue(restaurants.contains("Hani"));
+        } catch(Exception exception) {
             Assert.fail();
         }
     }
