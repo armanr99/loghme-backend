@@ -49,6 +49,7 @@ public class LoghmeTest {
             Field restaurantsField = loghmeClass.getDeclaredField("restaurants");
             restaurantsField.setAccessible(true);
             HashMap<String, Restaurant> restaurants = (HashMap<String, Restaurant>)  restaurantsField.get(loghmeTest);
+            restaurantsField.setAccessible(false);
 
             Assert.assertTrue(restaurants.containsKey("Hesturan"));
             Restaurant hesturan = restaurants.get("Hesturan");
@@ -81,6 +82,7 @@ public class LoghmeTest {
             Field restaurantsField = loghmeClass.getDeclaredField("restaurants");
             restaurantsField.setAccessible(true);
             HashMap<String, Restaurant> restaurants = (HashMap<String, Restaurant>) restaurantsField.get(loghmeTest);
+            restaurantsField.setAccessible(false);
 
             Restaurant hesturan = restaurants.get("Hesturan");
             Food gheime = hesturan.getFood("Gheime");
@@ -167,6 +169,7 @@ public class LoghmeTest {
             Field userField = loghmeClass.getDeclaredField("user");
             userField.setAccessible(true);
             User user = (User) userField.get(loghmeTest);
+            userField.setAccessible(false);
 
             List<CartItem> userCartItems = user.getCartItemsList();
             Assert.assertEquals(1, userCartItems.size());
