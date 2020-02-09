@@ -1,6 +1,5 @@
 package com.loghme.Loghme;
 
-
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.Restaurant;
 import org.junit.Assert;
@@ -10,8 +9,6 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -115,9 +112,28 @@ public class LoghmeTest {
 
             String restaurantJson = loghmeTest.getRestaurant(testGetRestaurantJson);
             JSONAssert.assertEquals(testAddRestaurantJson, restaurantJson, JSONCompareMode.LENIENT);
-
         } catch(Exception exception) {
                 Assert.fail();
+        }
+    }
+
+    @Test
+    public void testGetFood() {
+        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+                "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
+                "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+                "30000}]}";
+        String testGetFoodsJson = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Hesturan\"}";
+
+        try {
+            loghmeTest.addRestaurant(testAddRestaurantJson);
+
+            String foodJson = loghmeTest.getFood(testGetFoodsJson);
+            String testFoodJson = "{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}";
+
+            JSONAssert.assertEquals(testFoodJson, foodJson, JSONCompareMode.LENIENT);
+        } catch(Exception exception) {
+            Assert.fail();
         }
     }
 }
