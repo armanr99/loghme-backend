@@ -5,19 +5,22 @@ import com.google.gson.reflect.TypeToken;
 import com.loghme.Cart.DifferentRestaurant;
 import com.loghme.Cart.EmptyCartFinalize;
 import com.loghme.CartItem.CartItem;
+import com.loghme.Constants.Configs;
+import com.loghme.Constants.Fields;
+import com.loghme.Constants.GeneralConstants;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.User.User;
 
-import java.lang.reflect.Type;
 import java.util.*;
+import java.lang.reflect.Type;
 
 public class Loghme {
+    private Gson gson;
     private User user;
     private HashMap<String, Restaurant> restaurants;
-    private Gson gson;
 
     public Loghme() {
         gson = new Gson();
@@ -27,7 +30,7 @@ public class Loghme {
 
     public void addRestaurant(String serializedRestaurant) throws JsonSyntaxException, RestaurantAlreadyExists {
         JsonObject restaurantObject = gson.fromJson(serializedRestaurant, JsonObject.class);
-        JsonElement menuElement = restaurantObject.remove("menu");
+        JsonElement menuElement = restaurantObject.remove(Fields.MENU);
         Restaurant newRestaurant = gson.fromJson(restaurantObject.toString(), Restaurant.class);
         String newRestaurantName = newRestaurant.getName();
 
@@ -44,8 +47,8 @@ public class Loghme {
     public void addFood(String serializedFood)
             throws JsonParseException, FoodAlreadyExistsInRestaurant, RestaurantDoesntExist {
         JsonObject foodWithRestaurantName = gson.fromJson(serializedFood, JsonObject.class);
-        JsonElement restaurantNameElement = foodWithRestaurantName.remove("restaurantName");
-        String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+        JsonElement restaurantNameElement = foodWithRestaurantName.remove(Fields.RESTAURANT_NAME);
+        String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
 
         if (!restaurants.containsKey(restaurantName))
             throw new RestaurantDoesntExist(restaurantName);
@@ -58,39 +61,44 @@ public class Loghme {
     }
 
     public String getRestaurant(String restaurantInfo) throws JsonParseException, RestaurantDoesntExist {
-        JsonElement restaurantNameElement = gson.fromJson(restaurantInfo, JsonObject.class).get("name");
-        String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+        JsonElement restaurantNameElement = gson.fromJson(restaurantInfo, JsonObject.class).get(Fields.NAME);
+        String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
 
         if (!restaurants.containsKey(restaurantName))
             throw new RestaurantDoesntExist(restaurantName);
 
         Restaurant restaurant = restaurants.get(restaurantName);
         JsonObject restaurantObject = gson.toJsonTree(restaurant, Restaurant.class).getAsJsonObject();
-        restaurantObject.remove("menu");
+        restaurantObject.remove(Fields.MENU);
         JsonElement menuElement = gson.toJsonTree(restaurant.getListMenu());
-        restaurantObject.add("menu", menuElement);
+        restaurantObject.add(Fields.MENU, menuElement);
 
         return gson.toJson(restaurantObject, JsonObject.class);
     }
 
-    public String getFood(String foodInfo) throws JsonParseException, RestaurantDoesntExist {
-        JsonElement restaurantNameElement = gson.fromJson(foodInfo, JsonObject.class).get("restaurantName");
-        JsonElement foodNameElement = gson.fromJson(foodInfo, JsonObject.class).get("foodName");
-        String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
-        String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
+    public String getFood(String foodInfo) throws JsonParseException, RestaurantDoesntExist, FoodDoesntExist {
+        JsonElement restaurantNameElement = gson.fromJson(foodInfo, JsonObject.class).get(Fields.RESTAURANT_NAME);
+        JsonElement foodNameElement = gson.fromJson(foodInfo, JsonObject.class).get(Fields.FOOD_NAME);
+        String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
+        String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
 
         if (!restaurants.containsKey(restaurantName))
             throw new RestaurantDoesntExist(restaurantName);
 
-        return gson.toJson(restaurants.get(restaurantName).getFood(foodName));
+        Food food = restaurants.get(restaurantName).getFood(foodName);
+
+        if(food == null)
+            throw new FoodDoesntExist(foodName, restaurantName);
+        else
+            return gson.toJson(restaurants.get(restaurantName).getFood(foodName));
     }
 
     public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant {
         JsonObject foodInfoObject = gson.fromJson(foodInfo, JsonObject.class);
-        JsonElement foodNameElement = foodInfoObject.get("foodName");
-        JsonElement restaurantNameElement = foodInfoObject.get("restaurantName");
-        String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
-        String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
+        JsonElement foodNameElement = foodInfoObject.get(Fields.FOOD_NAME);
+        JsonElement restaurantNameElement = foodInfoObject.get(Fields.RESTAURANT_NAME);
+        String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
+        String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
 
         if (!restaurants.containsKey(restaurantName))
             throw new RestaurantDoesntExist(restaurantName);
@@ -102,7 +110,6 @@ public class Loghme {
             throw new FoodDoesntExist(foodName, restaurantName);
         else
             user.addToCart(food, restaurant);
-
     }
 
     public String getCart() {
@@ -111,16 +118,16 @@ public class Loghme {
 
         for(CartItem cartItem : userCartItems) {
             JsonObject cartObject = new JsonObject();
-            cartObject.addProperty("foodName", cartItem.getFoodName());
-            cartObject.addProperty("restaurantName", cartItem.getRestaurantName());
-            cartObject.addProperty("count", cartItem.getCount());
+            cartObject.addProperty(Fields.FOOD_NAME, cartItem.getFoodName());
+            cartObject.addProperty(Fields.RESTAURANT_NAME, cartItem.getRestaurantName());
+            cartObject.addProperty(Fields.COUNT, cartItem.getCount());
             serializedUserCartItems.add(cartObject);
         }
 
         Type jsonObjectType = new TypeToken<List<JsonObject>>() {}.getType();
         JsonElement cartElement = gson.toJsonTree(serializedUserCartItems, jsonObjectType).getAsJsonArray();
         JsonObject cartJsonObject = new JsonObject();
-        cartJsonObject.add("items", cartElement);
+        cartJsonObject.add(Fields.ITEMS, cartElement);
 
         return gson.toJson(cartJsonObject);
     }
@@ -139,7 +146,7 @@ public class Loghme {
 
         for(Restaurant restaurant : restaurants.values()) {
             double popularity = getPopularity(restaurant);
-            if(recommendedRestaurants.size() < 3) {
+            if(recommendedRestaurants.size() < Configs.MAX_RECOMMENDED_SIZE) {
                 recommendedRestaurants.add(restaurant.getName());
                 popularities.add(popularity);
             }

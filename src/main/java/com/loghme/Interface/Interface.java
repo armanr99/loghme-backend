@@ -1,6 +1,7 @@
 package com.loghme.Interface;
 
 import com.loghme.Constants.Commands;
+import com.loghme.Constants.GeneralConstants;
 import com.loghme.Loghme.Loghme;
 
 import java.util.Scanner;
@@ -14,6 +15,7 @@ public class Interface {
 
     public void start() {
         Scanner input = new Scanner(System.in);
+
         while (input.hasNext()) {
             String inputLine = input.nextLine();
             processLine(inputLine);
@@ -59,11 +61,11 @@ public class Interface {
                     throw new UndefinedCommand(command);
             }
         } catch(Exception exception) {
-            System.out.println(exception.toString());
+            System.out.println("Error: " + exception.toString());
         }
     }
 
     private String[] splitBySpace(String string) {
-        return string.split(" ", 2);
+        return string.split(GeneralConstants.SPACE, 2);
     }
 }

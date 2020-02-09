@@ -8,6 +8,6 @@ public class RestaurantDoesntExist extends Exception {
     }
 
     public String toString() {
-        return String.format("RestaurantDoesntExist: Restaurant with name %s does not exist", invalidRestaurantName);
+        return String.format("Restaurant with name %s does not exist", invalidRestaurantName);
     }
 }

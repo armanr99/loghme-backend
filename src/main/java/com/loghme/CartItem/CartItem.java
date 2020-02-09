@@ -18,16 +18,8 @@ public class CartItem {
         count++;
     }
 
-    public Food getFood() {
-        return food;
-    }
-
     public String getFoodName() {
         return food.getName();
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
     }
 
     public String getRestaurantName() {

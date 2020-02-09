@@ -6,6 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.loghme.Cart.DifferentRestaurant;
 import com.loghme.CartItem.CartItem;
+import com.loghme.Constants.Fields;
+import com.loghme.Constants.GeneralConstants;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.User.User;
@@ -56,6 +58,7 @@ public class LoghmeTest {
             Assert.assertEquals(hesturan.getName(), "Hesturan");
             Assert.assertEquals(hesturan.getDescription(), "luxury");
             Assert.assertEquals(hesturan.getLocation().getX(), 1, 1e-9);
+            Assert.assertEquals(hesturan.getLocation().getY(), 3, 1e-9);
 
             Food gheime = hesturan.getFood("Gheime");
             Assert.assertNotNull(gheime);
@@ -223,12 +226,12 @@ public class LoghmeTest {
             JsonArray cartArrays = cartObject.get("items").getAsJsonArray();
             JsonObject cartItemObject = cartArrays.get(0).getAsJsonObject();
 
-            JsonElement foodNameElement = cartItemObject.get("foodName");
-            String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
+            JsonElement foodNameElement = cartItemObject.get(Fields.FOOD_NAME);
+            String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
             Assert.assertEquals(foodName, "Kabab");
 
-            JsonElement restaurantNameElement = cartItemObject.get("restaurantName");
-            String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+            JsonElement restaurantNameElement = cartItemObject.get(Fields.RESTAURANT_NAME);
+            String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
             Assert.assertEquals(restaurantName, "Bonab");
 
             JsonElement countElement = cartItemObject.get("count");
@@ -259,12 +262,12 @@ public class LoghmeTest {
             JsonArray cartArrays = cartObject.get("items").getAsJsonArray();
             JsonObject cartItemObject = cartArrays.get(0).getAsJsonObject();
 
-            JsonElement foodNameElement = cartItemObject.get("foodName");
-            String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
+            JsonElement foodNameElement = cartItemObject.get(Fields.FOOD_NAME);
+            String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
             Assert.assertEquals(foodName, "Kabab");
 
-            JsonElement restaurantNameElement = cartItemObject.get("restaurantName");
-            String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+            JsonElement restaurantNameElement = cartItemObject.get(Fields.RESTAURANT_NAME);
+            String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
             Assert.assertEquals(restaurantName, "Bonab");
 
             JsonElement countElement = cartItemObject.get("count");
