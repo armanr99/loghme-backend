@@ -264,4 +264,29 @@ public class LoghmeTest {
             Assert.fail();
         }
     }
+
+    @Test
+    public void testGetRecommendedRestaurants() {
+        String testAddRestaurant1 = "{\"name\": \"one\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant2 = "{\"name\": \"two\", \"description\": \"luxury\", \"location\": {\"x\": 0.5, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant3 = "{\"name\": \"three\", \"description\": \"luxury\", \"location\": {\"x\": 10, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 1000, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant4 = "{\"name\": \"four\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant5 = "{\"name\": \"five\", \"description\": \"luxury\", \"location\": {\"x\": 0.1, \"y\": 0.1}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+
+        try {
+            loghmeTest.addRestaurant(testAddRestaurant1);
+            loghmeTest.addRestaurant(testAddRestaurant2);
+            loghmeTest.addRestaurant(testAddRestaurant3);
+            loghmeTest.addRestaurant(testAddRestaurant4);
+            loghmeTest.addRestaurant(testAddRestaurant5);
+
+            ArrayList<String> recommendedRestaurants = loghmeTest.getRecommendedRestaurants();
+            Assert.assertTrue(recommendedRestaurants.contains("two"));
+            Assert.assertTrue(recommendedRestaurants.contains("three"));
+            Assert.assertTrue(recommendedRestaurants.contains("five"));
+        } catch(Exception exception) {
+            Assert.fail();
+        }
+
+    }
 }
