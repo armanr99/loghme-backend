@@ -208,18 +208,20 @@ public class LoghmeTest {
             loghmeTest.addToCart(testAddToCart);
             String cartJson = loghmeTest.getCart();
 
-            JsonArray cartArrays = gson.fromJson(cartJson, JsonArray.class);
-            JsonObject cartObject = cartArrays.get(0).getAsJsonObject();
+            JsonObject cartObject = gson.fromJson(cartJson, JsonObject.class);
 
-            JsonElement foodNameElement = cartObject.get("foodName");
+            JsonArray cartArrays = cartObject.get("items").getAsJsonArray();
+            JsonObject cartItemObject = cartArrays.get(0).getAsJsonObject();
+
+            JsonElement foodNameElement = cartItemObject.get("foodName");
             String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
             Assert.assertEquals(foodName, "Kabab");
 
-            JsonElement restaurantNameElement = cartObject.get("restaurantName");
+            JsonElement restaurantNameElement = cartItemObject.get("restaurantName");
             String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
             Assert.assertEquals(restaurantName, "Bonab");
 
-            JsonElement countElement = cartObject.get("count");
+            JsonElement countElement = cartItemObject.get("count");
             int count = countElement.getAsInt();
             Assert.assertEquals(1, count);
 
@@ -242,23 +244,27 @@ public class LoghmeTest {
             loghmeTest.addToCart(testAddToCart);
             String cartJson = loghmeTest.finalizeOrder();
 
-            JsonArray cartArrays = gson.fromJson(cartJson, JsonArray.class);
-            JsonObject cartObject = cartArrays.get(0).getAsJsonObject();
+            JsonObject cartObject = gson.fromJson(cartJson, JsonObject.class);
 
-            JsonElement foodNameElement = cartObject.get("foodName");
+            JsonArray cartArrays = cartObject.get("items").getAsJsonArray();
+            JsonObject cartItemObject = cartArrays.get(0).getAsJsonObject();
+
+            JsonElement foodNameElement = cartItemObject.get("foodName");
             String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
             Assert.assertEquals(foodName, "Kabab");
 
-            JsonElement restaurantNameElement = cartObject.get("restaurantName");
+            JsonElement restaurantNameElement = cartItemObject.get("restaurantName");
             String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
             Assert.assertEquals(restaurantName, "Bonab");
 
-            JsonElement countElement = cartObject.get("count");
+            JsonElement countElement = cartItemObject.get("count");
             int count = countElement.getAsInt();
             Assert.assertEquals(1, count);
 
             String newCartJson = loghmeTest.getCart();
-            Assert.assertEquals(newCartJson, "[]");
+            JsonObject newCartObject = gson.fromJson(newCartJson, JsonObject.class);
+            JsonArray newCartArrays = newCartObject.get("items").getAsJsonArray();
+            Assert.assertEquals(0, newCartArrays.size());
 
         } catch(Exception exception) {
             Assert.fail();
@@ -287,6 +293,5 @@ public class LoghmeTest {
         } catch(Exception exception) {
             Assert.fail();
         }
-
     }
 }
