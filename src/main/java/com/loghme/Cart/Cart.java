@@ -23,8 +23,11 @@ public class Cart {
         return new ArrayList<>(cartItems.values());
     }
 
-    public void finalizeOrder() {
-        cartItems = Collections.emptyMap();
+    public void finalizeOrder() throws EmptyCartFinalize {
+        if(cartItems.size() == 0)
+            throw new EmptyCartFinalize();
+        else
+            cartItems = Collections.emptyMap();
     }
 
     private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {
