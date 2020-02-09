@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loghme.Cart.DifferentRestaurant;
 import com.loghme.Cart.EmptyCartFinalize;
 import com.loghme.CartItem.CartItem;
+import com.loghme.Constants.Configs;
 import com.loghme.Constants.Fields;
 import com.loghme.Constants.GeneralConstants;
 import com.loghme.Food.Food;
@@ -13,14 +14,13 @@ import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.User.User;
 
-import java.io.File;
-import java.lang.reflect.Type;
 import java.util.*;
+import java.lang.reflect.Type;
 
 public class Loghme {
+    private Gson gson;
     private User user;
     private HashMap<String, Restaurant> restaurants;
-    private Gson gson;
 
     public Loghme() {
         gson = new Gson();
@@ -105,7 +105,6 @@ public class Loghme {
             throw new FoodDoesntExist(foodName, restaurantName);
         else
             user.addToCart(food, restaurant);
-
     }
 
     public String getCart() {
@@ -142,7 +141,7 @@ public class Loghme {
 
         for(Restaurant restaurant : restaurants.values()) {
             double popularity = getPopularity(restaurant);
-            if(recommendedRestaurants.size() < 3) {
+            if(recommendedRestaurants.size() < Configs.MAX_RECOMMENDED_SIZE) {
                 recommendedRestaurants.add(restaurant.getName());
                 popularities.add(popularity);
             }
