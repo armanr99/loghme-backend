@@ -28,20 +28,4 @@ public class Food {
     public double getPrice() {
         return price;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPopularity(double popularity) {
-        this.popularity = popularity;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
 }
