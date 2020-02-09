@@ -3,6 +3,7 @@ package com.loghme.Loghme;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.loghme.Cart.DifferentRestaurant;
+import com.loghme.Cart.EmptyCartFinalize;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
@@ -116,10 +117,15 @@ public class Loghme {
             serializedUserCartItems.add(cartObject);
         }
 
-        return gson.toJson(serializedUserCartItems);
+        Type jsonObjectType = new TypeToken<List<JsonObject>>() {}.getType();
+        JsonElement cartElement = gson.toJsonTree(serializedUserCartItems, jsonObjectType).getAsJsonArray();
+        JsonObject cartJsonObject = new JsonObject();
+        cartJsonObject.add("items", cartElement);
+
+        return gson.toJson(cartJsonObject);
     }
 
-    public String finalizeOrder() {
+    public String finalizeOrder() throws EmptyCartFinalize {
         String jsonCart = getCart();
 
         user.finalizeOrder();

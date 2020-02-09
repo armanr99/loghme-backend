@@ -2,6 +2,7 @@ package com.loghme.User;
 
 import com.loghme.Cart.Cart;
 import com.loghme.Cart.DifferentRestaurant;
+import com.loghme.Cart.EmptyCartFinalize;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
@@ -30,7 +31,7 @@ public class User {
         return cart.getCartItemsList();
     }
 
-    public void finalizeOrder() {
+    public void finalizeOrder() throws EmptyCartFinalize {
         cart.finalizeOrder();
     }
 }
