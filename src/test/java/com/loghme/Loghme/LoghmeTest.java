@@ -1,5 +1,9 @@
 package com.loghme.Loghme;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.loghme.Cart.DifferentRestaurant;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
@@ -12,6 +16,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -188,4 +193,38 @@ public class LoghmeTest {
            Assert.fail();
        }
    }
+
+   @Test
+   public void testGetCart() {
+        Gson gson = new Gson();
+        String testAddRestaurantJson = "{\"name\": \"Bonab\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+               "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
+               "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+               "30000}]}";
+        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Bonab\"}";
+
+        try {
+            loghmeTest.addRestaurant(testAddRestaurantJson);
+            loghmeTest.addToCart(testAddToCart);
+            String cartJson = loghmeTest.getCart();
+
+            JsonArray cartArrays = gson.fromJson(cartJson, JsonArray.class);
+            JsonObject cartObject = cartArrays.get(0).getAsJsonObject();
+
+            JsonElement foodNameElement = cartObject.get("foodName");
+            String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
+            Assert.assertEquals(foodName, "Kabab");
+
+            JsonElement restaurantNameElement = cartObject.get("restaurantName");
+            String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+            Assert.assertEquals(restaurantName, "Bonab");
+
+            JsonElement countElement = cartObject.get("count");
+            int count = countElement.getAsInt();
+            Assert.assertEquals(1, count);
+
+        } catch(Exception exception) {
+           Assert.fail();
+        }
+    }
 }
