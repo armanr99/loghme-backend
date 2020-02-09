@@ -2,22 +2,25 @@ package com.loghme.Loghme;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.loghme.Cart.DifferentRestaurant;
+import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
+import com.loghme.Location.Location;
 import com.loghme.Restaurant.FoodAlreadyExistsInRestaurant;
 import com.loghme.Restaurant.Restaurant;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import com.loghme.User.User;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Loghme {
+    private User user;
     private HashMap<String, Restaurant> restaurants;
     private Gson gson;
 
     public Loghme() {
         gson = new Gson();
+        user = new User();
         restaurants = new HashMap<>();
     }
 
@@ -81,19 +84,77 @@ public class Loghme {
         return gson.toJson(restaurants.get(restaurantName).getFood(foodName));
     }
 
-    public void addToCart(String foodInfo) {
-        throw new NotImplementedException();
+    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant {
+        JsonObject foodInfoObject = gson.fromJson(foodInfo, JsonObject.class);
+        JsonElement foodNameElement = foodInfoObject.get("foodName");
+        JsonElement restaurantNameElement = foodInfoObject.get("restaurantName");
+        String restaurantName = restaurantNameElement.isJsonNull() ? "" : restaurantNameElement.getAsString();
+        String foodName = foodNameElement.isJsonNull() ? "" : foodNameElement.getAsString();
+
+        if (!restaurants.containsKey(restaurantName))
+            throw new RestaurantDoesntExist(restaurantName);
+
+        Restaurant restaurant = restaurants.get(restaurantName);
+        Food food = restaurant.getFood(foodName);
+
+        if(food == null)
+            throw new FoodDoesntExist(foodName, restaurantName);
+        else
+            user.addToCart(food, restaurant);
+
     }
 
     public String getCart() {
-        throw new NotImplementedException();
+        ArrayList<CartItem> userCartItems = user.getCartItemsList();
+        ArrayList<JsonObject> serializedUserCartItems = new ArrayList<>();
+
+        for(CartItem cartItem : userCartItems) {
+            JsonObject cartObject = new JsonObject();
+            cartObject.addProperty("foodName", cartItem.getFoodName());
+            cartObject.addProperty("restaurantName", cartItem.getRestaurantName());
+            cartObject.addProperty("count", cartItem.getCount());
+            serializedUserCartItems.add(cartObject);
+        }
+
+        return gson.toJson(serializedUserCartItems);
     }
 
     public String finalizeOrder() {
-        throw new NotImplementedException();
+        String jsonCart = getCart();
+
+        user.finalizeOrder();
+
+        return jsonCart;
     }
 
-    public String getRecommendedRestaurants() {
-        throw new NotImplementedException();
+    public ArrayList<String> getRecommendedRestaurants() {
+        ArrayList<String> recommendedRestaurants = new ArrayList<>();
+        ArrayList<Double> popularities = new ArrayList<>();
+
+        for(Restaurant restaurant : restaurants.values()) {
+            double popularity = getPopularity(restaurant);
+            if(recommendedRestaurants.size() < 3) {
+                recommendedRestaurants.add(restaurant.getName());
+                popularities.add(popularity);
+            }
+            else {
+                int minIndex = popularities.indexOf(Collections.min(popularities));
+                if(popularity > popularities.get(minIndex)) {
+                    recommendedRestaurants.set(minIndex, restaurant.getName());
+                    popularities.set(minIndex, popularity);
+                }
+            }
+        }
+
+        return recommendedRestaurants;
+    }
+
+    private double getPopularity(Restaurant restaurant) {
+        Location userLocation = user.getLocation();
+        Location restaurantLocation = restaurant.getLocation();
+        double distanceFromUser = userLocation.getEuclideanDistanceFrom(restaurantLocation);
+        double averageFoodsPopularity = restaurant.getAverageFoodsPopulation();
+
+        return (averageFoodsPopularity / distanceFromUser);
     }
 }

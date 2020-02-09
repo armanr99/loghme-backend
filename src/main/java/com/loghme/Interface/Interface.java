@@ -48,8 +48,9 @@ public class Interface {
                     System.out.println(loghme.getCart());
                     break;
                 case Commands.FINALIZE_ORDER:
-                    System.out.println(loghme.finalizeOrder());
-                    System.out.println("Order was successfully submitted");
+                    String result = loghme.finalizeOrder();
+                    System.out.println(result);
+                    System.out.println(result.equals("[]") ? "Cart is empty" : "Order was successfully submitted");
                     break;
                 case Commands.GET_RECOMMENDED_RESTAURANTS:
                     System.out.println(loghme.getRecommendedRestaurants());
