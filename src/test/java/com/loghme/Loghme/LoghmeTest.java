@@ -1,7 +1,9 @@
 package com.loghme.Loghme;
 
+import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.Restaurant;
+import com.loghme.User.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -132,6 +134,32 @@ public class LoghmeTest {
             String testFoodJson = "{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}";
 
             JSONAssert.assertEquals(testFoodJson, foodJson, JSONCompareMode.LENIENT);
+        } catch(Exception exception) {
+            Assert.fail();
+        }
+    }
+
+    @Test
+    public void testAddToCartCorrect() {
+        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+                "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
+                "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+                "30000}]}";
+        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Hesturan\"}";
+
+        try {
+            loghmeTest.addRestaurant(testAddRestaurantJson);
+            loghmeTest.addToCart(testAddToCart);
+
+            Field userField = loghmeClass.getDeclaredField("user");
+            userField.setAccessible(true);
+            User user = (User) userField.get(loghmeTest);
+
+            List<CartItem> userCartItems = user.getCartItemsList();
+            Assert.assertEquals(1, userCartItems.size());
+            Assert.assertEquals("Kabab", userCartItems.get(0).getFoodName());
+            Assert.assertEquals("Hesturan", userCartItems.get(0).getRestaurantName());
+
         } catch(Exception exception) {
             Assert.fail();
         }
