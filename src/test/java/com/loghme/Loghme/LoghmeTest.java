@@ -18,7 +18,6 @@ public class LoghmeTest {
     @Before
     public void setup() {
         loghmeTest = new Loghme();
-
         loghmeClass = loghmeTest.getClass();
     }
 
@@ -32,21 +31,48 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurantJson);
             Field restaurantsField = loghmeClass.getDeclaredField("restaurants");
             restaurantsField.setAccessible(true);
-            Object restaurantsObject = restaurantsField.get(loghmeTest);
             HashMap<String, Restaurant> restaurants = (HashMap<String, Restaurant>) restaurantsField.get(loghmeTest);
+
             Assert.assertTrue(restaurants.containsKey("Hesturan"));
             Restaurant hesturan = restaurants.get("Hesturan");
             Assert.assertEquals(hesturan.getName(), "Hesturan");
             Assert.assertEquals(hesturan.getDescription(), "luxury");
             Assert.assertEquals(hesturan.getLocation().getX(), 1, 1e-9);
-            HashMap<String, Food> foods = hesturan.getFoods();
-            Assert.assertNotNull(hesturan.getFood("Gheime"));
+
             Food gheime = hesturan.getFood("Gheime");
+            Assert.assertNotNull(gheime);
             Assert.assertEquals(gheime.getName(), "Gheime");
             Assert.assertEquals(gheime.getDescription(), "it's yummy!");
             Assert.assertEquals(gheime.getPopularity(), 0.8, 1e-9);
             Assert.assertEquals(gheime.getPrice(), 20000, 1e-9);
         } catch (RestaurantAlreadyExists restaurantAlreadyExists) {
+            Assert.fail();
+        }
+    }
+
+    @Test
+    public void testAddFood() {
+        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+                "\"menu\": [{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
+                "30000}]}";
+        String testAddFoodJson = "{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"restaurantName\": \"Hesturan\", \"price\": 20000}";
+
+        try {
+            loghmeTest.addRestaurant(testAddRestaurantJson);
+            loghmeTest.addFood(testAddFoodJson);
+
+            Field restaurantsField = loghmeClass.getDeclaredField("restaurants");
+            restaurantsField.setAccessible(true);
+            HashMap<String, Restaurant> restaurants = (HashMap<String, Restaurant>) restaurantsField.get(loghmeTest);
+
+            Restaurant hesturan = restaurants.get("Hesturan");
+            Food gheime = hesturan.getFood("Gheime");
+            Assert.assertNotNull(gheime);
+            Assert.assertEquals(gheime.getName(), "Gheime");
+            Assert.assertEquals(gheime.getDescription(), "it's yummy!");
+            Assert.assertEquals(gheime.getPopularity(), 0.8, 1e-9);
+            Assert.assertEquals(gheime.getPrice(), 20000, 1e-9);
+        } catch (Exception exception) {
             Assert.fail();
         }
     }
