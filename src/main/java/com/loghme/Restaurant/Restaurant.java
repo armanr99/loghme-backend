@@ -5,10 +5,8 @@ import com.loghme.Constants.Fields;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Restaurant {
     private String name;
@@ -18,14 +16,6 @@ public class Restaurant {
 
     public Restaurant() {
         this.menu = new HashMap<>();
-    }
-
-    public Restaurant(String name, String description, Location location, ArrayList<Food> menu) {
-        this.name = name;
-        this.description = description;
-        this.location = location;
-        this.menu = new HashMap<>();
-        this.addFoods(menu);
     }
 
     public void addFoods(ArrayList<Food> menu) {
@@ -52,8 +42,10 @@ public class Restaurant {
 
     private void addFood(Food newFood) throws FoodAlreadyExistsInRestaurant {
         String newFoodName = newFood.getName();
+
         if (menu.containsKey(newFoodName))
             throw new FoodAlreadyExistsInRestaurant(newFood.getName(), this.name);
+
         menu.put(newFoodName, newFood);
     }
 
@@ -69,10 +61,6 @@ public class Restaurant {
 
     public ArrayList<Food> getListMenu() {
         return new ArrayList<>(menu.values());
-    }
-
-    public HashMap<String, Food> getFoods() {
-        return menu;
     }
 
     public double getAverageFoodsPopulation() {

@@ -58,6 +58,7 @@ public class LoghmeTest {
             Assert.assertEquals(hesturan.getName(), "Hesturan");
             Assert.assertEquals(hesturan.getDescription(), "luxury");
             Assert.assertEquals(hesturan.getLocation().getX(), 1, 1e-9);
+            Assert.assertEquals(hesturan.getLocation().getY(), 3, 1e-9);
 
             Food gheime = hesturan.getFood("Gheime");
             Assert.assertNotNull(gheime);
