@@ -4,6 +4,7 @@ import com.loghme.Constants.Path;
 import com.loghme.Constants.RestaurantControllerConfig;
 import com.loghme.Location.Location;
 import com.loghme.User.UserRepository;
+import io.javalin.http.ErrorHandler;
 import io.javalin.http.Handler;
 
 import java.util.HashMap;
@@ -25,4 +26,7 @@ public class RestaurantController {
         ctx.render(Path.Template.RESTAURANTS_ONE, model);
     };
 
+    public static ErrorHandler restaurantNotFound = ctx -> {
+      ctx.render(Path.Template.RESTAURANTS_NOT_FOUND);
+    };
 }
