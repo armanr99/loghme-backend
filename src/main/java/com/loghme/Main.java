@@ -1,10 +1,10 @@
 package com.loghme;
 
-import com.loghme.Interface.Interface;
+import com.loghme.Server.Server;
 
 public class Main {
     public static void main(String[] args) {
-        Interface loghmeInterface = new Interface();
-        loghmeInterface.start();
+        Server server = new Server();
+        server.start();
     }
 }
