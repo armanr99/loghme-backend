@@ -1,4 +1,4 @@
-package com.loghme.Loghme;
+package com.loghme.Restaurant;
 
 public class RestaurantAlreadyExists extends Exception {
     private String restaurantName;
@@ -10,5 +10,4 @@ public class RestaurantAlreadyExists extends Exception {
     public String toString() {
         return String.format("Restaurant with name: %s already exists", restaurantName);
     }
-
 }

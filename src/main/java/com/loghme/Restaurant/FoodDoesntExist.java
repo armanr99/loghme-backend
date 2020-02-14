@@ -1,10 +1,10 @@
-package com.loghme.Loghme;
+package com.loghme.Restaurant;
 
 public class FoodDoesntExist extends Exception {
     private String foodName;
     private String restaurantName;
 
-    FoodDoesntExist(String foodName, String restaurantName) {
+    public FoodDoesntExist(String foodName, String restaurantName) {
         this.foodName = foodName;
         this.restaurantName = restaurantName;
     }
