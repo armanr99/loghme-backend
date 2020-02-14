@@ -1,9 +1,9 @@
-package com.loghme.Cart;
+package com.loghme.Cart.Exceptions;
 
 public class DifferentRestaurant extends Exception {
     private String cartRestaurantName;
 
-    DifferentRestaurant(String cartRestaurantName) {
+    public DifferentRestaurant(String cartRestaurantName) {
         this.cartRestaurantName = cartRestaurantName;
     }
 

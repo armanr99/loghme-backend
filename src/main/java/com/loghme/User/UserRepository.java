@@ -4,14 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.loghme.Cart.DifferentRestaurant;
-import com.loghme.Cart.EmptyCartFinalize;
+import com.loghme.Cart.Exceptions.DifferentRestaurant;
+import com.loghme.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Constants.Fields;
 import com.loghme.Constants.GeneralConstants;
 import com.loghme.Food.Food;
-import com.loghme.Restaurant.FoodDoesntExist;
-import com.loghme.Restaurant.RestaurantDoesntExist;
+import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
+import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.Restaurant.RestaurantRepository;
 

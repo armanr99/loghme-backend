@@ -1,8 +1,12 @@
 package com.loghme.Loghme;
 
-import com.loghme.Cart.DifferentRestaurant;
-import com.loghme.Cart.EmptyCartFinalize;
+import com.loghme.Cart.Exceptions.DifferentRestaurant;
+import com.loghme.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.Restaurant.*;
+import com.loghme.Restaurant.Exceptions.FoodAlreadyExistsInRestaurant;
+import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
+import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
+import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.User.UserRepository;
 
 import java.util.List;

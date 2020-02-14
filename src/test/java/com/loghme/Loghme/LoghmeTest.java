@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.loghme.Cart.DifferentRestaurant;
+import com.loghme.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Constants.Fields;
 import com.loghme.Constants.GeneralConstants;
 import com.loghme.Food.Food;
 import com.loghme.Restaurant.*;
+import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
+import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
+import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.User.User;
 import com.loghme.User.UserRepository;
 import org.junit.After;
@@ -19,8 +22,6 @@ import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 
 public class LoghmeTest {

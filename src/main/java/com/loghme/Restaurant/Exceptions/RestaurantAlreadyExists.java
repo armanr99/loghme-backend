@@ -1,9 +1,9 @@
-package com.loghme.Restaurant;
+package com.loghme.Restaurant.Exceptions;
 
 public class RestaurantAlreadyExists extends Exception {
     private String restaurantName;
 
-    RestaurantAlreadyExists(String restaurantName) {
+    public RestaurantAlreadyExists(String restaurantName) {
         this.restaurantName = restaurantName;
     }
 

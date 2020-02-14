@@ -7,6 +7,10 @@ import com.loghme.Constants.Fields;
 import com.loghme.Constants.GeneralConstants;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
+import com.loghme.Restaurant.Exceptions.FoodAlreadyExistsInRestaurant;
+import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
+import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
+import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.User.User;
 import com.loghme.User.UserRepository;
 
