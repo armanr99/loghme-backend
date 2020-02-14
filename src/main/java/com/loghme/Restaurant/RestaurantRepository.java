@@ -8,10 +8,7 @@ import com.loghme.Constants.GeneralConstants;
 import com.loghme.Constants.RestaurantRepositoryConstants;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
-import com.loghme.Restaurant.Exceptions.FoodAlreadyExistsInRestaurant;
-import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
-import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
-import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
+import com.loghme.Restaurant.Exceptions.*;
 import com.loghme.User.User;
 import com.loghme.User.UserRepository;
 import com.loghme.Util.RestaurantUpdateManager;
@@ -155,7 +152,17 @@ public class RestaurantRepository {
             return restaurants.get(restaurantID);
     }
 
-    public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance) {
+    public Restaurant getRestaurantInstanceIfInRange(String restaurantID, Location source, double distance) throws RestaurantDoesntExist, RestaurantOutOfRange {
+        Restaurant restaurant = this.getRestaurantInstance(restaurantID);
+        if (Double.compare(restaurant.getLocation().getEuclideanDistanceFrom(source), distance) <= 0) {
+            System.out.println(restaurant.getLocation().getEuclideanDistanceFrom(source));
+            return restaurant;
+        }
+        else
+            throw new RestaurantOutOfRange();
+    }
+
+    ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance) {
         ArrayList<Restaurant> restaurantsWithinDistance = new ArrayList<>();
 
         for (Restaurant restaurant : restaurants.values())

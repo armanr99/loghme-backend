@@ -22,11 +22,12 @@ public class RestaurantController {
     public static Handler fetchOneRestaurant = ctx -> {
         String dataURL = RestaurantControllerConfig.DATA_URL;
         HashMap<String, Object> model = new HashMap<>();
-        model.put("restaurant", RestaurantRepository.getInstance(dataURL).getRestaurantInstance(ctx.pathParam("id")));
+        Location userLocation = UserRepository.getInstance().getUser().getLocation();
+        RestaurantRepository restaurantRepository = RestaurantRepository.getInstance(dataURL);
+        Restaurant restaurant = restaurantRepository.getRestaurantInstanceIfInRange(ctx.pathParam("id"), userLocation, RestaurantControllerConfig.VISIBLE_RESTAURANTS_DISTANCE);
+        model.put("restaurant", restaurant);
         ctx.render(Path.Template.RESTAURANTS_ONE, model);
     };
 
-    public static ErrorHandler restaurantNotFound = ctx -> {
-      ctx.render(Path.Template.RESTAURANTS_NOT_FOUND);
-    };
+    public static ErrorHandler restaurantNotFound = ctx -> ctx.render(Path.Template.RESTAURANTS_NOT_FOUND);
 }

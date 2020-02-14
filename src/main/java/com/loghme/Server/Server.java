@@ -2,10 +2,12 @@ package com.loghme.Server;
 
 import com.loghme.Constants.Path;
 import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
+import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.User.UserController;
 import com.loghme.Restaurant.RestaurantController;
 import io.javalin.Javalin;
 import com.loghme.Constants.ServerConfigs;
+import org.apache.http.HttpStatus;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
 
@@ -25,6 +27,7 @@ public class Server {
             get(Path.Web.ONE_RESTAURANT, RestaurantController.fetchOneRestaurant);
         });
 
-        app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(404)).error(404, RestaurantController.restaurantNotFound);
+        app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(HttpStatus.SC_NOT_FOUND)).error(HttpStatus.SC_NOT_FOUND, RestaurantController.restaurantNotFound);
+        app.exception(RestaurantOutOfRange.class, (e, ctx) -> ctx.status(HttpStatus.SC_FORBIDDEN)).error(HttpStatus.SC_FORBIDDEN, ctx -> ctx.html("403 Forbidden"));
     }
 }
