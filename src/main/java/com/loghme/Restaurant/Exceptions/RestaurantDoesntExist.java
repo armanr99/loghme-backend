@@ -1,9 +1,9 @@
-package com.loghme.Loghme;
+package com.loghme.Restaurant.Exceptions;
 
 public class RestaurantDoesntExist extends Exception {
     private String invalidRestaurantName;
 
-    RestaurantDoesntExist(String invalidRestaurantName) {
+    public RestaurantDoesntExist(String invalidRestaurantName) {
         this.invalidRestaurantName = invalidRestaurantName;
     }
 

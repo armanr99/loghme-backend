@@ -1,8 +1,8 @@
 package com.loghme.User;
 
 import com.loghme.Cart.Cart;
-import com.loghme.Cart.DifferentRestaurant;
-import com.loghme.Cart.EmptyCartFinalize;
+import com.loghme.Cart.Exceptions.DifferentRestaurant;
+import com.loghme.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;

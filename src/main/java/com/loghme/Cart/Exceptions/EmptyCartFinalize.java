@@ -1,4 +1,4 @@
-package com.loghme.Cart;
+package com.loghme.Cart.Exceptions;
 
 public class EmptyCartFinalize extends Exception {
     public String toString() {

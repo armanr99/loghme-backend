@@ -4,13 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.loghme.Cart.DifferentRestaurant;
+import com.loghme.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.CartItem.CartItem;
 import com.loghme.Constants.Fields;
 import com.loghme.Constants.GeneralConstants;
 import com.loghme.Food.Food;
-import com.loghme.Restaurant.Restaurant;
+import com.loghme.Restaurant.*;
+import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
+import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
+import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.User.User;
+import com.loghme.User.UserRepository;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,26 +22,22 @@ import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class LoghmeTest {
 
     private Loghme loghmeTest;
-    private Class<?> loghmeClass;
 
     @Before
     public void setup() {
         loghmeTest = new Loghme();
-        loghmeClass = loghmeTest.getClass();
     }
 
     @After
     public void teardown() {
         loghmeTest = null;
-        loghmeClass = null;
+        UserRepository.clearInstance();
+        RestaurantRepository.clearInstance();
     }
 
     @Test
@@ -48,13 +48,8 @@ public class LoghmeTest {
                 "30000}]}";
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
-            Field restaurantsField = loghmeClass.getDeclaredField("restaurants");
-            restaurantsField.setAccessible(true);
-            HashMap<String, Restaurant> restaurants = (HashMap<String, Restaurant>)  restaurantsField.get(loghmeTest);
-            restaurantsField.setAccessible(false);
 
-            Assert.assertTrue(restaurants.containsKey("Hesturan"));
-            Restaurant hesturan = restaurants.get("Hesturan");
+            Restaurant hesturan = RestaurantRepository.getInstance().getRestaurantInstance("Hesturan");
             Assert.assertEquals(hesturan.getName(), "Hesturan");
             Assert.assertEquals(hesturan.getDescription(), "luxury");
             Assert.assertEquals(hesturan.getLocation().getX(), 1, 1e-9);
@@ -66,7 +61,7 @@ public class LoghmeTest {
             Assert.assertEquals(gheime.getDescription(), "it's yummy!");
             Assert.assertEquals(gheime.getPopularity(), 0.8, 1e-9);
             Assert.assertEquals(gheime.getPrice(), 20000, 1e-9);
-        } catch (RestaurantAlreadyExists restaurantAlreadyExists) {
+        } catch (RestaurantAlreadyExists | RestaurantDoesntExist restaurantAlreadyExists) {
             Assert.fail();
         }
     }
@@ -82,12 +77,7 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurantJson);
             loghmeTest.addFood(testAddFoodJson);
 
-            Field restaurantsField = loghmeClass.getDeclaredField("restaurants");
-            restaurantsField.setAccessible(true);
-            HashMap<String, Restaurant> restaurants = (HashMap<String, Restaurant>) restaurantsField.get(loghmeTest);
-            restaurantsField.setAccessible(false);
-
-            Restaurant hesturan = restaurants.get("Hesturan");
+            Restaurant hesturan = RestaurantRepository.getInstance().getRestaurantInstance("Hesturan");
             Food gheime = hesturan.getFood("Gheime");
             Assert.assertNotNull(gheime);
             Assert.assertEquals(gheime.getName(), "Gheime");
@@ -169,10 +159,7 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurantJson);
             loghmeTest.addToCart(testAddToCart);
 
-            Field userField = loghmeClass.getDeclaredField("user");
-            userField.setAccessible(true);
-            User user = (User) userField.get(loghmeTest);
-            userField.setAccessible(false);
+            User user = UserRepository.getInstance().getUser();
 
             List<CartItem> userCartItems = user.getCartItemsList();
             Assert.assertEquals(1, userCartItems.size());
@@ -202,7 +189,7 @@ public class LoghmeTest {
            loghmeTest.addRestaurant(testAddRestaurantJson2);
            loghmeTest.addToCart(testAddToCart1);
            loghmeTest.addToCart(testAddToCart2);
-       } catch(RestaurantAlreadyExists | FoodDoesntExist | RestaurantDoesntExist exception) {
+       } catch(RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist exception) {
            Assert.fail();
        }
    }
@@ -299,7 +286,7 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurant4);
             loghmeTest.addRestaurant(testAddRestaurant5);
 
-            ArrayList<String> recommendedRestaurants = loghmeTest.getRecommendedRestaurants();
+            List<String> recommendedRestaurants = loghmeTest.getRecommendedRestaurants();
             Assert.assertTrue(recommendedRestaurants.contains("two"));
             Assert.assertTrue(recommendedRestaurants.contains("three"));
             Assert.assertTrue(recommendedRestaurants.contains("five"));

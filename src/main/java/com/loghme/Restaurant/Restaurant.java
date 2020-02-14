@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.loghme.Constants.Fields;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
+import com.loghme.Restaurant.Exceptions.FoodAlreadyExistsInRestaurant;
 
 import java.util.ArrayList;
 import java.util.HashMap;

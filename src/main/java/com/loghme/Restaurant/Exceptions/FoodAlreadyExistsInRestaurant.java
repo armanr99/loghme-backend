@@ -1,10 +1,10 @@
-package com.loghme.Restaurant;
+package com.loghme.Restaurant.Exceptions;
 
 public class FoodAlreadyExistsInRestaurant extends Exception {
     private String foodName;
     private String restaurantName;
 
-    FoodAlreadyExistsInRestaurant(String foodName, String restaurantName) {
+    public FoodAlreadyExistsInRestaurant(String foodName, String restaurantName) {
         this.foodName = foodName;
         this.restaurantName = restaurantName;
     }
