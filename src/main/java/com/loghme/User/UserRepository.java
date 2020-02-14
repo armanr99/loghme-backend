@@ -10,10 +10,12 @@ import com.loghme.CartItem.CartItem;
 import com.loghme.Constants.Fields;
 import com.loghme.Constants.GeneralConstants;
 import com.loghme.Food.Food;
+import com.loghme.Location.Location;
 import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.Restaurant.RestaurantRepository;
+import com.loghme.Wallet.Wallet;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -36,7 +38,18 @@ public class UserRepository {
 
     private UserRepository() {
         gson = new Gson();
-        user = new User();
+        user = getSampleUser();
+    }
+
+    private User getSampleUser() {
+        int id = 0;
+        String firstName = "Ehsan";
+        String lastName = "KhamesPanah";
+        String phoneNumber = "+989123456789";
+        String email = "ekhamespanah@yahoo.com";
+        Location location = new Location(0, 0);
+        Wallet wallet = new Wallet(100000);
+        return new User(id, firstName, lastName, phoneNumber, email, location, wallet);
     }
 
     public User getUser() {
