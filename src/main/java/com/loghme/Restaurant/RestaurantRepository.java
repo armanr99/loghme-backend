@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loghme.Constants.Configs;
 import com.loghme.Constants.Fields;
 import com.loghme.Constants.GeneralConstants;
+import com.loghme.Constants.RestaurantRepositoryConstants;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 import com.loghme.Restaurant.Exceptions.FoodAlreadyExistsInRestaurant;
@@ -25,15 +26,15 @@ public class RestaurantRepository {
     private String dataMode;
 
     public static RestaurantRepository getInstance() {
-        if (instance == null || instance.dataMode.equals("deploy")) {
-            instance = new RestaurantRepository("local");
+        if (instance == null || instance.dataMode.equals(RestaurantRepositoryConstants.DEPLOY)) {
+            instance = new RestaurantRepository(RestaurantRepositoryConstants.LOCAL);
         }
         return instance;
     }
 
     public static RestaurantRepository getInstance(String sourceURL) throws JsonSyntaxException, RestaurantAlreadyExists {
-        if (instance == null || instance.dataMode.equals("local")) {
-            instance = new RestaurantRepository("deploy");
+        if (instance == null || instance.dataMode.equals(RestaurantRepositoryConstants.LOCAL)) {
+            instance = new RestaurantRepository(RestaurantRepositoryConstants.DEPLOY);
             instance.fetchData(sourceURL);
         }
         return instance;
