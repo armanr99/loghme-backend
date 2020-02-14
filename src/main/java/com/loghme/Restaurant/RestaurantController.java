@@ -11,15 +11,17 @@ import java.util.HashMap;
 public class RestaurantController {
 
     public static Handler fetchAllRestaurants = ctx -> {
+        String dataURL = RestaurantControllerConfig.DATA_URL;
         HashMap<String, Object> model = new HashMap<>();
         Location userLocation = UserRepository.getInstance().getUser().getLocation();
-        model.put("restaurants", RestaurantRepository.getInstance().getRestaurantsWithinDistance(userLocation, RestaurantControllerConfig.VISIBLE_RESTAURANTS_DISTANCE));
+        model.put("restaurants", RestaurantRepository.getInstance(dataURL).getRestaurantsWithinDistance(userLocation, RestaurantControllerConfig.VISIBLE_RESTAURANTS_DISTANCE));
         ctx.render(Path.Template.RESTAURANTS_ALL, model);
     };
 
     public static Handler fetchOneRestaurant = ctx -> {
+        String dataURL = RestaurantControllerConfig.DATA_URL;
         HashMap<String, Object> model = new HashMap<>();
-        model.put("restaurant", RestaurantRepository.getInstance().getRestaurantInstance(ctx.pathParam("id")));
+        model.put("restaurant", RestaurantRepository.getInstance(dataURL).getRestaurantInstance(ctx.pathParam("id")));
         ctx.render(Path.Template.RESTAURANTS_ONE, model);
     };
 
