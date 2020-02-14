@@ -46,15 +46,15 @@ public class UserRepository {
     public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant {
         JsonObject foodInfoObject = gson.fromJson(foodInfo, JsonObject.class);
         JsonElement foodNameElement = foodInfoObject.get(Fields.FOOD_NAME);
-        JsonElement restaurantNameElement = foodInfoObject.get(Fields.RESTAURANT_NAME);
-        String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
+        JsonElement restaurantIDElement = foodInfoObject.get(Fields.RESTAURANT_ID);
+        String restaurantID = restaurantIDElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantIDElement.getAsString();
         String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
 
-        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurantInstance(restaurantName);
+        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurantInstance(restaurantID);
         Food food = restaurant.getFood(foodName);
 
         if(food == null)
-            throw new FoodDoesntExist(foodName, restaurantName);
+            throw new FoodDoesntExist(foodName, restaurantID);
         else
             user.addToCart(food, restaurant);
     }
@@ -66,7 +66,7 @@ public class UserRepository {
         for(CartItem cartItem : userCartItems) {
             JsonObject cartObject = new JsonObject();
             cartObject.addProperty(Fields.FOOD_NAME, cartItem.getFoodName());
-            cartObject.addProperty(Fields.RESTAURANT_NAME, cartItem.getRestaurantName());
+            cartObject.addProperty(Fields.RESTAURANT_ID, cartItem.getRestaurantID());
             cartObject.addProperty(Fields.COUNT, cartItem.getCount());
             serializedUserCartItems.add(cartObject);
         }

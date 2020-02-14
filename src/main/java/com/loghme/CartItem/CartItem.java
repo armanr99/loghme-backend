@@ -22,8 +22,8 @@ public class CartItem {
         return food.getName();
     }
 
-    public String getRestaurantName() {
-        return restaurant.getName();
+    public String getRestaurantID() {
+        return restaurant.getID();
     }
 
     public int getCount() {

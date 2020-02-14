@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Restaurant {
+    private String id;
     private String name;
-    private String description;
     private Location location;
+    private String logo;
     private HashMap<String, Food> menu;
 
     public Restaurant() {
@@ -25,12 +26,16 @@ public class Restaurant {
         }
     }
 
+    public String getID() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLogo() {
+        return logo;
     }
 
     public Location getLocation() {

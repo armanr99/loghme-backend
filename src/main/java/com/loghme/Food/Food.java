@@ -3,6 +3,7 @@ package com.loghme.Food;
 public class Food {
     private String name;
     private String description;
+    private String image;
     private double popularity;
     private double price;
 
