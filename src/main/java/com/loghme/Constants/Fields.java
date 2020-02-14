@@ -5,6 +5,8 @@ public class Fields {
     public static final String RESTAURANT_NAME = "restaurantName";
     public static final String FOOD_NAME = "foodName";
     public static final String NAME = "name";
+    public static final String ID = "id";
+    public static final String RESTAURANT_ID = "restaurantID";
     public static final String COUNT = "count";
     public static final String ITEMS = "items";
     public static final String DESCRIPTION = "description";

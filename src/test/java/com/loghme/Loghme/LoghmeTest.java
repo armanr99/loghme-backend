@@ -41,17 +41,16 @@ public class LoghmeTest {
     }
 
     @Test
-    public void testAddRestaurant() throws NoSuchFieldException, IllegalAccessException {
-        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+    public void testAddRestaurant() {
+        String testAddRestaurantJson = "{\"id\": \"1\", \"name\": \"Hesturan\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                 "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
                 "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
 
-            Restaurant hesturan = RestaurantRepository.getInstance().getRestaurantInstance("Hesturan");
+            Restaurant hesturan = RestaurantRepository.getInstance().getRestaurantInstance("1");
             Assert.assertEquals(hesturan.getName(), "Hesturan");
-            Assert.assertEquals(hesturan.getDescription(), "luxury");
             Assert.assertEquals(hesturan.getLocation().getX(), 1, 1e-9);
             Assert.assertEquals(hesturan.getLocation().getY(), 3, 1e-9);
 
@@ -68,16 +67,16 @@ public class LoghmeTest {
 
     @Test
     public void testAddFood() {
-        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+        String testAddRestaurantJson = "{\"id\": \"1\", \"name\": \"Hesturan\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                 "\"menu\": [{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
-        String testAddFoodJson = "{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"restaurantName\": \"Hesturan\", \"price\": 20000}";
+        String testAddFoodJson = "{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"restaurantID\": \"1\", \"price\": 20000}";
 
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
             loghmeTest.addFood(testAddFoodJson);
 
-            Restaurant hesturan = RestaurantRepository.getInstance().getRestaurantInstance("Hesturan");
+            Restaurant hesturan = RestaurantRepository.getInstance().getRestaurantInstance("1");
             Food gheime = hesturan.getFood("Gheime");
             Assert.assertNotNull(gheime);
             Assert.assertEquals(gheime.getName(), "Gheime");
@@ -91,10 +90,10 @@ public class LoghmeTest {
 
     @Test
     public void testGetRestaurants() {
-        String testAddRestaurantJson1 = "{\"name\": \"Bonab\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+        String testAddRestaurantJson1 = "{\"id\": \"1\", \"name\": \"Bonab\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                 "\"menu\": [{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
-        String testAddRestaurantJson2 = "{\"name\": \"Hani\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+        String testAddRestaurantJson2 = "{\"id\": \"2\", \"name\": \"Hani\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                 "\"menu\": [{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
 
@@ -103,8 +102,8 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurantJson2);
 
             List<String> restaurants = loghmeTest.getRestaurants();
-            Assert.assertTrue(restaurants.contains("Bonab"));
-            Assert.assertTrue(restaurants.contains("Hani"));
+            Assert.assertTrue(restaurants.contains("1"));
+            Assert.assertTrue(restaurants.contains("2"));
         } catch(Exception exception) {
             Assert.fail();
         }
@@ -112,10 +111,10 @@ public class LoghmeTest {
 
     @Test
     public void testGetRestaurant() {
-        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+        String testAddRestaurantJson = "{\"id\": \"1\", \"name\": \"Hesturan\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                 "\"menu\": [{\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
-        String testGetRestaurantJson = "{\"name\": \"Hesturan\"}";
+        String testGetRestaurantJson = "{\"id\": \"1\"}";
 
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
@@ -129,11 +128,11 @@ public class LoghmeTest {
 
     @Test
     public void testGetFood() {
-        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+        String testAddRestaurantJson = "{\"id\": \"1\", \"name\": \"Hesturan\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                 "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
                 "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
-        String testGetFoodsJson = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Hesturan\"}";
+        String testGetFoodsJson = "{\"foodName\": \"Kabab\", \"restaurantID\": \"1\"}";
 
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
@@ -149,11 +148,11 @@ public class LoghmeTest {
 
     @Test
     public void testAddToCartCorrect() {
-        String testAddRestaurantJson = "{\"name\": \"Hesturan\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+        String testAddRestaurantJson = "{\"id\": \"1\", \"name\": \"Hesturan\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                 "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
                 "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
-        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Hesturan\"}";
+        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantID\": \"1\"}";
 
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
@@ -164,7 +163,7 @@ public class LoghmeTest {
             List<CartItem> userCartItems = user.getCartItemsList();
             Assert.assertEquals(1, userCartItems.size());
             Assert.assertEquals("Kabab", userCartItems.get(0).getFoodName());
-            Assert.assertEquals("Hesturan", userCartItems.get(0).getRestaurantName());
+            Assert.assertEquals("1", userCartItems.get(0).getRestaurantID());
 
         } catch(Exception exception) {
             Assert.fail();
@@ -173,16 +172,16 @@ public class LoghmeTest {
 
    @Test(expected = DifferentRestaurant.class)
    public void testAddToCartDifferentRestaurant() throws DifferentRestaurant {
-       String testAddRestaurantJson1 = "{\"name\": \"Bonab\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+       String testAddRestaurantJson1 = "{\"id\": \"1\", \"name\": \"Bonab\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
                "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                "30000}]}";
-       String testAddRestaurantJson2 = "{\"name\": \"Hani\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+       String testAddRestaurantJson2 = "{\"id\": \"2\", \"name\": \"Hani\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
                "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                "30000}]}";
-       String testAddToCart1 = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Bonab\"}";
-       String testAddToCart2 = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Hani\"}";
+       String testAddToCart1 = "{\"foodName\": \"Kabab\", \"restaurantID\": \"1\"}";
+       String testAddToCart2 = "{\"foodName\": \"Kabab\", \"restaurantID\": \"2\"}";
 
        try {
            loghmeTest.addRestaurant(testAddRestaurantJson1);
@@ -197,11 +196,11 @@ public class LoghmeTest {
    @Test
    public void testGetCart() {
         Gson gson = new Gson();
-        String testAddRestaurantJson = "{\"name\": \"Bonab\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+        String testAddRestaurantJson = "{\"id\": \"1\", \"name\": \"Bonab\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
                "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                "30000}]}";
-        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Bonab\"}";
+        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantID\": \"1\"}";
 
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
@@ -217,9 +216,9 @@ public class LoghmeTest {
             String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
             Assert.assertEquals(foodName, "Kabab");
 
-            JsonElement restaurantNameElement = cartItemObject.get(Fields.RESTAURANT_NAME);
-            String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
-            Assert.assertEquals(restaurantName, "Bonab");
+            JsonElement restaurantIDElement = cartItemObject.get(Fields.RESTAURANT_ID);
+            String restaurantID = restaurantIDElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantIDElement.getAsString();
+            Assert.assertEquals(restaurantID, "1");
 
             JsonElement countElement = cartItemObject.get("count");
             int count = countElement.getAsInt();
@@ -233,11 +232,11 @@ public class LoghmeTest {
     @Test
     public void testFinalizeOrder() {
         Gson gson = new Gson();
-        String testAddRestaurantJson = "{\"name\": \"Bonab\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
+        String testAddRestaurantJson = "{\"id\": \"1\", \"name\": \"Bonab\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}," +
                 "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
                 "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "30000}]}";
-        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantName\": \"Bonab\"}";
+        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantID\": \"1\"}";
 
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
@@ -253,9 +252,9 @@ public class LoghmeTest {
             String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
             Assert.assertEquals(foodName, "Kabab");
 
-            JsonElement restaurantNameElement = cartItemObject.get(Fields.RESTAURANT_NAME);
-            String restaurantName = restaurantNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantNameElement.getAsString();
-            Assert.assertEquals(restaurantName, "Bonab");
+            JsonElement restaurantIDElement = cartItemObject.get(Fields.RESTAURANT_ID);
+            String restaurantID = restaurantIDElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantIDElement.getAsString();
+            Assert.assertEquals(restaurantID, "1");
 
             JsonElement countElement = cartItemObject.get("count");
             int count = countElement.getAsInt();
@@ -273,11 +272,11 @@ public class LoghmeTest {
 
     @Test
     public void testGetRecommendedRestaurants() {
-        String testAddRestaurant1 = "{\"name\": \"one\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
-        String testAddRestaurant2 = "{\"name\": \"two\", \"description\": \"luxury\", \"location\": {\"x\": 0.5, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
-        String testAddRestaurant3 = "{\"name\": \"three\", \"description\": \"luxury\", \"location\": {\"x\": 10, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 1000, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
-        String testAddRestaurant4 = "{\"name\": \"four\", \"description\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
-        String testAddRestaurant5 = "{\"name\": \"five\", \"description\": \"luxury\", \"location\": {\"x\": 0.1, \"y\": 0.1}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant1 = "{\"id\": \"1\", \"name\": \"one\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant2 = "{\"id\": \"2\", \"name\": \"two\", \"logo\": \"luxury\", \"location\": {\"x\": 0.5, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant3 = "{\"id\": \"3\", \"name\": \"three\", \"logo\": \"luxury\", \"location\": {\"x\": 10, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 1000, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant4 = "{\"id\": \"4\", \"name\": \"four\", \"logo\": \"luxury\", \"location\": {\"x\": 1, \"y\": 3}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
+        String testAddRestaurant5 = "{\"id\": \"5\", \"name\": \"five\", \"logo\": \"luxury\", \"location\": {\"x\": 0.1, \"y\": 0.1}, \"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\": 20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\": 30000}]}";
 
         try {
             loghmeTest.addRestaurant(testAddRestaurant1);
