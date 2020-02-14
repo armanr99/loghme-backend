@@ -2,3 +2,4 @@
 #* @vtlvariable name="WebPath" type="com.loghme.Constants.Path.Web" *#
 #* @vtlvariable name="restaurants" type="java.lang.Iterable<com.loghme.Restaurant.Restaurant>" *#
 #* @vtlvariable name="restaurant" type="com.loghme.Restaurant.Restaurant" *#
+#* @vtlvariable name="user" type="com.loghme.User.User" *#
