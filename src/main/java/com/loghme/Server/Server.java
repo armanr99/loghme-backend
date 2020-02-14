@@ -2,9 +2,9 @@ package com.loghme.Server;
 
 import com.loghme.Constants.Path;
 import com.loghme.User.UserController;
+import com.loghme.Restaurant.RestaurantController;
 import io.javalin.Javalin;
 import com.loghme.Constants.ServerConfigs;
-
 import static io.javalin.apibuilder.ApiBuilder.get;
 
 public class Server {
@@ -19,6 +19,8 @@ public class Server {
 
         app.routes(() -> {
             get(Path.Web.USER, UserController.fetchUser);
+            get(Path.Web.RESTAURANTS, RestaurantController.fetchAllRestaurants);
+            get(Path.Web.ONE_RESTAURANT, RestaurantController.fetchOneRestaurant);
         });
     }
 }
