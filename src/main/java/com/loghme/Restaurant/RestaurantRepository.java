@@ -154,4 +154,14 @@ public class RestaurantRepository {
         else
             return restaurants.get(restaurantID);
     }
+
+    public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance) {
+        ArrayList<Restaurant> restaurantsWithinDistance = new ArrayList<>();
+
+        for (Restaurant restaurant : restaurants.values())
+            if (Double.compare(restaurant.getLocation().getEuclideanDistanceFrom(source), distance) <= 0)
+                restaurantsWithinDistance.add(restaurant);
+
+        return restaurantsWithinDistance;
+    }
 }
