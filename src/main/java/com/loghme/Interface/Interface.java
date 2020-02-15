@@ -4,6 +4,7 @@ import com.loghme.Constants.Commands;
 import com.loghme.Constants.GeneralConstants;
 import com.loghme.Interface.Exceptions.UndefinedCommand;
 import com.loghme.Loghme.Loghme;
+import com.loghme.Wallet.Exceptions.NotEnoughBalance;
 
 import java.util.Scanner;
 

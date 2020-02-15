@@ -35,4 +35,9 @@ public class UserController {
         UserRepository.getInstance().chargeUser(amount);
         ctx.redirect(Path.Web.USER);
     };
+
+    public static Handler handleFinalizeCartPost = ctx -> {
+        UserRepository.getInstance().finalizeOrder();
+        ctx.redirect(Path.Web.USER);
+    };
 }

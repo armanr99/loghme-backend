@@ -7,6 +7,7 @@ import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 import com.loghme.Restaurant.Restaurant;
+import com.loghme.Wallet.Exceptions.NotEnoughBalance;
 import com.loghme.Wallet.Exceptions.WrongAmount;
 import com.loghme.Wallet.Wallet;
 
@@ -69,7 +70,9 @@ public class User {
         return cart.getCartItemsList();
     }
 
-    void finalizeOrder() throws EmptyCartFinalize {
+    void finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
+        double totalPrice = cart.getTotalPrice();
+        wallet.withdraw(totalPrice);
         cart.finalizeOrder();
     }
 

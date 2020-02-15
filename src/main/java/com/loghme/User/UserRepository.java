@@ -15,6 +15,7 @@ import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.Restaurant.RestaurantRepository;
+import com.loghme.Wallet.Exceptions.NotEnoughBalance;
 import com.loghme.Wallet.Exceptions.WrongAmount;
 import com.loghme.Wallet.Wallet;
 
@@ -87,7 +88,7 @@ public class UserRepository {
         return gson.toJson(cartJsonObject);
     }
 
-    public String finalizeOrder() throws EmptyCartFinalize {
+    public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
         String jsonCart = getCart();
 
         user.finalizeOrder();
