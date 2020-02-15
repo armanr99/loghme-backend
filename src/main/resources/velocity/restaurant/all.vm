@@ -1,0 +1,15 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<div class="row row-3">
+    #foreach($restaurant in $restaurants)
+        <div class="col">
+            <a class="book" href="/restaurants/$restaurant.ID">
+                <div class="restaurantCover">
+                    <img src="$restaurant.Logo" alt="$restaurant.Name">
+                </div>
+                <strong>$restaurant.Name</strong>
+            </a>
+        </div>
+    #end
+</div>
+#end
