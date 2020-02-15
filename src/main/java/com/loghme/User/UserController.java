@@ -7,6 +7,7 @@ import io.javalin.http.Handler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserController {
     public static Handler fetchUser = ctx -> {
@@ -27,5 +28,11 @@ public class UserController {
         Map<String, Object> model = new HashMap<>();
         model.put("cart", UserRepository.getInstance().getUser().getCartItemsList());
         ctx.render(Path.Template.CART, model);
+    };
+
+    public static Handler handleChargePost = ctx -> {
+        double amount = Double.parseDouble(Objects.requireNonNull(ctx.formParam("amount")));
+        UserRepository.getInstance().chargeUser(amount);
+        ctx.redirect(Path.Web.USER);
     };
 }
