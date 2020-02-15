@@ -1,0 +1,18 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+    #if(${cart.size()} != 0)
+    <div class="cart">
+         <div>restaurant name: ${cart.get(0).getRestaurantName()}</div>
+         <ul>
+            #foreach($cartItem in $cart)
+                <li> $cartItem.FoodName: $cartItem.Count </li>
+            #end
+         </ul>
+         <form action="" method="POST">
+             <button type="submit">finalize</button>
+         </form>
+    </div>
+    #else
+    <h1>not found</h1>
+    #end
+#end

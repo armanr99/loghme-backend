@@ -22,4 +22,10 @@ public class UserController {
         UserRepository.getInstance().addToCart(foodName, restaurantId, RestaurantRepository.getInstance(dataURL));
         ctx.redirect(Path.Web.RESTAURANTS + "/" + restaurantId);
     };
+
+    public static Handler fetchCart = ctx -> {
+        Map<String, Object> model = new HashMap<>();
+        model.put("cart", UserRepository.getInstance().getUser().getCartItemsList());
+        ctx.render(Path.Template.CART, model);
+    };
 }
