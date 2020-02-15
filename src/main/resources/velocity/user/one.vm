@@ -9,9 +9,9 @@
             <li>Phone Number: $user.getPhoneNumber()</li>
             <li>email: $user.getEmail()</li>
             <li>credit: $user.getCredit() Tomans</li>
-            <form action="" method="POST">
+            <form action="/wallet" method="POST">
                 <button type="submit">increase</button>
-                <input type="text" name="credit" value="" />
+                <input type="text" name="amount" value="" />
             </form>
         </ul>
     </div>

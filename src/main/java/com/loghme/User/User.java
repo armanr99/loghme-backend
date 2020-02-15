@@ -7,6 +7,7 @@ import com.loghme.CartItem.CartItem;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 import com.loghme.Restaurant.Restaurant;
+import com.loghme.Wallet.Exceptions.WrongAmount;
 import com.loghme.Wallet.Wallet;
 
 import java.util.ArrayList;
@@ -70,5 +71,9 @@ public class User {
 
     void finalizeOrder() throws EmptyCartFinalize {
         cart.finalizeOrder();
+    }
+
+    void charge(double amount) throws WrongAmount {
+        wallet.charge(amount);
     }
 }

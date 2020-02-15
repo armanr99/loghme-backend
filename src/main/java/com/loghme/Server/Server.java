@@ -29,6 +29,7 @@ public class Server {
             get(Path.Web.ONE_RESTAURANT, RestaurantController.fetchOneRestaurant);
             get(Path.Web.CART, UserController.fetchCart);
             post(Path.Web.FOOD, UserController.handleAddToCartPost);
+            post(Path.Web.WALLET, UserController.handleChargePost);
         });
 
         app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(HttpStatus.SC_NOT_FOUND)).error(HttpStatus.SC_NOT_FOUND, RestaurantController.restaurantNotFound);

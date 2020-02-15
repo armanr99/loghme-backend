@@ -15,6 +15,7 @@ import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.Restaurant.Restaurant;
 import com.loghme.Restaurant.RestaurantRepository;
+import com.loghme.Wallet.Exceptions.WrongAmount;
 import com.loghme.Wallet.Wallet;
 
 import java.lang.reflect.Type;
@@ -104,5 +105,7 @@ public class UserRepository {
             user.addToCart(food, restaurant);
     }
 
-
+    public void chargeUser(double amount) throws WrongAmount {
+        user.charge(amount);
+    }
 }

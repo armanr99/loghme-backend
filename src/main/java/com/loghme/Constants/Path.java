@@ -7,6 +7,7 @@ public class Path {
         public static final String ONE_RESTAURANT = "/restaurants/:id";
         public static final String FOOD = "/food";
         public static final String CART = "/cart";
+        public static final String WALLET = "/wallet";
     }
 
     public static class Template {
