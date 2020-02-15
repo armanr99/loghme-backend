@@ -5,6 +5,7 @@ import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.User.UserController;
 import com.loghme.Restaurant.RestaurantController;
+import com.loghme.User.UserRepository;
 import io.javalin.Javalin;
 import com.loghme.Constants.ServerConfigs;
 import org.apache.http.HttpStatus;
@@ -26,6 +27,7 @@ public class Server {
             get(Path.Web.USER, UserController.fetchUser);
             get(Path.Web.RESTAURANTS, RestaurantController.fetchAllRestaurants);
             get(Path.Web.ONE_RESTAURANT, RestaurantController.fetchOneRestaurant);
+            get(Path.Web.CART, UserController.fetchCart);
             post(Path.Web.FOOD, UserController.handleAddToCartPost);
         });
 

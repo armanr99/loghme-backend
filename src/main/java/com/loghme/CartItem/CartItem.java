@@ -26,6 +26,10 @@ public class CartItem {
         return restaurant.getID();
     }
 
+    public String getRestaurantName() {
+        return restaurant.getName();
+    }
+
     public int getCount() {
         return count;
     }
