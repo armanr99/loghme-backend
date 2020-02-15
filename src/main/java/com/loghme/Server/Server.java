@@ -6,6 +6,7 @@ import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.User.UserController;
 import com.loghme.Restaurant.RestaurantController;
 import com.loghme.User.UserRepository;
+import com.loghme.Wallet.Exceptions.WrongAmount;
 import io.javalin.Javalin;
 import com.loghme.Constants.ServerConfigs;
 import org.apache.http.HttpStatus;
@@ -34,5 +35,9 @@ public class Server {
 
         app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(HttpStatus.SC_NOT_FOUND)).error(HttpStatus.SC_NOT_FOUND, RestaurantController.restaurantNotFound);
         app.exception(RestaurantOutOfRange.class, (e, ctx) -> ctx.status(HttpStatus.SC_FORBIDDEN)).error(HttpStatus.SC_FORBIDDEN, ctx -> ctx.html("403 Forbidden"));
+        app.exception(WrongAmount.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
+        app.exception(NumberFormatException.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
+
+
     }
 }
