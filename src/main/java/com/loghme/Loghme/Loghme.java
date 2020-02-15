@@ -3,10 +3,7 @@ package com.loghme.Loghme;
 import com.loghme.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.Restaurant.*;
-import com.loghme.Restaurant.Exceptions.FoodAlreadyExistsInRestaurant;
-import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
-import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
-import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
+import com.loghme.Restaurant.Exceptions.*;
 import com.loghme.User.UserRepository;
 
 import java.util.List;
@@ -33,8 +30,8 @@ public class Loghme {
         return RestaurantRepository.getInstance().getFood(foodInfo);
     }
 
-    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant {
-        UserRepository.getInstance().addToCart(foodInfo);
+    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
+        UserRepository.getInstance().addToCart(foodInfo, RestaurantRepository.getInstance());
     }
 
     public String getCart() {

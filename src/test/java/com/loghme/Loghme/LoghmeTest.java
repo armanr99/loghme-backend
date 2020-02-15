@@ -13,6 +13,7 @@ import com.loghme.Restaurant.*;
 import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
 import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
+import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.User.User;
 import com.loghme.User.UserRepository;
 import org.junit.After;
@@ -188,7 +189,7 @@ public class LoghmeTest {
            loghmeTest.addRestaurant(testAddRestaurantJson2);
            loghmeTest.addToCart(testAddToCart1);
            loghmeTest.addToCart(testAddToCart2);
-       } catch(RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist exception) {
+       } catch(RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | RestaurantOutOfRange exception) {
            Assert.fail();
        }
    }

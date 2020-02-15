@@ -10,6 +10,7 @@ import com.loghme.Constants.ServerConfigs;
 import org.apache.http.HttpStatus;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.post;
 
 public class Server {
     private Javalin app;
@@ -25,6 +26,7 @@ public class Server {
             get(Path.Web.USER, UserController.fetchUser);
             get(Path.Web.RESTAURANTS, RestaurantController.fetchAllRestaurants);
             get(Path.Web.ONE_RESTAURANT, RestaurantController.fetchOneRestaurant);
+            post(Path.Web.FOOD, UserController.handleAddToCartPost);
         });
 
         app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(HttpStatus.SC_NOT_FOUND)).error(HttpStatus.SC_NOT_FOUND, RestaurantController.restaurantNotFound);

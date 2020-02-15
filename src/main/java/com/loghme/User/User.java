@@ -60,7 +60,7 @@ public class User {
         return location;
     }
 
-    public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant {
+    void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant {
         cart.addToCart(food, restaurant);
     }
 
@@ -68,7 +68,7 @@ public class User {
         return cart.getCartItemsList();
     }
 
-    public void finalizeOrder() throws EmptyCartFinalize {
+    void finalizeOrder() throws EmptyCartFinalize {
         cart.finalizeOrder();
     }
 }

@@ -5,6 +5,7 @@ public class Path {
         public static final String USER = "/user";
         public static final String RESTAURANTS = "/restaurants";
         public static final String ONE_RESTAURANT = "/restaurants/:id";
+        public static final String FOOD = "/food";
     }
 
     public static class Template {
