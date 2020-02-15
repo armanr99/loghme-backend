@@ -15,6 +15,11 @@
                         <strong>Description $food.description </strong><br>
                         <strong>Price: $food.price </strong><br>
                         <strong>Popularity: $food.popularity </strong><br>
+                        <form action="/food" method="POST">
+                            <input type="hidden" name="foodName" value="$food.Name" />
+                            <input type="hidden" name="restaurantId" value=$restaurant.ID />
+                            <button type="submit">addToCart</button>
+                        </form>
                     </div><br>
                 </div>
             #end

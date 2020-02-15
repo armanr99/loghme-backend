@@ -2,4 +2,5 @@ package com.loghme.Constants;
 
 public class Configs {
     public static final int MAX_RECOMMENDED_SIZE = 3;
+    public static final double VISIBLE_RESTAURANTS_DISTANCE = 170;
 }

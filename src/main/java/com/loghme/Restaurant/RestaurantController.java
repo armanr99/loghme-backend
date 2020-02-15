@@ -1,5 +1,6 @@
 package com.loghme.Restaurant;
 
+import com.loghme.Constants.Configs;
 import com.loghme.Constants.Path;
 import com.loghme.Constants.RestaurantControllerConfig;
 import com.loghme.Location.Location;
@@ -15,7 +16,7 @@ public class RestaurantController {
         String dataURL = RestaurantControllerConfig.DATA_URL;
         HashMap<String, Object> model = new HashMap<>();
         Location userLocation = UserRepository.getInstance().getUser().getLocation();
-        model.put("restaurants", RestaurantRepository.getInstance(dataURL).getRestaurantsWithinDistance(userLocation, RestaurantControllerConfig.VISIBLE_RESTAURANTS_DISTANCE));
+        model.put("restaurants", RestaurantRepository.getInstance(dataURL).getRestaurantsWithinDistance(userLocation, Configs.VISIBLE_RESTAURANTS_DISTANCE));
         ctx.render(Path.Template.RESTAURANTS_ALL, model);
     };
 
@@ -24,7 +25,7 @@ public class RestaurantController {
         HashMap<String, Object> model = new HashMap<>();
         Location userLocation = UserRepository.getInstance().getUser().getLocation();
         RestaurantRepository restaurantRepository = RestaurantRepository.getInstance(dataURL);
-        Restaurant restaurant = restaurantRepository.getRestaurantInstanceIfInRange(ctx.pathParam("id"), userLocation, RestaurantControllerConfig.VISIBLE_RESTAURANTS_DISTANCE);
+        Restaurant restaurant = restaurantRepository.getRestaurantInstanceIfInRange(ctx.pathParam("id"), userLocation, Configs.VISIBLE_RESTAURANTS_DISTANCE);
         model.put("restaurant", restaurant);
         ctx.render(Path.Template.RESTAURANTS_ONE, model);
     };
