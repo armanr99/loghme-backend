@@ -26,10 +26,12 @@ public class Cart {
     }
 
     public void finalizeOrder() throws EmptyCartFinalize {
-        if(cartItems.size() == 0)
+        if(cartItems.size() == 0) {
             throw new EmptyCartFinalize();
-        else
-            cartItems = Collections.emptyMap();
+        } else {
+            restaurant = null;
+            cartItems.clear();
+        }
     }
 
     private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {
@@ -46,5 +48,14 @@ public class Cart {
             CartItem newCartItem = new CartItem(food, restaurant);
             cartItems.put(food.getName(), newCartItem);
         }
+    }
+
+    public double getTotalPrice() {
+        double totalPrice = 0;
+
+        for(CartItem cartItem : cartItems.values())
+            totalPrice += cartItem.getTotalPrice();
+
+        return totalPrice;
     }
 }

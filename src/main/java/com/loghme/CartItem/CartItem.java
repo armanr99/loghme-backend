@@ -33,4 +33,8 @@ public class CartItem {
     public int getCount() {
         return count;
     }
+
+    public double getTotalPrice() {
+        return food.getPrice() * count;
+    }
 }

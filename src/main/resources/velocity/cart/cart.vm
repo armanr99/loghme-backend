@@ -8,7 +8,7 @@
                 <li> $cartItem.FoodName: $cartItem.Count </li>
             #end
          </ul>
-         <form action="" method="POST">
+         <form action="/finalize-cart" method="POST">
              <button type="submit">finalize</button>
          </form>
     </div>

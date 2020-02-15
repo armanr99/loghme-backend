@@ -5,6 +5,7 @@ import com.loghme.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.Restaurant.*;
 import com.loghme.Restaurant.Exceptions.*;
 import com.loghme.User.UserRepository;
+import com.loghme.Wallet.Exceptions.NotEnoughBalance;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class Loghme {
         return UserRepository.getInstance().getCart();
     }
 
-    public String finalizeOrder() throws EmptyCartFinalize {
+    public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
         return UserRepository.getInstance().finalizeOrder();
     }
 
