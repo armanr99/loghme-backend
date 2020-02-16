@@ -9,9 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class RestaurantRepositoryTest {
-
     @After
-    public void teardown() {
+    public void tearDown() {
         RestaurantRepository.clearInstance();
     }
 

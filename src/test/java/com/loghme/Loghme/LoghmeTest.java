@@ -26,7 +26,6 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import java.util.List;
 
 public class LoghmeTest {
-
     private Loghme loghmeTest;
 
     @Before
@@ -35,7 +34,7 @@ public class LoghmeTest {
     }
 
     @After
-    public void teardown() {
+    public void tearDown() {
         loghmeTest = null;
         UserRepository.clearInstance();
         RestaurantRepository.clearInstance();
