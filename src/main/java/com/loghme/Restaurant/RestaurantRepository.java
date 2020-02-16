@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken;
 import com.loghme.Constants.Configs;
 import com.loghme.Constants.Fields;
 import com.loghme.Constants.GeneralConstants;
-import com.loghme.Constants.RestaurantRepositoryConstants;
 import com.loghme.Food.Food;
 import com.loghme.Location.Location;
 import com.loghme.Restaurant.Exceptions.*;
@@ -20,30 +19,20 @@ public class RestaurantRepository {
     private Gson gson;
     private HashMap<String, Restaurant> restaurants;
     private static RestaurantRepository instance = null;
-    private String dataMode;
 
     public static RestaurantRepository getInstance() {
-        if (instance == null || instance.dataMode.equals(RestaurantRepositoryConstants.DEPLOY)) {
-            instance = new RestaurantRepository(RestaurantRepositoryConstants.LOCAL);
+        if (instance == null) {
+            instance = new RestaurantRepository();
         }
         return instance;
     }
 
-    public static RestaurantRepository getInstance(String sourceURL) throws JsonSyntaxException, RestaurantAlreadyExists {
-        if (instance == null || instance.dataMode.equals(RestaurantRepositoryConstants.LOCAL)) {
-            instance = new RestaurantRepository(RestaurantRepositoryConstants.DEPLOY);
-            instance.fetchData(sourceURL);
-        }
-        return instance;
-    }
-
-    private RestaurantRepository(String dataMode) {
+    private RestaurantRepository() {
         gson = new Gson();
         restaurants = new HashMap<>();
-        this.dataMode = dataMode;
     }
 
-    private void fetchData(String sourceURL) throws JsonSyntaxException, RestaurantAlreadyExists {
+    public void fetchData(String sourceURL) throws JsonSyntaxException, RestaurantAlreadyExists {
         String restaurantsData = RestaurantUpdateManager.fetch(sourceURL);
         JsonArray restaurantsDataArray = gson.fromJson(restaurantsData, JsonArray.class);
 

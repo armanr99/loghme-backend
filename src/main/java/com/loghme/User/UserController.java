@@ -1,7 +1,6 @@
 package com.loghme.User;
 
 import com.loghme.Constants.Path;
-import com.loghme.Constants.RestaurantControllerConfig;
 import com.loghme.Restaurant.RestaurantRepository;
 import io.javalin.http.Handler;
 
@@ -19,8 +18,7 @@ public class UserController {
     public static Handler handleAddToCartPost = ctx -> {
         String foodName = ctx.formParam("foodName");
         String restaurantId = ctx.formParam("restaurantId");
-        String dataURL = RestaurantControllerConfig.DATA_URL;
-        UserRepository.getInstance().addToCart(foodName, restaurantId, RestaurantRepository.getInstance(dataURL));
+        UserRepository.getInstance().addToCart(foodName, restaurantId, RestaurantRepository.getInstance());
         ctx.redirect(Path.Web.RESTAURANTS + "/" + restaurantId);
     };
 

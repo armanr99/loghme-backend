@@ -4,15 +4,16 @@ import com.loghme.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.Constants.Path;
 import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
+import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
 import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
+import com.loghme.Restaurant.RestaurantRepository;
 import com.loghme.User.UserController;
 import com.loghme.Restaurant.RestaurantController;
 import com.loghme.Wallet.Exceptions.NotEnoughBalance;
 import com.loghme.Wallet.Exceptions.WrongAmount;
 import io.javalin.Javalin;
 import com.loghme.Constants.ServerConfigs;
-import org.apache.http.HttpStatus;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.post;
@@ -25,6 +26,16 @@ public class Server {
     }
 
     public void start() {
+        try {
+            RestaurantRepository.getInstance().fetchData(ServerConfigs.DATA_URL);
+        } catch (RestaurantAlreadyExists restaurantAlreadyExists) {
+            System.out.println("Error in fetching data: " + restaurantAlreadyExists.toString());
+            return;
+        }
+        handleApp();
+    }
+
+    private void handleApp() {
         app.start(ServerConfigs.PORT);
 
         app.routes(() -> {
