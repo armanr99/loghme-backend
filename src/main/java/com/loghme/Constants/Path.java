@@ -16,6 +16,6 @@ public class Path {
         public static final String CART = "/velocity/cart/cart.vm";
         public static final String RESTAURANTS_ALL = "/velocity/restaurant/all.vm";
         public static final String RESTAURANTS_ONE = "/velocity/restaurant/one.vm";
-        public static final String RESTAURANTS_NOT_FOUND = "/velocity/restaurant/notfound.vm";
+        public static final String ERROR = "/velocity/error/error.vm";
     }
 }
