@@ -11,10 +11,10 @@
             #foreach($food in $restaurant.ListMenu)
                 <div class="col">
                     <div class="food">
-                        <strong>Name: $food.Name </strong><br>
-                        <strong>Description $food.description </strong><br>
-                        <strong>Price: $food.price </strong><br>
-                        <strong>Popularity: $food.popularity </strong><br>
+                        <strong>Name: $food.Name</strong><br>
+                        <strong>Description $food.description</strong><br>
+                        <strong>Price: $food.price</strong><br>
+                        <strong>Popularity: $food.popularity</strong><br>
                         <form action="/food" method="POST">
                             <input type="hidden" name="foodName" value="$food.Name" />
                             <input type="hidden" name="restaurantId" value=$restaurant.ID />

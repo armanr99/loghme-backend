@@ -4,14 +4,17 @@ import com.loghme.Location.Location;
 import com.loghme.Restaurant.Exceptions.RestaurantAlreadyExists;
 import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
+import com.loghme.User.UserRepository;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class RestaurantRepositoryTest {
+
     @After
     public void tearDown() {
         RestaurantRepository.clearInstance();
+        UserRepository.clearInstance();
     }
 
     @Test (expected = RestaurantOutOfRange.class)
