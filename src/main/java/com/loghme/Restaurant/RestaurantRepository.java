@@ -143,10 +143,8 @@ public class RestaurantRepository {
 
     public Restaurant getRestaurantInstanceIfInRange(String restaurantID, Location source, double distance) throws RestaurantDoesntExist, RestaurantOutOfRange {
         Restaurant restaurant = this.getRestaurantInstance(restaurantID);
-        if (Double.compare(restaurant.getLocation().getEuclideanDistanceFrom(source), distance) <= 0) {
-            System.out.println(restaurant.getLocation().getEuclideanDistanceFrom(source));
+        if (Double.compare(restaurant.getLocation().getEuclideanDistanceFrom(source), distance) <= 0)
             return restaurant;
-        }
         else
             throw new RestaurantOutOfRange();
     }
