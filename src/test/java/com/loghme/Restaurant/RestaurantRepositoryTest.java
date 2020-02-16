@@ -29,4 +29,14 @@ public class RestaurantRepositoryTest {
             Assert.fail();
         }
     }
+
+    @Test (expected = RestaurantDoesntExist.class)
+    public void testGetRestaurantDoesntExist() throws RestaurantDoesntExist {
+        try {
+            Location userLocation = new Location(0, 0);
+            RestaurantRepository.getInstance().getRestaurantInstanceIfInRange("1", userLocation, 170);
+        } catch (RestaurantOutOfRange exception) {
+            Assert.fail();
+        }
+    }
 }
