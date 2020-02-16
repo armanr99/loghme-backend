@@ -1,7 +1,9 @@
 package com.loghme.Server;
 
+import com.loghme.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.Constants.Path;
+import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.User.UserController;
@@ -35,11 +37,13 @@ public class Server {
             post(Path.Web.FINALIZE_CART, UserController.handleFinalizeCartPost);
         });
 
-        app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(HttpStatus.SC_NOT_FOUND)).error(HttpStatus.SC_NOT_FOUND, RestaurantController.restaurantNotFound);
-        app.exception(RestaurantOutOfRange.class, (e, ctx) -> ctx.status(HttpStatus.SC_FORBIDDEN)).error(HttpStatus.SC_FORBIDDEN, ctx -> ctx.html("403 Forbidden"));
+        app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(404).html("404 Error: " + e.toString()));
+        app.exception(RestaurantOutOfRange.class, (e, ctx) -> ctx.status(403).html("403 Error: Forbidden"));
         app.exception(WrongAmount.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
         app.exception(NumberFormatException.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
         app.exception(EmptyCartFinalize.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
         app.exception(NotEnoughBalance.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
+        app.exception(FoodDoesntExist.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
+        app.exception(DifferentRestaurant.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
     }
 }

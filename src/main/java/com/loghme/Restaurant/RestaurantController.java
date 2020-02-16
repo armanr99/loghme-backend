@@ -29,6 +29,4 @@ public class RestaurantController {
         model.put("restaurant", restaurant);
         ctx.render(Path.Template.RESTAURANTS_ONE, model);
     };
-
-    public static ErrorHandler restaurantNotFound = ctx -> ctx.render(Path.Template.RESTAURANTS_NOT_FOUND);
 }
