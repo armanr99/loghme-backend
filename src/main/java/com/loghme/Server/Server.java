@@ -15,6 +15,8 @@ import com.loghme.Wallet.Exceptions.WrongAmount;
 import io.javalin.Javalin;
 import com.loghme.Constants.ServerConfigs;
 
+import java.util.Collections;
+
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
@@ -48,13 +50,13 @@ public class Server {
             post(Path.Web.FINALIZE_CART, UserController.handleFinalizeCartPost);
         });
 
-        app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(404).html("404 Error: " + e.toString()));
-        app.exception(RestaurantOutOfRange.class, (e, ctx) -> ctx.status(403).html("403 Error: Forbidden"));
-        app.exception(WrongAmount.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
-        app.exception(NumberFormatException.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
-        app.exception(EmptyCartFinalize.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
-        app.exception(NotEnoughBalance.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
-        app.exception(FoodDoesntExist.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
-        app.exception(DifferentRestaurant.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
+        app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(404).render(Path.Template.ERROR, Collections.singletonMap("error", "404 Error: " + e.toString())));
+        app.exception(RestaurantOutOfRange.class, (e, ctx) -> ctx.status(403).render(Path.Template.ERROR, Collections.singletonMap("error", "403 Error: Forbidden")));
+        app.exception(WrongAmount.class, (e, ctx) -> ctx.status(400).render(Path.Template.ERROR, Collections.singletonMap("error", "400 Error: " + e.toString())));
+        app.exception(NumberFormatException.class, (e, ctx) -> ctx.status(400).render(Path.Template.ERROR, Collections.singletonMap("error", "400 Error: " + e.toString())));
+        app.exception(EmptyCartFinalize.class, (e, ctx) -> ctx.status(400).render(Path.Template.ERROR, Collections.singletonMap("error", "400 Error: " + e.toString())));
+        app.exception(NotEnoughBalance.class, (e, ctx) -> ctx.status(400).render(Path.Template.ERROR, Collections.singletonMap("error", "400 Error: " + e.toString())));
+        app.exception(FoodDoesntExist.class, (e, ctx) -> ctx.status(400).render(Path.Template.ERROR, Collections.singletonMap("error", "400 Error: " + e.toString())));
+        app.exception(DifferentRestaurant.class, (e, ctx) -> ctx.status(400).render(Path.Template.ERROR, Collections.singletonMap("error", "400 Error: " + e.toString())));
     }
 }
