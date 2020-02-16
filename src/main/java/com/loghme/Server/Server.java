@@ -35,7 +35,7 @@ public class Server {
             post(Path.Web.FINALIZE_CART, UserController.handleFinalizeCartPost);
         });
 
-        app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(HttpStatus.SC_NOT_FOUND)).error(HttpStatus.SC_NOT_FOUND, RestaurantController.restaurantNotFound);
+        app.exception(RestaurantDoesntExist.class, (e, ctx) -> ctx.status(404).html("404 Error: " + e.toString()));
         app.exception(RestaurantOutOfRange.class, (e, ctx) -> ctx.status(HttpStatus.SC_FORBIDDEN)).error(HttpStatus.SC_FORBIDDEN, ctx -> ctx.html("403 Forbidden"));
         app.exception(WrongAmount.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
         app.exception(NumberFormatException.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
