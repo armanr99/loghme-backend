@@ -18,7 +18,7 @@ public class UserController {
     public static Handler handleAddToCartPost = ctx -> {
         String foodName = ctx.formParam("foodName");
         String restaurantId = ctx.formParam("restaurantId");
-        UserRepository.getInstance().addToCart(foodName, restaurantId, RestaurantRepository.getInstance());
+        UserRepository.getInstance().addToCart(foodName, restaurantId);
         ctx.redirect(Path.Web.RESTAURANTS + "/" + restaurantId);
     };
 

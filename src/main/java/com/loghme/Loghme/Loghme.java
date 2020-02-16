@@ -32,7 +32,7 @@ public class Loghme {
     }
 
     public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
-        UserRepository.getInstance().addToCart(foodInfo, RestaurantRepository.getInstance());
+        UserRepository.getInstance().addToCart(foodInfo);
     }
 
     public String getCart() {
