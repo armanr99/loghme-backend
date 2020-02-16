@@ -1,7 +1,9 @@
 package com.loghme.Server;
 
+import com.loghme.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.Constants.Path;
+import com.loghme.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.User.UserController;
@@ -41,5 +43,7 @@ public class Server {
         app.exception(NumberFormatException.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
         app.exception(EmptyCartFinalize.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
         app.exception(NotEnoughBalance.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
+        app.exception(FoodDoesntExist.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
+        app.exception(DifferentRestaurant.class, (e, ctx) -> ctx.status(400).html("400 Error: " + e.toString()));
     }
 }
