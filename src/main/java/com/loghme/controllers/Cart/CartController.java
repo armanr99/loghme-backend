@@ -1,6 +1,7 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
+import com.loghme.controllers.utils.ErrorHandler;
 import com.loghme.controllers.utils.HTTPHandler;
 import com.loghme.models.Cart.Cart;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
@@ -43,11 +44,7 @@ public class CartController extends HttpServlet {
             UserRepository.getInstance().addToCart(foodName, restaurantId);
             response.sendRedirect(Path.Web.RESTAURANTS + "/" + restaurantId);
         } catch (RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange exception) {
-            int status = HTTPHandler.getStatusCode(exception);
-            response.setStatus(status);
-            request.setAttribute("error", exception.toString());
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.ERROR);
-            requestDispatcher.forward(request, response);
+            ErrorHandler.handleException(request, response, exception);
         }
     }
 }

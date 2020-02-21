@@ -1,6 +1,7 @@
 package com.loghme.controllers.Wallet;
 
 import com.loghme.configs.Path;
+import com.loghme.controllers.utils.ErrorHandler;
 import com.loghme.controllers.utils.HTTPHandler;
 import com.loghme.models.Wallet.Exceptions.WrongAmount;
 import com.loghme.repositories.UserRepository;
@@ -23,11 +24,7 @@ public class WalletController extends HttpServlet {
             UserRepository.getInstance().chargeUser(amount);
             response.sendRedirect(Path.Web.USER);
         } catch(WrongAmount | NumberFormatException exception) {
-            int status = HTTPHandler.getStatusCode(exception);
-            response.setStatus(status);
-            request.setAttribute("error", exception.toString());
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.ERROR);
-            requestDispatcher.forward(request, response);
+            ErrorHandler.handleException(request, response, exception);
         }
     }
 }
