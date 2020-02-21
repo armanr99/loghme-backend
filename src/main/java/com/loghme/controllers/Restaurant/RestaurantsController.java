@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet(Path.Web.RESTAURANTS)
-public class Restaurants extends HttpServlet {
+public class RestaurantsController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html; charset=UTF-8");
 
