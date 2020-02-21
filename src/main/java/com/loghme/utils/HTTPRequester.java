@@ -1,4 +1,4 @@
-package com.loghme.models.Util;
+package com.loghme.utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -12,8 +12,8 @@ import java.io.IOException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class RestaurantUpdateManager {
-    public static String fetch(String sourceURL) {
+public class HTTPRequester {
+    public static String get(String sourceURL) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         try {
@@ -21,7 +21,7 @@ public class RestaurantUpdateManager {
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                    System.out.println(String.format("Fetching restaurants data failed with status code %d", response.getStatusLine().getStatusCode()));
+                    System.out.println(String.format("Fetching data failed with status code %d", response.getStatusLine().getStatusCode()));
                 } else {
                     HttpEntity entity = response.getEntity();
                     if (entity != null) {
