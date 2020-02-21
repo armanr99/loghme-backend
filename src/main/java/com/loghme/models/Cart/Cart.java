@@ -58,4 +58,8 @@ public class Cart {
 
         return totalPrice;
     }
+
+    public String getRestaurantName() {
+        return (restaurant == null ? null : restaurant.getName());
+    }
 }

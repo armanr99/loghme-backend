@@ -79,4 +79,8 @@ public class User {
     public void charge(double amount) throws WrongAmount {
         wallet.charge(amount);
     }
+
+    public Cart getCart() {
+        return cart;
+    }
 }
