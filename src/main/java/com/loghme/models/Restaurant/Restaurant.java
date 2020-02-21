@@ -26,7 +26,7 @@ public class Restaurant {
         }
     }
 
-    public String getID() {
+    public String getId() {
         return id;
     }
 

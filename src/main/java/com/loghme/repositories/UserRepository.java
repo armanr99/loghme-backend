@@ -61,11 +61,11 @@ public class UserRepository {
     public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
         JsonObject foodInfoObject = gson.fromJson(foodInfo, JsonObject.class);
         JsonElement foodNameElement = foodInfoObject.get(Fields.FOOD_NAME);
-        JsonElement restaurantIDElement = foodInfoObject.get(Fields.RESTAURANT_ID);
-        String restaurantID = restaurantIDElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantIDElement.getAsString();
+        JsonElement restaurantIdElement = foodInfoObject.get(Fields.RESTAURANT_Id);
+        String restaurantId = restaurantIdElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantIdElement.getAsString();
         String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
 
-        addToCart(foodName, restaurantID);
+        addToCart(foodName, restaurantId);
     }
 
     public String getCart() {
@@ -75,7 +75,7 @@ public class UserRepository {
         for(CartItem cartItem : userCartItems) {
             JsonObject cartObject = new JsonObject();
             cartObject.addProperty(Fields.FOOD_NAME, cartItem.getFoodName());
-            cartObject.addProperty(Fields.RESTAURANT_ID, cartItem.getRestaurantID());
+            cartObject.addProperty(Fields.RESTAURANT_Id, cartItem.getRestaurantId());
             cartObject.addProperty(Fields.COUNT, cartItem.getCount());
             serializedUserCartItems.add(cartObject);
         }
@@ -96,12 +96,12 @@ public class UserRepository {
         return jsonCart;
     }
 
-    void addToCart(String foodName, String restaurantID) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
-        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurantInstanceIfInRange(restaurantID, user.getLocation(), Configs.VISIBLE_RESTAURANTS_DISTANCE);
+    void addToCart(String foodName, String restaurantId) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
+        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurantInstanceIfInRange(restaurantId, user.getLocation(), Configs.VISIBLE_RESTAURANTS_DISTANCE);
         Food food = restaurant.getFood(foodName);
 
         if(food == null)
-            throw new FoodDoesntExist(foodName, restaurantID);
+            throw new FoodDoesntExist(foodName, restaurantId);
         else
             user.addToCart(food, restaurant);
     }

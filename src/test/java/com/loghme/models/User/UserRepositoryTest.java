@@ -35,7 +35,7 @@ public class UserRepositoryTest {
                 "\"menu\": [{\"name\": \"Gheime\", \"description\": \"it's yummy!\", \"popularity\": 0.8, \"price\":" +
                 "20000}, {\"name\": \"Kabab\", \"description\": \"it's delicious!\", \"popularity\": 0.6, \"price\":" +
                 "55000}]}";
-        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantID\": \"1\"}";
+        String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantId\": \"1\"}";
         try {
             RestaurantRepository.getInstance().addRestaurant(testAddRestaurantJson);
             UserRepository.getInstance().addToCart(testAddToCart);

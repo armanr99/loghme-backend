@@ -1,13 +1,13 @@
 package com.loghme.models.Restaurant.Exceptions;
 
 public class RestaurantAlreadyExists extends Exception {
-    private String restaurantID;
+    private String restaurantId;
 
-    public RestaurantAlreadyExists(String restaurantID) {
-        this.restaurantID = restaurantID;
+    public RestaurantAlreadyExists(String restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public String toString() {
-        return String.format("Restaurant with id: %s already exists", restaurantID);
+        return String.format("Restaurant with id: %s already exists", restaurantId);
     }
 }

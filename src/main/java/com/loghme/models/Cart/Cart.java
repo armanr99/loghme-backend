@@ -37,8 +37,8 @@ public class Cart {
     private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {
         if(this.restaurant == null)
             this.restaurant = restaurant;
-        else if(!this.restaurant.getID().equals(restaurant.getID()))
-            throw new DifferentRestaurant(this.restaurant.getID());
+        else if(!this.restaurant.getId().equals(restaurant.getId()))
+            throw new DifferentRestaurant(this.restaurant.getId());
     }
 
     private void handleAddCartItem(Food food, Restaurant restaurant) {
