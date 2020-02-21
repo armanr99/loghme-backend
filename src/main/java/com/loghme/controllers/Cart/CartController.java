@@ -1,7 +1,12 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
+import com.loghme.controllers.utils.HTTPHandler;
 import com.loghme.models.Cart.Cart;
+import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
+import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
+import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
+import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.repositories.UserRepository;
 
 import javax.servlet.RequestDispatcher;
@@ -27,5 +32,22 @@ public class CartController extends HttpServlet {
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(responseForwardPath);
         requestDispatcher.forward(request, response);
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
+        try {
+            String foodName = request.getParameter("foodName");
+            String restaurantId = request.getParameter("restaurantId");
+            UserRepository.getInstance().addToCart(foodName, restaurantId);
+            response.sendRedirect(Path.Web.RESTAURANTS + "/" + restaurantId);
+        } catch (RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange exception) {
+            int status = HTTPHandler.getStatusCode(exception);
+            response.setStatus(status);
+            request.setAttribute("error", exception.toString());
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.ERROR);
+            requestDispatcher.forward(request, response);
+        }
     }
 }

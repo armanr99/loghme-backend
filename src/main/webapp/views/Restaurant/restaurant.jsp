@@ -1,9 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE HTML>
 <html>
-<meta charset="UTF-8">
 <head>
+    <meta charset="UTF-8">
     <title>${restaurant.name}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -21,7 +22,7 @@
                         <strong>Description: ${food.description}</strong><br>
                         <strong>Price: ${food.price}</strong><br>
                         <strong>Popularity: ${food.popularity}</strong><br>
-                        <form action="/food" method="POST">
+                        <form action="/cart" method="POST">
                             <input type="hidden" name="foodName" value="${food.name}" />
                             <input type="hidden" name="restaurantId" value=${restaurant.id} />
                             <button type="submit">addToCart</button>

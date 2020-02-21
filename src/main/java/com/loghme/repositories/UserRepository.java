@@ -96,7 +96,7 @@ public class UserRepository {
         return jsonCart;
     }
 
-    void addToCart(String foodName, String restaurantId) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
+    public void addToCart(String foodName, String restaurantId) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
         Restaurant restaurant = RestaurantRepository.getInstance().getRestaurantInstanceIfInRange(restaurantId, user.getLocation(), Configs.VISIBLE_RESTAURANTS_DISTANCE);
         Food food = restaurant.getFood(foodName);
 
