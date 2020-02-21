@@ -19,7 +19,7 @@ public class HTTPHandler {
         return tokenizer.nextToken();
     }
 
-    public static int getStatusCode(Exception exception) {
+    static int getStatusCode(Exception exception) {
         int statusCode = 500;
 
         if(exception instanceof RestaurantOutOfRange)

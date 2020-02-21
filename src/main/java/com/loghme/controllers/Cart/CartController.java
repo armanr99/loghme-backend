@@ -2,7 +2,6 @@ package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
 import com.loghme.controllers.utils.ErrorHandler;
-import com.loghme.controllers.utils.HTTPHandler;
 import com.loghme.models.Cart.Cart;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
@@ -37,7 +36,6 @@ public class CartController extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-
         try {
             String foodName = request.getParameter("foodName");
             String restaurantId = request.getParameter("restaurantId");

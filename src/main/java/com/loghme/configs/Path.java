@@ -7,6 +7,7 @@ public class Path {
         public static final String USER = "/user";
         public static final String CART = "/cart";
         public static final String WALLET = "/wallet";
+        public static final String ORDER = "/order";
     }
 
     public static class jsp {
