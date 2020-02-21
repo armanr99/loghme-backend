@@ -1,7 +1,0 @@
-package com.loghme.Cart.Exceptions;
-
-public class EmptyCartFinalize extends Exception {
-    public String toString() {
-        return "Cart is empty";
-    }
-}

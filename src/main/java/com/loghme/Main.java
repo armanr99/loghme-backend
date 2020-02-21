@@ -1,6 +1,6 @@
 package com.loghme;
 
-import com.loghme.Interface.Interface;
+import com.loghme.models.Interface.Interface;
 
 public class Main {
     public static void main(String[] args) {
