@@ -1,4 +1,0 @@
-#parse("/velocity/layout.vm")
-#@mainLayout()
-<h2>(404) Restaurant Not Found</h2>
-#end
