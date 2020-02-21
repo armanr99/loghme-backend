@@ -1,13 +1,13 @@
 package com.loghme.models.Restaurant.Exceptions;
 
 public class RestaurantDoesntExist extends Exception {
-    private String invalidRestaurantName;
+    private String invalidRestaurantId;
 
     public RestaurantDoesntExist(String invalidRestaurantName) {
-        this.invalidRestaurantName = invalidRestaurantName;
+        this.invalidRestaurantId = invalidRestaurantName;
     }
 
     public String toString() {
-        return String.format("Restaurant with name %s does not exist", invalidRestaurantName);
+        return String.format("Restaurant with id %s does not exist", invalidRestaurantId);
     }
 }
