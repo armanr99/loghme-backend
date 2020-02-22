@@ -6,12 +6,15 @@ import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
+import com.loghme.models.Order.Order;
 import com.loghme.models.Restaurant.Restaurant;
+import com.loghme.models.User.Exceptions.OrderDoesntExist;
 import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
 import com.loghme.models.Wallet.Exceptions.WrongAmount;
 import com.loghme.models.Wallet.Wallet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User {
     private int id;
@@ -22,6 +25,7 @@ public class User {
     private Cart cart;
     private Location location;
     private Wallet wallet;
+    private HashMap<String, Order> orders;
 
     public User(int id, String firstName, String lastName, String phoneNumber, String email, Location location, Wallet wallet) {
         this.id = id;
@@ -32,6 +36,7 @@ public class User {
         this.location = location;
         this.wallet = wallet;
         this.cart = new Cart();
+        this.orders = new HashMap<>();
     }
 
     public int getId() {
@@ -73,7 +78,10 @@ public class User {
     public void finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
         double totalPrice = cart.getTotalPrice();
         wallet.withdraw(totalPrice);
-        cart.finalizeOrder();
+        Order order = cart.finalizeOrder();
+        orders.put(order.getId(), order);
+        cart = new Cart();
+        new OrderHandler(order).handleOrder();
     }
 
     public void charge(double amount) throws WrongAmount {
@@ -82,5 +90,16 @@ public class User {
 
     public Cart getCart() {
         return cart;
+    }
+
+    public ArrayList<Order> getOrdersList() {
+        return new ArrayList<>(orders.values());
+    }
+
+    public Order getOrder(String orderId) throws OrderDoesntExist {
+        if (!orders.containsKey(orderId))
+            throw new OrderDoesntExist(orderId);
+        else
+            return orders.get(orderId);
     }
 }

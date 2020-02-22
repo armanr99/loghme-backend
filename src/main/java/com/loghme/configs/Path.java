@@ -8,6 +8,7 @@ public class Path {
         public static final String CART = "/cart";
         public static final String WALLET = "/wallet";
         public static final String ORDER = "/order";
+        public static final String ORDER_SINGLE = "/order/*";
     }
 
     public static class jsp {
@@ -17,5 +18,6 @@ public class Path {
         public static final String USER = "/views/User/user.jsp";
         public static final String NON_EMPTY_CART = "/views/Cart/nonEmptyCart.jsp";
         public static final String EMPTY_CART = "/views/Cart/emptyCart.jsp";
+        public static final String ORDER_SINGLE = "/views/Order/order.jsp";
     }
 }
