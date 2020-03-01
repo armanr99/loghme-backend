@@ -1,8 +1,7 @@
 package com.loghme.listeners;
 
 import com.loghme.configs.FoodPartyConfigs;
-import com.loghme.configs.ServerConfigs;
-import com.loghme.utils.HTTPRequester;
+import com.loghme.repositories.RestaurantRepository;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -18,7 +17,11 @@ public class FoodPartyFetch implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         final Runnable foodPartyRequester = () -> {
-            String foodPartyJson = HTTPRequester.get(ServerConfigs.FOOD_PARTY_URL);
+            try {
+                RestaurantRepository.getInstance().fetchFoodParties();
+            } catch (Exception exception) {
+                System.out.println("Error in fetching data: " + exception.toString());
+            }
         };
 
         scheduler = Executors.newSingleThreadScheduledExecutor();

@@ -12,4 +12,5 @@ public class Fields {
     public static final String DESCRIPTION = "description";
     public static final String PRICE = "price";
     public static final String POPULARITY = "popularity";
+    public static final String OLD_PRICE = "oldPrice";
 }

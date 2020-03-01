@@ -5,7 +5,9 @@ import com.google.gson.reflect.TypeToken;
 import com.loghme.configs.Configs;
 import com.loghme.configs.Fields;
 import com.loghme.configs.GeneralConstants;
+import com.loghme.configs.ServerConfigs;
 import com.loghme.models.Food.Food;
+import com.loghme.models.Food.PartyFood;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Restaurant.Exceptions.*;
 import com.loghme.models.Restaurant.Restaurant;
@@ -157,5 +159,39 @@ public class RestaurantRepository {
                 restaurantsWithinDistance.add(restaurant);
 
         return restaurantsWithinDistance;
+    }
+
+    public void fetchFoodParties() throws JsonSyntaxException, RestaurantDoesntExist {
+        String restaurantsData = HTTPRequester.get(ServerConfigs.FOOD_PARTY_URL);
+        JsonArray restaurantsDataArray = gson.fromJson(restaurantsData, JsonArray.class);
+
+        for (JsonElement restaurantDataElement : restaurantsDataArray) {
+            this.handleFoodPartyRestaurant(restaurantDataElement.toString());
+        }
+    }
+
+    private void handleFoodPartyRestaurant(String serializedRestaurant) throws JsonSyntaxException, RestaurantDoesntExist {
+        JsonObject restaurantObject = gson.fromJson(serializedRestaurant, JsonObject.class);
+        String restaurantMenuJson = restaurantObject.remove(Fields.MENU).toString();
+        restaurantObject.add(Fields.MENU, new JsonArray());
+
+        addRestaurantIfDoesntExist(restaurantObject.toString());
+
+        String restaurantId = restaurantObject.get(Fields.Id).getAsString();
+        addPartyFoods(restaurantId, restaurantMenuJson);
+    }
+
+    private void addRestaurantIfDoesntExist(String serializedRestaurant) {
+        try {
+            addRestaurant(serializedRestaurant);
+        } catch (RestaurantAlreadyExists ignored) {}
+    }
+
+    private void addPartyFoods(String restaurantId, String serializedMenu) throws RestaurantDoesntExist {
+        Restaurant restaurant = getRestaurantInstance(restaurantId);
+
+        Type listType = new TypeToken<List<PartyFood>>() {}.getType();
+        ArrayList<PartyFood> menu = gson.fromJson(serializedMenu, listType);
+        restaurant.addPartyFoods(menu);
     }
 }
