@@ -10,10 +10,12 @@ import com.loghme.models.CartItem.CartItem;
 import com.loghme.configs.*;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
+import com.loghme.models.Order.Order;
 import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
 import com.loghme.models.Restaurant.Restaurant;
+import com.loghme.models.User.Exceptions.OrderDoesntExist;
 import com.loghme.models.User.User;
 import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
 import com.loghme.models.Wallet.Exceptions.WrongAmount;
@@ -108,5 +110,9 @@ public class UserRepository {
 
     public void chargeUser(double amount) throws WrongAmount {
         user.charge(amount);
+    }
+
+    public Order getOrder(String orderId) throws OrderDoesntExist {
+        return user.getOrder(orderId);
     }
 }

@@ -4,6 +4,8 @@ import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
 import com.loghme.models.Food.Food;
+import com.loghme.models.Location.Location;
+import com.loghme.models.Order.Order;
 import com.loghme.models.Restaurant.Restaurant;
 
 import java.util.*;
@@ -25,13 +27,11 @@ public class Cart {
         return new ArrayList<>(cartItems.values());
     }
 
-    public void finalizeOrder() throws EmptyCartFinalize {
-        if(cartItems.size() == 0) {
+    public Order finalizeOrder() throws EmptyCartFinalize {
+        if(cartItems.size() == 0)
             throw new EmptyCartFinalize();
-        } else {
-            restaurant = null;
-            cartItems.clear();
-        }
+        else
+            return new Order(this);
     }
 
     private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {
@@ -61,5 +61,9 @@ public class Cart {
 
     public String getRestaurantName() {
         return (restaurant == null ? null : restaurant.getName());
+    }
+
+    public Location getRestaurantLocation() {
+        return (restaurant == null ? null : restaurant.getLocation());
     }
 }

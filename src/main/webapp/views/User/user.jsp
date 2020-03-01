@@ -22,6 +22,16 @@
                 <button type="submit">increase</button>
                 <input type="text" name="amount" value="" />
             </form>
+            <li>
+                Orders :
+                <ul>
+                <c:forEach var="order" items="${user.ordersList}">
+                    <li>
+                        <a href="order/${order.id}">order id : ${order.id}</a>
+                    </li>
+                </c:forEach>
+                </ul>
+            </li>
         </ul>
     </div>
 </body>

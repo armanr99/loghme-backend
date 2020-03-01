@@ -5,6 +5,7 @@ import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
+import com.loghme.models.User.Exceptions.OrderDoesntExist;
 import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
 import com.loghme.models.Wallet.Exceptions.WrongAmount;
 
@@ -24,7 +25,8 @@ public class HTTPHandler {
 
         if(exception instanceof RestaurantOutOfRange)
             statusCode = 403;
-        else if(exception instanceof RestaurantDoesntExist)
+        else if(exception instanceof RestaurantDoesntExist ||
+                exception instanceof OrderDoesntExist)
             statusCode = 404;
         else if(exception instanceof WrongAmount ||
                 exception instanceof NumberFormatException ||

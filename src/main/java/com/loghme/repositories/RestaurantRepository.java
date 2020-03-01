@@ -10,7 +10,7 @@ import com.loghme.models.Location.Location;
 import com.loghme.models.Restaurant.Exceptions.*;
 import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.models.User.User;
-import com.loghme.models.Util.RestaurantUpdateManager;
+import com.loghme.utils.HTTPRequester;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -33,7 +33,7 @@ public class RestaurantRepository {
     }
 
     public void fetchData(String sourceURL) throws JsonSyntaxException, RestaurantAlreadyExists {
-        String restaurantsData = RestaurantUpdateManager.fetch(sourceURL);
+        String restaurantsData = HTTPRequester.get(sourceURL);
         JsonArray restaurantsDataArray = gson.fromJson(restaurantsData, JsonArray.class);
 
         for (JsonElement restaurantDataElement : restaurantsDataArray) {
