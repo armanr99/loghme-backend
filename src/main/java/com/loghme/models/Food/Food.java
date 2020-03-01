@@ -33,4 +33,6 @@ public class Food {
     }
 
     public void validateCount(double count) throws InvalidCount {}
+
+    public void sell(int count) throws InvalidCount {}
 }

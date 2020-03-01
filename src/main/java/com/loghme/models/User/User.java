@@ -76,13 +76,20 @@ public class User {
         return cart.getCartItemsList();
     }
 
-    public void finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
-        double totalPrice = cart.getTotalPrice();
-        wallet.withdraw(totalPrice);
-        Order order = cart.finalizeOrder();
-        orders.put(order.getId(), order);
-        cart = new Cart();
-        new OrderHandler(order).handleOrder();
+    public void finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance, InvalidCount {
+        try {
+            double totalPrice = cart.getTotalPrice();
+            wallet.withdraw(totalPrice);
+
+            Order order = cart.finalizeOrder();
+            orders.put(order.getId(), order);
+
+            cart = new Cart();
+            new OrderHandler(order).handleOrder();
+        } catch(InvalidCount invalidCount) {
+            cart = new Cart();
+            throw invalidCount;
+        }
     }
 
     public void charge(double amount) throws WrongAmount {

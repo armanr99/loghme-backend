@@ -28,11 +28,18 @@ public class Cart {
         return new ArrayList<>(cartItems.values());
     }
 
-    public Order finalizeOrder() throws EmptyCartFinalize {
+    public Order finalizeOrder() throws EmptyCartFinalize, InvalidCount {
         if(cartItems.size() == 0)
             throw new EmptyCartFinalize();
-        else
+        else {
+            finalizeItems();
             return new Order(this);
+        }
+    }
+
+    private void finalizeItems() throws InvalidCount {
+        for(CartItem cartItem : cartItems.values())
+            cartItem.finalizeItem();
     }
 
     private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {
@@ -43,12 +50,17 @@ public class Cart {
     }
 
     private void handleAddCartItem(Food food, Restaurant restaurant) throws InvalidCount {
-
-        vaildateCount(food);
-        addCartItem(food, restaurant);
+        try {
+            validateCount(food);
+            addCartItem(food, restaurant);
+        } catch(InvalidCount invalidCount) {
+            if(cartItems.size() == 0)
+                this.restaurant = null;
+            throw invalidCount;
+        }
     }
 
-    private void vaildateCount(Food food) throws InvalidCount {
+    private void validateCount(Food food) throws InvalidCount {
         int newCount = 1;
 
         if(cartItems.containsKey(food.getName()))

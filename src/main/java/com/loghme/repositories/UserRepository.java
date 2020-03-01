@@ -91,7 +91,7 @@ public class UserRepository {
         return gson.toJson(cartJsonObject);
     }
 
-    public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
+    public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance, InvalidCount {
         String jsonCart = getCart();
 
         user.finalizeOrder();

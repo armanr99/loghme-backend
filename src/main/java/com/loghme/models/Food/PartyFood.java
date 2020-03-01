@@ -25,4 +25,10 @@ public class PartyFood extends Food {
         if(this.count < count)
             throw new InvalidCount(this.getName(), this.count);
     }
+
+    @Override
+    public void sell(int count) throws InvalidCount {
+        validateCount(count);
+        this.count -= count;
+    }
 }

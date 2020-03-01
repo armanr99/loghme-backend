@@ -1,5 +1,6 @@
 package com.loghme.models.CartItem;
 
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Restaurant.Restaurant;
 
@@ -36,5 +37,9 @@ public class CartItem {
 
     public double getTotalPrice() {
         return food.getPrice() * count;
+    }
+
+    public void finalizeItem() throws InvalidCount {
+        food.sell(count);
     }
 }

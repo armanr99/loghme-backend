@@ -40,7 +40,7 @@ public class Loghme {
         return UserRepository.getInstance().getCart();
     }
 
-    public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
+    public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance, InvalidCount {
         return UserRepository.getInstance().finalizeOrder();
     }
 
