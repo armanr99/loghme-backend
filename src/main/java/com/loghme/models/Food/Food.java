@@ -1,5 +1,7 @@
 package com.loghme.models.Food;
 
+import com.loghme.models.Food.Exceptions.InvalidCount;
+
 public class Food {
     private String name;
     private String description;
@@ -29,4 +31,6 @@ public class Food {
     public double getPrice() {
         return price;
     }
+
+    public void validateCount(double count) throws InvalidCount {}
 }

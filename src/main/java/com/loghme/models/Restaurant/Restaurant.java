@@ -46,7 +46,7 @@ public class Restaurant {
     }
 
     public Food getFood(String foodName) {
-        return menu.getOrDefault(foodName, null);
+        return foodPartyMenu.containsKey(foodName) ? foodPartyMenu.get(foodName) : menu.getOrDefault(foodName, null);
     }
 
     private void addFood(Food newFood) throws FoodAlreadyExistsInRestaurant {

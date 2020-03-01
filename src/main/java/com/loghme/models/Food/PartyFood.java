@@ -1,5 +1,7 @@
 package com.loghme.models.Food;
 
+import com.loghme.models.Food.Exceptions.InvalidCount;
+
 public class PartyFood extends Food {
     private int count;
     private double oldPrice;
@@ -16,5 +18,11 @@ public class PartyFood extends Food {
 
     public double getOldPrice() {
         return oldPrice;
+    }
+
+    @Override
+    public void validateCount(double count) throws InvalidCount {
+        if(this.count < count)
+            throw new InvalidCount(this.getName(), this.count);
     }
 }

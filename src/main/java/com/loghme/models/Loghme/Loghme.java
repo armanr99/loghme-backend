@@ -2,6 +2,7 @@ package com.loghme.models.Loghme;
 
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Restaurant.Exceptions.*;
 import com.loghme.repositories.RestaurantRepository;
 import com.loghme.repositories.UserRepository;
@@ -31,7 +32,7 @@ public class Loghme {
         return RestaurantRepository.getInstance().getFood(foodInfo);
     }
 
-    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
+    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
         UserRepository.getInstance().addToCart(foodInfo);
     }
 

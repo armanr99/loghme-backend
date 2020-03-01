@@ -2,6 +2,7 @@ package com.loghme.controllers.utils;
 
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
@@ -33,7 +34,8 @@ public class HTTPHandler {
                 exception instanceof EmptyCartFinalize ||
                 exception instanceof NotEnoughBalance ||
                 exception instanceof FoodDoesntExist ||
-                exception instanceof DifferentRestaurant)
+                exception instanceof DifferentRestaurant ||
+                exception instanceof InvalidCount)
             statusCode = 400;
 
         return statusCode;
