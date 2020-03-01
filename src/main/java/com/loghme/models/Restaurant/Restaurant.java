@@ -86,4 +86,8 @@ public class Restaurant {
             this.foodPartyMenu.put(food.getName(), food);
         }
     }
+
+    public void clearPartyFoods() {
+        foodPartyMenu.clear();
+    }
 }

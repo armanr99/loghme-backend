@@ -14,12 +14,15 @@ import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.models.User.User;
 import com.loghme.utils.HTTPRequester;
 
+import javax.servlet.http.Part;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 
 public class RestaurantRepository {
     private Gson gson;
     private HashMap<String, Restaurant> restaurants;
+    private ArrayList<Restaurant> foodPartyRestaurants;
     private static RestaurantRepository instance = null;
 
     public static RestaurantRepository getInstance() {
@@ -189,9 +192,17 @@ public class RestaurantRepository {
 
     private void addPartyFoods(String restaurantId, String serializedMenu) throws RestaurantDoesntExist {
         Restaurant restaurant = getRestaurantInstance(restaurantId);
+        foodPartyRestaurants.add(restaurant);
 
         Type listType = new TypeToken<List<PartyFood>>() {}.getType();
         ArrayList<PartyFood> menu = gson.fromJson(serializedMenu, listType);
         restaurant.addPartyFoods(menu);
+    }
+
+    public void clearPartyFoods() {
+        for(Restaurant restaurant : foodPartyRestaurants)
+            restaurant.clearPartyFoods();
+
+        foodPartyRestaurants.clear();
     }
 }
