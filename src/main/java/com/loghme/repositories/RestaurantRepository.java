@@ -35,6 +35,7 @@ public class RestaurantRepository {
     private RestaurantRepository() {
         gson = new Gson();
         restaurants = new HashMap<>();
+        foodPartyRestaurants = new ArrayList<>();
     }
 
     public void fetchData(String sourceURL) throws JsonSyntaxException, RestaurantAlreadyExists {
@@ -204,5 +205,9 @@ public class RestaurantRepository {
             restaurant.clearPartyFoods();
 
         foodPartyRestaurants.clear();
+    }
+
+    public ArrayList<Restaurant> getFoodPartyRestaurants() {
+        return foodPartyRestaurants;
     }
 }

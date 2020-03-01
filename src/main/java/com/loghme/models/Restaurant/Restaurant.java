@@ -90,4 +90,8 @@ public class Restaurant {
     public void clearPartyFoods() {
         foodPartyMenu.clear();
     }
+
+    public ArrayList<PartyFood> getListPartyFoodsMenu() {
+        return new ArrayList<>(foodPartyMenu.values());
+    }
 }
