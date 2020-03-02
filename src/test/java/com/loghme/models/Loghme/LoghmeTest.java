@@ -8,6 +8,7 @@ import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.CartItem.CartItem;
 import com.loghme.configs.Fields;
 import com.loghme.configs.GeneralConstants;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Restaurant.*;
 import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
@@ -189,7 +190,7 @@ public class LoghmeTest {
            loghmeTest.addRestaurant(testAddRestaurantJson2);
            loghmeTest.addToCart(testAddToCart1);
            loghmeTest.addToCart(testAddToCart2);
-       } catch(RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | RestaurantOutOfRange exception) {
+       } catch(RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | RestaurantOutOfRange | InvalidCount exception) {
            Assert.fail();
        }
    }

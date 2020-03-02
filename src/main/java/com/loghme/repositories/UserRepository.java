@@ -8,6 +8,7 @@ import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
 import com.loghme.configs.*;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
@@ -60,7 +61,7 @@ public class UserRepository {
         return user;
     }
 
-    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
+    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
         JsonObject foodInfoObject = gson.fromJson(foodInfo, JsonObject.class);
         JsonElement foodNameElement = foodInfoObject.get(Fields.FOOD_NAME);
         JsonElement restaurantIdElement = foodInfoObject.get(Fields.RESTAURANT_Id);
@@ -90,7 +91,7 @@ public class UserRepository {
         return gson.toJson(cartJsonObject);
     }
 
-    public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
+    public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance, InvalidCount {
         String jsonCart = getCart();
 
         user.finalizeOrder();
@@ -98,7 +99,7 @@ public class UserRepository {
         return jsonCart;
     }
 
-    public void addToCart(String foodName, String restaurantId) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange {
+    public void addToCart(String foodName, String restaurantId) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
         Restaurant restaurant = RestaurantRepository.getInstance().getRestaurantInstanceIfInRange(restaurantId, user.getLocation(), Configs.VISIBLE_RESTAURANTS_DISTANCE);
         Food food = restaurant.getFood(foodName);
 

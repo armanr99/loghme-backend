@@ -3,6 +3,7 @@ package com.loghme.models.Cart;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
@@ -18,7 +19,7 @@ public class Cart {
         cartItems = new HashMap<>();
     }
 
-    public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant {
+    public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant, InvalidCount {
         handleRestaurant(restaurant);
         handleAddCartItem(food, restaurant);
     }
@@ -27,11 +28,18 @@ public class Cart {
         return new ArrayList<>(cartItems.values());
     }
 
-    public Order finalizeOrder() throws EmptyCartFinalize {
+    public Order finalizeOrder() throws EmptyCartFinalize, InvalidCount {
         if(cartItems.size() == 0)
             throw new EmptyCartFinalize();
-        else
+        else {
+            finalizeItems();
             return new Order(this);
+        }
+    }
+
+    private void finalizeItems() throws InvalidCount {
+        for(CartItem cartItem : cartItems.values())
+            cartItem.finalizeItem();
     }
 
     private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {
@@ -41,8 +49,28 @@ public class Cart {
             throw new DifferentRestaurant(this.restaurant.getId());
     }
 
-    private void handleAddCartItem(Food food, Restaurant restaurant) {
-        if(cartItems.containsKey(food.getName())) {
+    private void handleAddCartItem(Food food, Restaurant restaurant) throws InvalidCount {
+        try {
+            validateCount(food);
+            addCartItem(food, restaurant);
+        } catch(InvalidCount invalidCount) {
+            if(cartItems.size() == 0)
+                this.restaurant = null;
+            throw invalidCount;
+        }
+    }
+
+    private void validateCount(Food food) throws InvalidCount {
+        int newCount = 1;
+
+        if(cartItems.containsKey(food.getName()))
+            newCount += cartItems.get(food.getName()).getCount();
+
+        food.validateCount(newCount);
+    }
+
+    private void addCartItem(Food food, Restaurant restaurant) {
+        if (cartItems.containsKey(food.getName())) {
             cartItems.get(food.getName()).increaseCount();
         } else {
             CartItem newCartItem = new CartItem(food, restaurant);

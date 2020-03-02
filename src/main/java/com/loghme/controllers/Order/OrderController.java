@@ -3,6 +3,7 @@ package com.loghme.controllers.Order;
 import com.loghme.configs.Path;
 import com.loghme.controllers.utils.ErrorHandler;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
 import com.loghme.repositories.UserRepository;
 
@@ -19,7 +20,7 @@ public class OrderController extends HttpServlet {
         try {
             UserRepository.getInstance().finalizeOrder();
             response.sendRedirect(Path.Web.USER);
-        } catch (EmptyCartFinalize | NotEnoughBalance exception) {
+        } catch (EmptyCartFinalize | NotEnoughBalance | InvalidCount exception) {
             ErrorHandler.handleException(request, response, exception);
         }
     }

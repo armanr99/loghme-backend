@@ -2,6 +2,7 @@ package com.loghme.models.User;
 
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantAlreadyExists;
 import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
@@ -24,7 +25,7 @@ public class UserRepositoryTest {
     public void testFinalizeOrderEmptyCart() throws EmptyCartFinalize {
         try {
             UserRepository.getInstance().finalizeOrder();
-        } catch (NotEnoughBalance notEnoughBalance) {
+        } catch (NotEnoughBalance | InvalidCount notEnoughBalance) {
             Assert.fail();
         }
     }
@@ -41,7 +42,7 @@ public class UserRepositoryTest {
             UserRepository.getInstance().addToCart(testAddToCart);
             UserRepository.getInstance().addToCart(testAddToCart);
             UserRepository.getInstance().finalizeOrder();
-        } catch (RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange | EmptyCartFinalize exception) {
+        } catch (RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange | EmptyCartFinalize | InvalidCount exception) {
             Assert.fail();
         }
     }

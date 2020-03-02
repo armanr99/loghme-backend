@@ -4,6 +4,7 @@ import com.loghme.configs.Path;
 import com.loghme.controllers.utils.ErrorHandler;
 import com.loghme.models.Cart.Cart;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
 import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
@@ -41,7 +42,7 @@ public class CartController extends HttpServlet {
             String restaurantId = request.getParameter("restaurantId");
             UserRepository.getInstance().addToCart(foodName, restaurantId);
             response.sendRedirect(Path.Web.RESTAURANTS + "/" + restaurantId);
-        } catch (RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange exception) {
+        } catch (RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange | InvalidCount exception) {
             ErrorHandler.handleException(request, response, exception);
         }
     }

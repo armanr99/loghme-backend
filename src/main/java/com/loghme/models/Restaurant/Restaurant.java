@@ -3,6 +3,7 @@ package com.loghme.models.Restaurant;
 import com.google.gson.JsonObject;
 import com.loghme.configs.Fields;
 import com.loghme.models.Food.Food;
+import com.loghme.models.Food.PartyFood;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Restaurant.Exceptions.FoodAlreadyExistsInRestaurant;
 
@@ -15,9 +16,11 @@ public class Restaurant {
     private Location location;
     private String logo;
     private HashMap<String, Food> menu;
+    private HashMap<String, PartyFood> foodPartyMenu;
 
     public Restaurant() {
         this.menu = new HashMap<>();
+        this.foodPartyMenu = new HashMap<>();
     }
 
     public void addFoods(ArrayList<Food> menu) {
@@ -43,7 +46,7 @@ public class Restaurant {
     }
 
     public Food getFood(String foodName) {
-        return menu.getOrDefault(foodName, null);
+        return foodPartyMenu.containsKey(foodName) ? foodPartyMenu.get(foodName) : menu.getOrDefault(foodName, null);
     }
 
     private void addFood(Food newFood) throws FoodAlreadyExistsInRestaurant {
@@ -76,5 +79,19 @@ public class Restaurant {
             sum += food.getPopularity();
 
         return (menu.size() == 0 ? 0 : sum / menu.size());
+    }
+
+    public void addPartyFoods(ArrayList<PartyFood> menu) {
+        for (PartyFood food : menu) {
+            this.foodPartyMenu.put(food.getName(), food);
+        }
+    }
+
+    public void clearPartyFoods() {
+        foodPartyMenu.clear();
+    }
+
+    public ArrayList<PartyFood> getListPartyFoodsMenu() {
+        return new ArrayList<>(foodPartyMenu.values());
     }
 }

@@ -4,6 +4,7 @@ import com.loghme.models.Cart.Cart;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
+import com.loghme.models.Food.Exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
@@ -67,7 +68,7 @@ public class User {
         return location;
     }
 
-    public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant {
+    public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant, InvalidCount {
         cart.addToCart(food, restaurant);
     }
 
@@ -75,13 +76,20 @@ public class User {
         return cart.getCartItemsList();
     }
 
-    public void finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance {
-        double totalPrice = cart.getTotalPrice();
-        wallet.withdraw(totalPrice);
-        Order order = cart.finalizeOrder();
-        orders.put(order.getId(), order);
-        cart = new Cart();
-        new OrderHandler(order).handleOrder();
+    public void finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance, InvalidCount {
+        try {
+            double totalPrice = cart.getTotalPrice();
+            wallet.withdraw(totalPrice);
+
+            Order order = cart.finalizeOrder();
+            orders.put(order.getId(), order);
+
+            cart = new Cart();
+            new OrderHandler(order).handleOrder();
+        } catch(InvalidCount invalidCount) {
+            cart = new Cart();
+            throw invalidCount;
+        }
     }
 
     public void charge(double amount) throws WrongAmount {

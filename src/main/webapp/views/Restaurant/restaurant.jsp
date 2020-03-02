@@ -14,6 +14,9 @@
         <div class="restaurantLogo">
             <img src="${restaurant.logo}" alt="${restaurant.name}">
         </div>
+        <div class="restaurantName">
+            <p>${restaurant.name}</p>
+        </div>
         <div class="row row-3">
             <c:forEach var="food" items="${restaurant.listMenu}">
                 <div class="col">
