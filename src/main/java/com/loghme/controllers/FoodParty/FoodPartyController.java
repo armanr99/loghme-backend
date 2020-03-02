@@ -21,7 +21,7 @@ public class FoodPartyController extends HttpServlet {
         ArrayList<Restaurant> foodPartyRestaurants = RestaurantRepository.getInstance().getFoodPartyRestaurants();
         request.setAttribute("restaurants", foodPartyRestaurants);
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.FOOD_PARTY);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.Jsp.FOOD_PARTY);
         requestDispatcher.forward(request, response);
     }
 }

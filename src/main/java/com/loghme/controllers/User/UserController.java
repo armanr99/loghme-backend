@@ -20,7 +20,7 @@ public class UserController extends HttpServlet {
         User user = UserRepository.getInstance().getUser();
         request.setAttribute("user", user);
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.USER);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.Jsp.USER);
         requestDispatcher.forward(request, response);
     }
 }

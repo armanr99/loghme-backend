@@ -12,12 +12,12 @@
     <jsp:include page="/views/General/header.jsp" />
     <div class="user">
         <ul>
-            <li>id: ${user.id}</li>
-            <li>First Name: ${user.firstName}</li>
-            <li>Last Name: ${user.lastName}</li>
-            <li>Phone Number: ${user.phoneNumber}</li>
-            <li>email: ${user.email}</li>
-            <li>credit: ${user.credit} Tomans</li>
+            <li>id: <c:out value="${user.id}"/></li>
+            <li>First Name: <c:out value="${user.firstName}"/></li>
+            <li>Last Name: <c:out value="${user.lastName}"/></li>
+            <li>Phone Number: <c:out value="${user.phoneNumber}"/></li>
+            <li>email: <c:out value="${user.email}"/></li>
+            <li>credit: <c:out value="${user.credit}"/> Tomans</li>
             <form action="/wallet" method="POST">
                 <button type="submit">increase</button>
                 <input type="text" name="amount" value="" />
@@ -27,7 +27,7 @@
                 <ul>
                 <c:forEach var="order" items="${user.ordersList}">
                     <li>
-                        <a href="order/${order.id}">order id : ${order.id}</a>
+                        <a href="order/${order.id}">order id : <c:out value="${order.id}"/></a>
                     </li>
                 </c:forEach>
                 </ul>

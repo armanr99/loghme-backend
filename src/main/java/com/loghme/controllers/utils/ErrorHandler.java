@@ -13,7 +13,7 @@ public class ErrorHandler {
         int status = HTTPHandler.getStatusCode(exception);
         response.setStatus(status);
         request.setAttribute("error", exception.toString());
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.ERROR);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.Jsp.ERROR);
         requestDispatcher.forward(request, response);
     }
 }

@@ -2,11 +2,9 @@ package com.loghme.controllers.Wallet;
 
 import com.loghme.configs.Path;
 import com.loghme.controllers.utils.ErrorHandler;
-import com.loghme.controllers.utils.HTTPHandler;
 import com.loghme.models.Wallet.Exceptions.WrongAmount;
 import com.loghme.repositories.UserRepository;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

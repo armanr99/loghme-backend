@@ -22,12 +22,12 @@ import java.io.IOException;
 public class CartController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html; charset=UTF-8");
-        String responseForwardPath = Path.jsp.NON_EMPTY_CART;
+        String responseForwardPath = Path.Jsp.NON_EMPTY_CART;
 
         Cart cart = UserRepository.getInstance().getUser().getCart();
 
         if(cart.getCartItemsList().size() == 0)
-            responseForwardPath = Path.jsp.EMPTY_CART;
+            responseForwardPath = Path.Jsp.EMPTY_CART;
         else
             request.setAttribute("cart", cart);
 

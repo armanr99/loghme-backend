@@ -33,13 +33,13 @@
                     <ul>
                         <li>
                             <img src="${restaurant.logo}" alt="${restaurant.name}">
-                            <div>${restaurant.name}</div>
-                            <div>${food.name}</div>
-                            <div>${food.description}</div>
-                            <div class="old-price">${food.oldPrice} Tomans</div>
-                            <div>${food.price} Tomans</div>
-                            <div>remaining count: ${food.count}</div>
-                            <div>popularity: ${food.popularity}</div>
+                            <div><c:out value="${restaurant.name}"/></div>
+                            <div><c:out value="${food.name}"/></div>
+                            <div><c:out value="${food.description}"/></div>
+                            <div class="old-price"><c:out value="${food.oldPrice}"/> Tomans</div>
+                            <div><c:out value="${food.price}"/> Tomans</div>
+                            <div>remaining count: <c:out value="${food.count}"/></div>
+                            <div>popularity: <c:out value="${food.popularity}"/></div>
                             <form action="/cart" method="POST">
                                 <input type="hidden" name="foodName" value="${food.name}" />
                                 <input type="hidden" name="restaurantId" value=${restaurant.id} />

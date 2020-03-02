@@ -24,7 +24,7 @@ public class OrderSingleController extends HttpServlet {
             String orderId = HTTPHandler.getPathParam(request);
             Order order = UserRepository.getInstance().getOrder(orderId);
             request.setAttribute("order", order);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.ORDER_SINGLE);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.Jsp.ORDER_SINGLE);
             requestDispatcher.forward(request, response);
         } catch (OrderDoesntExist orderDoesntExist) {
             ErrorHandler.handleException(request, response, orderDoesntExist);
