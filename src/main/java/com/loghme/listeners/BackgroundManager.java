@@ -2,6 +2,7 @@ package com.loghme.listeners;
 
 import com.loghme.configs.ServerConfigs;
 import com.loghme.models.Restaurant.Exceptions.RestaurantAlreadyExists;
+import com.loghme.repositories.DeliveryRepository;
 import com.loghme.repositories.RestaurantRepository;
 import com.loghme.schedulers.FoodPartyScheduler;
 
@@ -10,7 +11,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
-public class Initializer implements ServletContextListener {
+public class BackgroundManager implements ServletContextListener {
 
     @Override
     public final void contextInitialized(final ServletContextEvent sce) {
@@ -21,6 +22,7 @@ public class Initializer implements ServletContextListener {
     @Override
     public final void contextDestroyed(final ServletContextEvent sce) {
         FoodPartyScheduler.getInstance().shutdown();
+        DeliveryRepository.getInstance().shutdownDeliveries();
     }
 
     private void fetchRestaurants() {
