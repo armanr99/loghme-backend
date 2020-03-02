@@ -1,6 +1,9 @@
 package com.loghme.repositories;
 
+import com.loghme.configs.DeliveryConfigs;
+import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
+import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.schedulers.OrderScheduler;
 
 import java.util.ArrayList;
@@ -29,5 +32,13 @@ public class DeliveryRepository {
     public void shutdownDeliveries() {
         for(OrderScheduler orderScheduler : orderSchedulers)
             orderScheduler.shutdown();
+    }
+
+    public long getExpectedDeliveryTime(Restaurant restaurant) {
+        Location userLocation = UserRepository.getInstance().getUser().getLocation();
+        Location restaurantLocation = restaurant.getLocation();
+        double userRestaurantDistance = userLocation.getEuclideanDistanceFrom(restaurantLocation);
+
+        return (long)((userRestaurantDistance * 1.5) / DeliveryConfigs.AVERAGE_SPEED) + DeliveryConfigs.AVERAGE_ASSIGN_TIME;
     }
 }
