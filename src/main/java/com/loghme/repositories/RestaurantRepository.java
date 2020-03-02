@@ -14,8 +14,6 @@ import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.models.User.User;
 import com.loghme.utils.HTTPRequester;
 
-import javax.servlet.http.Part;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.*;
 
