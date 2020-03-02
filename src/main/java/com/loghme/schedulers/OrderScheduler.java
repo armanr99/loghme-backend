@@ -1,4 +1,4 @@
-package com.loghme.models.User;
+package com.loghme.schedulers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,18 +16,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-class OrderHandler {
-    private final ScheduledExecutorService scheduler;
+public class OrderScheduler {
     private Gson gson;
     private Order order;
+    private ScheduledExecutorService scheduler;
 
-    OrderHandler(Order order) {
+    public OrderScheduler(Order order) {
         this.order = order;
         this.gson = new Gson();
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
-    void handleOrder() {
+    public void handleOrder() {
         final Runnable deliverRequester = () -> {
             String deliveriesJson = HTTPRequester.get(ServerConfigs.DELIVERIES_URL);
             ArrayList<Delivery> deliveries = gson.fromJson(deliveriesJson, new TypeToken<ArrayList<Delivery>>() {}.getType());
@@ -51,5 +51,9 @@ class OrderHandler {
         Location userLocation = UserRepository.getInstance().getUser().getLocation();
 
         return deliveries.stream().min(Comparator.comparing(delivery -> delivery.getTotalTime(restaurantLocation, userLocation))).get();
+    }
+
+    public void shutdown() {
+        scheduler.shutdown();
     }
 }
