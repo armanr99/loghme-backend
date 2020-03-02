@@ -69,7 +69,13 @@ public class Restaurant {
     }
 
     public ArrayList<Food> getListMenu() {
-        return new ArrayList<>(menu.values());
+        ArrayList<Food> foods = new ArrayList<>();
+
+        for(Food food : menu.values())
+            if(!foodPartyMenu.containsKey(food.getName()))
+                foods.add(food);
+
+        return foods;
     }
 
     public double getAverageFoodsPopulation() {
