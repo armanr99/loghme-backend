@@ -1,22 +1,27 @@
-package com.loghme.listeners;
+package com.loghme.schedulers;
 
 import com.loghme.configs.FoodPartyConfigs;
-import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.repositories.RestaurantRepository;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@WebListener
-public class FoodPartyFetch implements ServletContextListener {
+public class FoodPartyScheduler {
     private ScheduledExecutorService scheduler;
+    private static FoodPartyScheduler instance = null;
 
-    @Override
-    public void contextInitialized(ServletContextEvent servletContextEvent) {
+    public static FoodPartyScheduler getInstance() {
+        if(instance == null)
+            instance = new FoodPartyScheduler();
+        return instance;
+    }
+
+    private FoodPartyScheduler() {
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+    }
+
+    public void handleFoodParty() {
         final Runnable foodPartyRequester = () -> {
             try {
                 RestaurantRepository.getInstance().clearPartyFoods();
@@ -26,12 +31,10 @@ public class FoodPartyFetch implements ServletContextListener {
             }
         };
 
-        scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(foodPartyRequester, 0, FoodPartyConfigs.CHECK_TIME_MINUTE, TimeUnit.MINUTES);
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        scheduler.shutdownNow();
+    public void shutdown() {
+        scheduler.shutdown();
     }
 }
