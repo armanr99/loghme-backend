@@ -30,7 +30,7 @@ public class RestaurantController extends HttpServlet {
             String restaurantId = HTTPHandler.getPathParam(request);
             Restaurant restaurant = restaurantRepository.getRestaurantInstanceIfInRange(restaurantId, userLocation, Configs.VISIBLE_RESTAURANTS_DISTANCE);
             request.setAttribute("restaurant", restaurant);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.RESTAURANT);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.Jsp.RESTAURANT);
             requestDispatcher.forward(request, response);
         } catch (RestaurantDoesntExist | RestaurantOutOfRange exception) {
             ErrorHandler.handleException(request, response, exception);

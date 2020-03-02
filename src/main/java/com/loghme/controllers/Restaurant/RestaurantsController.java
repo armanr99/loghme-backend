@@ -36,7 +36,7 @@ public class RestaurantsController extends HttpServlet {
 
         request.setAttribute("expectedDeliveries", expectedDeliveries);
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.jsp.RESTAURANTS);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(Path.Jsp.RESTAURANTS);
         requestDispatcher.forward(request, response);
     }
 }

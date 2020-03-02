@@ -12,7 +12,7 @@ public class Path {
         public static final String FOOD_PARTY = "/foodparty";
     }
 
-    public static class jsp {
+    public static class Jsp {
         public static final String RESTAURANTS = "/views/Restaurant/restaurants.jsp";
         public static final String RESTAURANT = "/views/Restaurant/restaurant.jsp";
         public static final String ERROR = "/views/Error/error.jsp";
