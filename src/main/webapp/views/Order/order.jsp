@@ -15,15 +15,15 @@
 </head>
 <body>
     <jsp:include page="/views/General/header.jsp" />
-    <div>${order.restaurantName}</div>
+    <div><c:out value="${order.restaurantName}"/></div>
     <ul>
      <c:forEach var="cartItem" items="${order.cartItemsList}">
-        <li> ${cartItem.foodName}: ${cartItem.count} </li>
+        <li> <c:out value="${cartItem.foodName}"/>: <c:out value="${cartItem.count}"/></li>
      </c:forEach>
     </ul>
     <div>
         <div>
-        Status : ${order.state}
+        Status : <c:out value="${order.state}"/>
         </div>
         <c:if test="${order.remainingSeconds > 0}">
         <div>

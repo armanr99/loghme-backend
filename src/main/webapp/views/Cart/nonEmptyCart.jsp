@@ -11,10 +11,10 @@
 <body>
     <jsp:include page="/views/General/header.jsp" />
     <div class="cart">
-         <div>Restaurant name: ${cart.restaurantName}</div>
+         <div>Restaurant name: <c:out value="${cart.restaurantName}"/></div>
          <ul>
              <c:forEach var="cartItem" items="${cart.cartItemsList}">
-                <li> ${cartItem.foodName}: ${cartItem.count} </li>
+                <li><c:out value="${cartItem.foodName}"/>: <c:out value="${cartItem.count}"/></li>
              </c:forEach>
          </ul>
          <form action="/order" method="POST">
