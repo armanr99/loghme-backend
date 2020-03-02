@@ -25,7 +25,7 @@ public class UserRepositoryTest {
     public void testFinalizeOrderEmptyCart() throws EmptyCartFinalize {
         try {
             UserRepository.getInstance().finalizeOrder();
-        } catch (NotEnoughBalance notEnoughBalance) {
+        } catch (NotEnoughBalance | InvalidCount notEnoughBalance) {
             Assert.fail();
         }
     }
