@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.loghme.models.Cart.Exceptions.CartItemDoesntExist;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
@@ -115,5 +116,9 @@ public class UserRepository {
 
     public Order getOrder(String orderId) throws OrderDoesntExist {
         return user.getOrder(orderId);
+    }
+
+    public void removeFromCart(String foodName, String restaurantId) throws CartItemDoesntExist {
+        user.removeFromCart(foodName, restaurantId);
     }
 }

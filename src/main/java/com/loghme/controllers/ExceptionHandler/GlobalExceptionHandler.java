@@ -1,6 +1,7 @@
 package com.loghme.controllers.ExceptionHandler;
 
 import com.loghme.controllers.ExceptionHandler.wrappers.ExceptionWrapper;
+import com.loghme.models.Cart.Exceptions.CartItemDoesntExist;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.Food.Exceptions.InvalidCount;
@@ -42,7 +43,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
                        NotEnoughBalance.class,
                        FoodDoesntExist.class,
                        DifferentRestaurant.class,
-                       InvalidCount.class})
+                       InvalidCount.class,
+                       CartItemDoesntExist.class})
     public final ResponseEntity<ExceptionWrapper> handleBadRequest(Exception exception, WebRequest request) {
         return getExceptionResponse(exception, HttpStatus.BAD_REQUEST);
     }

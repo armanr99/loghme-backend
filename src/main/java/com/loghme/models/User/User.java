@@ -1,6 +1,7 @@
 package com.loghme.models.User;
 
 import com.loghme.models.Cart.Cart;
+import com.loghme.models.Cart.Exceptions.CartItemDoesntExist;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
@@ -110,5 +111,9 @@ public class User {
             throw new OrderDoesntExist(orderId);
         else
             return orders.get(orderId);
+    }
+
+    public void removeFromCart(String foodName, String restaurantId) throws CartItemDoesntExist {
+        cart.removeItem(foodName, restaurantId);
     }
 }

@@ -1,5 +1,6 @@
 package com.loghme.models.Cart;
 
+import com.loghme.models.Cart.Exceptions.CartItemDoesntExist;
 import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
@@ -93,5 +94,16 @@ public class Cart {
 
     public Location getRestaurantLocation() {
         return (restaurant == null ? null : restaurant.getLocation());
+    }
+
+    public void removeItem(String foodName, String restaurantId) throws CartItemDoesntExist {
+        if(cartItems.size() == 0)
+            throw new CartItemDoesntExist(foodName, restaurantId);
+        else if(!restaurant.getId().equals(restaurantId))
+            throw new CartItemDoesntExist(foodName, restaurantId);
+        else if(!cartItems.containsKey(foodName))
+            throw new CartItemDoesntExist(foodName, restaurantId);
+        else
+            cartItems.remove(foodName);
     }
 }
