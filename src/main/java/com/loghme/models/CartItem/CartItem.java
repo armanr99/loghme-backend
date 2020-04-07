@@ -19,6 +19,10 @@ public class CartItem {
         count++;
     }
 
+    public void decreaseCount() {
+        count--;
+    }
+
     public String getFoodName() {
         return food.getName();
     }

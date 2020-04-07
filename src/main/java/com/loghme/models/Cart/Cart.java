@@ -97,13 +97,25 @@ public class Cart {
     }
 
     public void removeItem(String foodName, String restaurantId) throws CartItemDoesntExist {
+        validateRemoveItem(foodName, restaurantId);
+        removeItemFromCart(foodName, restaurantId);
+    }
+
+    private void validateRemoveItem(String foodName, String restaurantId) throws CartItemDoesntExist {
         if(cartItems.size() == 0)
             throw new CartItemDoesntExist(foodName, restaurantId);
         else if(!restaurant.getId().equals(restaurantId))
             throw new CartItemDoesntExist(foodName, restaurantId);
         else if(!cartItems.containsKey(foodName))
             throw new CartItemDoesntExist(foodName, restaurantId);
-        else
+    }
+
+    private void removeItemFromCart(String foodName, String restaurantId) {
+        CartItem cartItem = cartItems.get(foodName);
+
+        if(cartItem.getCount() == 1)
             cartItems.remove(foodName);
+        else
+            cartItem.decreaseCount();
     }
 }
