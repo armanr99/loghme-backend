@@ -1,6 +1,7 @@
 package com.loghme.controllers.Wallet;
 
 import com.loghme.configs.Path;
+import com.loghme.controllers.wrappers.requests.Wallet.WalletRequest;
 import com.loghme.models.Wallet.exceptions.WrongAmount;
 import com.loghme.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -14,10 +15,8 @@ import java.util.Objects;
 @RequestMapping(Path.Web.WALLET)
 public class WalletController {
     @PostMapping("")
-    public ResponseEntity chargeUser(@RequestParam("amount") String amountString) throws WrongAmount {
-        double amount = Double.parseDouble(Objects.requireNonNull(amountString));
-        UserRepository.getInstance().chargeUser(amount);
-
+    public ResponseEntity chargeUser(@RequestBody WalletRequest request) throws WrongAmount {
+        UserRepository.getInstance().chargeUser(request.getAmount());
         return new ResponseEntity(HttpStatus.OK);
     }
 }
