@@ -2,8 +2,8 @@ package com.loghme.controllers.Restaurant;
 
 import com.loghme.configs.Configs;
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantWrapper;
-import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantsWrapper;
+import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantResponse;
+import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantsResponse;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Restaurant.exceptions.RestaurantDoesntExist;
 import com.loghme.models.Restaurant.exceptions.RestaurantOutOfRange;
@@ -21,17 +21,17 @@ import java.util.ArrayList;
 @RequestMapping(Path.Web.RESTAURANTS)
 public class RestaurantsController {
     @GetMapping("")
-    public RestaurantsWrapper getRestaurants() {
+    public RestaurantsResponse getRestaurants() {
         Location userLocation = UserRepository.getInstance().getUser().getLocation();
         ArrayList<Restaurant> restaurants = RestaurantRepository.getInstance().getRestaurantsWithinDistance(userLocation, Configs.VISIBLE_RESTAURANTS_DISTANCE);
-        return new RestaurantsWrapper(restaurants);
+        return new RestaurantsResponse(restaurants);
     }
 
     @GetMapping("{id}")
-    public RestaurantWrapper getRestaurant(@PathVariable(value = "id") String id) throws RestaurantOutOfRange, RestaurantDoesntExist {
+    public RestaurantResponse getRestaurant(@PathVariable(value = "id") String id) throws RestaurantOutOfRange, RestaurantDoesntExist {
         Location userLocation = UserRepository.getInstance().getUser().getLocation();
         RestaurantRepository restaurantRepository = RestaurantRepository.getInstance();
         Restaurant restaurant = restaurantRepository.getRestaurantInstanceIfInRange(id, userLocation, Configs.VISIBLE_RESTAURANTS_DISTANCE);
-        return new RestaurantWrapper(restaurant);
+        return new RestaurantResponse(restaurant);
     }
 }

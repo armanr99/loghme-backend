@@ -1,17 +1,17 @@
 package com.loghme.controllers.wrappers.responses.Cart;
 
-import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantWrapper;
+import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantResponse;
 import com.loghme.models.CartItem.CartItem;
 import com.loghme.models.Food.Food;
 
-class CartItemWrapper {
+class CartItemResponse {
     private Food food;
-    private RestaurantWrapper restaurant;
+    private RestaurantResponse restaurant;
     private int count;
 
-    CartItemWrapper(CartItem cartItem) {
+    CartItemResponse(CartItem cartItem) {
         this.food = cartItem.getFood();
-        this.restaurant = new RestaurantWrapper(cartItem.getRestaurant());
+        this.restaurant = new RestaurantResponse(cartItem.getRestaurant());
         this.count = cartItem.getCount();
     }
 }

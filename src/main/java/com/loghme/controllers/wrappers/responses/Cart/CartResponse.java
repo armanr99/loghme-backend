@@ -5,14 +5,14 @@ import com.loghme.models.CartItem.CartItem;
 
 import java.util.ArrayList;
 
-public class CartWrapper {
-    ArrayList<CartItemWrapper> items;
+public class CartResponse {
+    ArrayList<CartItemResponse> items;
 
-    public CartWrapper(Cart cart) {
+    public CartResponse(Cart cart) {
         items = new ArrayList<>();
 
         for (CartItem cartItem : cart.getCartItemsList()) {
-            items.add(new CartItemWrapper(cartItem));
+            items.add(new CartItemResponse(cartItem));
         }
     }
 }

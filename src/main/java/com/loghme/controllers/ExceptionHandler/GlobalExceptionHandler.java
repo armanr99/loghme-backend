@@ -1,6 +1,6 @@
 package com.loghme.controllers.ExceptionHandler;
 
-import com.loghme.controllers.wrappers.responses.Exception.ExceptionWrapper;
+import com.loghme.controllers.wrappers.responses.Exception.ExceptionResponse;
 import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
 import com.loghme.models.Cart.exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
@@ -21,19 +21,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
 {
-    private ResponseEntity<ExceptionWrapper> getExceptionResponse(Exception exception, HttpStatus httpStatus) {
-        ExceptionWrapper exceptionWrapper = new ExceptionWrapper(exception, httpStatus);
-        return new ResponseEntity<ExceptionWrapper>(exceptionWrapper, httpStatus);
+    private ResponseEntity<ExceptionResponse> getExceptionResponse(Exception exception, HttpStatus httpStatus) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(exception, httpStatus);
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, httpStatus);
     }
 
     @ExceptionHandler(RestaurantOutOfRange.class)
-    public final ResponseEntity<ExceptionWrapper> handleForbidden(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleForbidden(Exception exception, WebRequest request) {
         return getExceptionResponse(exception, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler({RestaurantDoesntExist.class,
                        OrderDoesntExist.class})
-    public final ResponseEntity<ExceptionWrapper> handleNotFound(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleNotFound(Exception exception, WebRequest request) {
         return getExceptionResponse(exception, HttpStatus.NOT_FOUND);
     }
 
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
                        DifferentRestaurant.class,
                        InvalidCount.class,
                        CartItemDoesntExist.class})
-    public final ResponseEntity<ExceptionWrapper> handleBadRequest(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleBadRequest(Exception exception, WebRequest request) {
         return getExceptionResponse(exception, HttpStatus.BAD_REQUEST);
     }
 

@@ -1,7 +1,7 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.responses.Cart.CartWrapper;
+import com.loghme.controllers.wrappers.responses.Cart.CartResponse;
 import com.loghme.models.Cart.Cart;
 import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
 import com.loghme.models.Cart.exceptions.DifferentRestaurant;
@@ -20,29 +20,29 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(Path.Web.CART)
 public class CartController {
     @GetMapping("")
-    public CartWrapper getCart() {
+    public CartResponse getCart() {
         Cart cart = UserRepository.getInstance().getUser().getCart();
-        return new CartWrapper(cart);
+        return new CartResponse(cart);
     }
 
     @PostMapping("")
-    public CartWrapper addToCart(@RequestParam("foodName") String foodName,
-                                 @RequestParam("restaurantId") String restaurantId) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
+    public CartResponse addToCart(@RequestParam("foodName") String foodName,
+                                  @RequestParam("restaurantId") String restaurantId) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
         UserRepository.getInstance().addToCart(foodName, restaurantId);
 
         Cart cart = UserRepository.getInstance().getUser().getCart();
 
-        return new CartWrapper(cart);
+        return new CartResponse(cart);
     }
 
     @DeleteMapping("")
-    public CartWrapper removeFromCart(@RequestParam("foodName") String foodName,
-                                      @RequestParam("restaurantId") String restaurantId) throws CartItemDoesntExist {
+    public CartResponse removeFromCart(@RequestParam("foodName") String foodName,
+                                       @RequestParam("restaurantId") String restaurantId) throws CartItemDoesntExist {
         UserRepository.getInstance().removeFromCart(foodName, restaurantId);
 
         Cart cart = UserRepository.getInstance().getUser().getCart();
 
-        return new CartWrapper(cart);
+        return new CartResponse(cart);
     }
 
     @PostMapping("/order")

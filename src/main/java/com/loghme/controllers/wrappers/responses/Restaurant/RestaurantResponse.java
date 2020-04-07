@@ -6,7 +6,7 @@ import com.loghme.models.Restaurant.Restaurant;
 
 import java.util.ArrayList;
 
-public class RestaurantWrapper {
+public class RestaurantResponse {
     private String id;
     private String name;
     private Location location;
@@ -14,7 +14,7 @@ public class RestaurantWrapper {
     private ArrayList<Food> menu;
     private ArrayList<Food> foodPartyMenu;
 
-    public RestaurantWrapper(Restaurant restaurant) {
+    public RestaurantResponse(Restaurant restaurant) {
         setInfo(restaurant);
         setFoodPartyMenu(restaurant);
     }

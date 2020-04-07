@@ -4,14 +4,14 @@ import com.loghme.models.Order.Order;
 
 import java.util.ArrayList;
 
-public class OrdersWrapper {
-    ArrayList<OrderWrapper> orders;
+public class OrdersResponse {
+    ArrayList<OrderResponse> orders;
 
-    public OrdersWrapper(ArrayList<Order> orders) {
+    public OrdersResponse(ArrayList<Order> orders) {
         orders = new ArrayList<>();
 
         for(Order order : orders) {
-            this.orders.add(new OrderWrapper(order));
+            this.orders.add(new OrderResponse(order));
         }
     }
 }

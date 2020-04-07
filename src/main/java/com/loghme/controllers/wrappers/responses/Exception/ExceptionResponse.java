@@ -2,11 +2,11 @@ package com.loghme.controllers.wrappers.responses.Exception;
 
 import org.springframework.http.HttpStatus;
 
-public class ExceptionWrapper {
+public class ExceptionResponse {
     private String message;
     private int status;
 
-    public ExceptionWrapper(Exception exception, HttpStatus status) {
+    public ExceptionResponse(Exception exception, HttpStatus status) {
         this.message = exception.toString();
         this.status = status.value();
     }
