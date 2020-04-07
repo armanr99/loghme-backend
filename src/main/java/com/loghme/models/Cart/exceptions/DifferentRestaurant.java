@@ -1,13 +1,13 @@
 package com.loghme.models.Cart.exceptions;
 
 public class DifferentRestaurant extends Exception {
-    private String cartRestaurantName;
+    private String cartRestaurantId;
 
-    public DifferentRestaurant(String cartRestaurantName) {
-        this.cartRestaurantName = cartRestaurantName;
+    public DifferentRestaurant(String cartRestaurantId) {
+        this.cartRestaurantId = cartRestaurantId;
     }
 
     public String toString() {
-        return String.format("There are foods from different restaurant named %s in cart", cartRestaurantName);
+        return String.format("There are foods from different restaurant with id %s in cart", cartRestaurantId);
     }
 }
