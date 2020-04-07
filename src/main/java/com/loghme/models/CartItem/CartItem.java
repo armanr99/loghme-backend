@@ -23,12 +23,20 @@ public class CartItem {
         return food.getName();
     }
 
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
     public String getRestaurantId() {
         return restaurant.getId();
     }
 
     public String getRestaurantName() {
         return restaurant.getName();
+    }
+
+    public Food getFood() {
+        return food;
     }
 
     public int getCount() {
