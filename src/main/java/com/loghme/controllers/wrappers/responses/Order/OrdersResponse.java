@@ -8,7 +8,7 @@ public class OrdersResponse {
     ArrayList<OrderResponse> orders;
 
     public OrdersResponse(ArrayList<Order> orders) {
-        orders = new ArrayList<>();
+        this.orders = new ArrayList<>();
 
         for(Order order : orders) {
             this.orders.add(new OrderResponse(order));
