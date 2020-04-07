@@ -7,8 +7,8 @@ public class Path {
         public static final String USER = "/user";
         public static final String CART = "/cart";
         public static final String WALLET = "/wallet";
-        public static final String ORDER = "/order";
-        public static final String ORDER_SINGLE = "/order/*";
+        public static final String ORDERS = "/orders";
+
         public static final String FOOD_PARTY = "/foodparty";
     }
 
