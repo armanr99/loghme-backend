@@ -1,6 +1,7 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
+import com.loghme.controllers.wrappers.requests.Cart.CartRequest;
 import com.loghme.controllers.wrappers.responses.Cart.CartResponse;
 import com.loghme.models.Cart.Cart;
 import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
@@ -26,9 +27,8 @@ public class CartController {
     }
 
     @PostMapping("")
-    public CartResponse addToCart(@RequestParam("foodName") String foodName,
-                                  @RequestParam("restaurantId") String restaurantId) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
-        UserRepository.getInstance().addToCart(foodName, restaurantId);
+    public CartResponse addToCart(@RequestBody CartRequest request) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
+        UserRepository.getInstance().addToCart(request.getFoodName(), request.getRestaurantId());
 
         Cart cart = UserRepository.getInstance().getUser().getCart();
 
@@ -36,9 +36,8 @@ public class CartController {
     }
 
     @DeleteMapping("")
-    public CartResponse removeFromCart(@RequestParam("foodName") String foodName,
-                                       @RequestParam("restaurantId") String restaurantId) throws CartItemDoesntExist {
-        UserRepository.getInstance().removeFromCart(foodName, restaurantId);
+    public CartResponse removeFromCart(@RequestBody CartRequest request) throws CartItemDoesntExist {
+        UserRepository.getInstance().removeFromCart(request.getFoodName(), request.getRestaurantId());
 
         Cart cart = UserRepository.getInstance().getUser().getCart();
 
