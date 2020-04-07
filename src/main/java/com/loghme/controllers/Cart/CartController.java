@@ -1,7 +1,7 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.Cart.CartWrapper;
+import com.loghme.controllers.wrappers.responses.Cart.CartWrapper;
 import com.loghme.models.Cart.Cart;
 import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
 import com.loghme.models.Cart.exceptions.DifferentRestaurant;

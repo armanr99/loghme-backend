@@ -1,7 +1,7 @@
-package com.loghme.controllers.wrappers.User;
+package com.loghme.controllers.wrappers.responses.User;
 
-import com.loghme.controllers.wrappers.Cart.CartWrapper;
-import com.loghme.controllers.wrappers.Order.OrderWrapper;
+import com.loghme.controllers.wrappers.responses.Cart.CartWrapper;
+import com.loghme.controllers.wrappers.responses.Order.OrderWrapper;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
 import com.loghme.models.User.User;

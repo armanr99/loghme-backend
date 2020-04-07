@@ -1,6 +1,6 @@
-package com.loghme.controllers.wrappers.Order;
+package com.loghme.controllers.wrappers.responses.Order;
 
-import com.loghme.controllers.wrappers.Cart.CartWrapper;
+import com.loghme.controllers.wrappers.responses.Cart.CartWrapper;
 import com.loghme.models.Order.Order;
 
 public class OrderWrapper {

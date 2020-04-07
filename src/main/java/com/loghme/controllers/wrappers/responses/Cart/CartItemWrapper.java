@@ -1,6 +1,6 @@
-package com.loghme.controllers.wrappers.Cart;
+package com.loghme.controllers.wrappers.responses.Cart;
 
-import com.loghme.controllers.wrappers.Restaurant.RestaurantWrapper;
+import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantWrapper;
 import com.loghme.models.CartItem.CartItem;
 import com.loghme.models.Food.Food;
 

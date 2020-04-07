@@ -1,7 +1,7 @@
 package com.loghme.controllers.FoodParty;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.Restaurant.RestaurantsWrapper;
+import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantsWrapper;
 import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.repositories.RestaurantRepository;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.loghme.controllers.wrappers.Restaurant;
+package com.loghme.controllers.wrappers.responses.Restaurant;
 
 import com.loghme.models.Restaurant.Restaurant;
 

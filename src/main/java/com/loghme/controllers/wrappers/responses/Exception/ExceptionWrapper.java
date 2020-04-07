@@ -1,4 +1,4 @@
-package com.loghme.controllers.wrappers.Exception;
+package com.loghme.controllers.wrappers.responses.Exception;
 
 import org.springframework.http.HttpStatus;
 

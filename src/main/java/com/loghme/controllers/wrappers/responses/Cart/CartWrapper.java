@@ -1,4 +1,4 @@
-package com.loghme.controllers.wrappers.Cart;
+package com.loghme.controllers.wrappers.responses.Cart;
 
 import com.loghme.models.Cart.Cart;
 import com.loghme.models.CartItem.CartItem;

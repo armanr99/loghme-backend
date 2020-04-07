@@ -1,8 +1,8 @@
 package com.loghme.controllers.Order;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.Order.OrderWrapper;
-import com.loghme.controllers.wrappers.Order.OrdersWrapper;
+import com.loghme.controllers.wrappers.responses.Order.OrderWrapper;
+import com.loghme.controllers.wrappers.responses.Order.OrdersWrapper;
 import com.loghme.models.Order.Order;
 import com.loghme.models.User.exceptions.OrderDoesntExist;
 import com.loghme.repositories.UserRepository;

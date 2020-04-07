@@ -1,7 +1,7 @@
 package com.loghme.controllers.User;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.User.UserWrapper;
+import com.loghme.controllers.wrappers.responses.User.UserWrapper;
 import com.loghme.models.User.User;
 import com.loghme.repositories.UserRepository;
 import org.springframework.web.bind.annotation.GetMapping;

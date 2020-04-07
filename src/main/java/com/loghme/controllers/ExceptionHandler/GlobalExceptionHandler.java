@@ -1,6 +1,6 @@
 package com.loghme.controllers.ExceptionHandler;
 
-import com.loghme.controllers.wrappers.Exception.ExceptionWrapper;
+import com.loghme.controllers.wrappers.responses.Exception.ExceptionWrapper;
 import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
 import com.loghme.models.Cart.exceptions.DifferentRestaurant;
 import com.loghme.models.Cart.exceptions.EmptyCartFinalize;

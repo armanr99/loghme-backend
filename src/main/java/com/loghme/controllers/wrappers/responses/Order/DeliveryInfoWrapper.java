@@ -1,4 +1,4 @@
-package com.loghme.controllers.wrappers.Order;
+package com.loghme.controllers.wrappers.responses.Order;
 
 import com.loghme.configs.DeliveryConfigs;
 import com.loghme.models.Order.DeliveryInfo;
