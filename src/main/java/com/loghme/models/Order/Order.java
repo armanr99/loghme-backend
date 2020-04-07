@@ -43,7 +43,15 @@ public class Order {
         return cart.getCartItemsList();
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
     public double getRemainingSeconds() {
         return (deliveryInfo == null ? -1 : deliveryInfo.getRemainingSeconds());
+    }
+
+    public DeliveryInfo getDeliveryInfo() {
+        return deliveryInfo;
     }
 }
