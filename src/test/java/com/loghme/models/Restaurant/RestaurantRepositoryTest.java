@@ -1,9 +1,9 @@
 package com.loghme.models.Restaurant;
 
 import com.loghme.models.Location.Location;
-import com.loghme.models.Restaurant.Exceptions.RestaurantAlreadyExists;
-import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
-import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
+import com.loghme.models.Restaurant.exceptions.RestaurantAlreadyExists;
+import com.loghme.models.Restaurant.exceptions.RestaurantDoesntExist;
+import com.loghme.models.Restaurant.exceptions.RestaurantOutOfRange;
 import com.loghme.repositories.RestaurantRepository;
 import com.loghme.repositories.UserRepository;
 import org.junit.After;

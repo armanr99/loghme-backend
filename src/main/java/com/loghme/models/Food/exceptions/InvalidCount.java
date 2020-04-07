@@ -1,4 +1,4 @@
-package com.loghme.models.Food.Exceptions;
+package com.loghme.models.Food.exceptions;
 
 public class InvalidCount extends Exception {
     private String foodName;

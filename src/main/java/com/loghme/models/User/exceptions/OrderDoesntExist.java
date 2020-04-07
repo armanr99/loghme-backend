@@ -1,4 +1,4 @@
-package com.loghme.models.User.Exceptions;
+package com.loghme.models.User.exceptions;
 
 
 public class OrderDoesntExist extends Exception {

@@ -4,7 +4,7 @@ import com.loghme.configs.Path;
 import com.loghme.controllers.wrappers.Order.OrderWrapper;
 import com.loghme.controllers.wrappers.Order.OrdersWrapper;
 import com.loghme.models.Order.Order;
-import com.loghme.models.User.Exceptions.OrderDoesntExist;
+import com.loghme.models.User.exceptions.OrderDoesntExist;
 import com.loghme.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 

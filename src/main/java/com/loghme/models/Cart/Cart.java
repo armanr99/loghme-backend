@@ -1,10 +1,10 @@
 package com.loghme.models.Cart;
 
-import com.loghme.models.Cart.Exceptions.CartItemDoesntExist;
-import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
+import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
+import com.loghme.models.Cart.exceptions.DifferentRestaurant;
+import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
-import com.loghme.models.Food.Exceptions.InvalidCount;
+import com.loghme.models.Food.exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;

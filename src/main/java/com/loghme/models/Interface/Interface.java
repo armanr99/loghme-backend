@@ -2,7 +2,7 @@ package com.loghme.models.Interface;
 
 import com.loghme.configs.Commands;
 import com.loghme.configs.GeneralConstants;
-import com.loghme.models.Interface.Exceptions.UndefinedCommand;
+import com.loghme.models.Interface.exceptions.UndefinedCommand;
 import com.loghme.models.Loghme.Loghme;
 
 import java.util.Scanner;

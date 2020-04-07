@@ -1,4 +1,4 @@
-package com.loghme.models.Cart.Exceptions;
+package com.loghme.models.Cart.exceptions;
 
 public class DifferentRestaurant extends Exception {
     private String cartRestaurantName;

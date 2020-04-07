@@ -1,7 +1,7 @@
 package com.loghme.controllers.Wallet;
 
 import com.loghme.configs.Path;
-import com.loghme.models.Wallet.Exceptions.WrongAmount;
+import com.loghme.models.Wallet.exceptions.WrongAmount;
 import com.loghme.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

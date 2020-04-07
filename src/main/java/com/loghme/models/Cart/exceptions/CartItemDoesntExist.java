@@ -1,4 +1,4 @@
-package com.loghme.models.Cart.Exceptions;
+package com.loghme.models.Cart.exceptions;
 
 public class CartItemDoesntExist extends Exception {
     private String foodName;

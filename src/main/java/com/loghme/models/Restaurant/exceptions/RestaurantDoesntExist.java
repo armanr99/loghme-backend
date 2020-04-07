@@ -1,4 +1,4 @@
-package com.loghme.models.Restaurant.Exceptions;
+package com.loghme.models.Restaurant.exceptions;
 
 public class RestaurantDoesntExist extends Exception {
     private String invalidRestaurantId;

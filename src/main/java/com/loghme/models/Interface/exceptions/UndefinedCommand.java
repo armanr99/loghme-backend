@@ -1,4 +1,4 @@
-package com.loghme.models.Interface.Exceptions;
+package com.loghme.models.Interface.exceptions;
 
 public class UndefinedCommand extends Exception {
     private String command;

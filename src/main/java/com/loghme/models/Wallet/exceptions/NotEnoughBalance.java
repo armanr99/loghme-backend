@@ -1,4 +1,4 @@
-package com.loghme.models.Wallet.Exceptions;
+package com.loghme.models.Wallet.exceptions;
 
 public class NotEnoughBalance extends Exception {
     public String toString() {
