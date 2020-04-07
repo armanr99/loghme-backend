@@ -1,12 +1,12 @@
 package com.loghme.models.Loghme;
 
-import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
-import com.loghme.models.Food.Exceptions.InvalidCount;
-import com.loghme.models.Restaurant.Exceptions.*;
+import com.loghme.models.Cart.exceptions.DifferentRestaurant;
+import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
+import com.loghme.models.Food.exceptions.InvalidCount;
+import com.loghme.models.Restaurant.exceptions.*;
 import com.loghme.repositories.RestaurantRepository;
 import com.loghme.repositories.UserRepository;
-import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
+import com.loghme.models.Wallet.exceptions.NotEnoughBalance;
 
 import java.util.List;
 

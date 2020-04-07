@@ -1,18 +1,17 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.Cart.CartWrapper;
-import com.loghme.controllers.wrappers.Order.OrderWrapper;
+import com.loghme.controllers.wrappers.requests.Cart.CartRequest;
+import com.loghme.controllers.wrappers.responses.Cart.CartResponse;
 import com.loghme.models.Cart.Cart;
-import com.loghme.models.Cart.Exceptions.CartItemDoesntExist;
-import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
-import com.loghme.models.Food.Exceptions.InvalidCount;
-import com.loghme.models.Order.Order;
-import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
-import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
-import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
-import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
+import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
+import com.loghme.models.Cart.exceptions.DifferentRestaurant;
+import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
+import com.loghme.models.Food.exceptions.InvalidCount;
+import com.loghme.models.Restaurant.exceptions.FoodDoesntExist;
+import com.loghme.models.Restaurant.exceptions.RestaurantDoesntExist;
+import com.loghme.models.Restaurant.exceptions.RestaurantOutOfRange;
+import com.loghme.models.Wallet.exceptions.NotEnoughBalance;
 import com.loghme.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,29 +21,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(Path.Web.CART)
 public class CartController {
     @GetMapping("")
-    public CartWrapper getCart() {
+    public CartResponse getCart() {
         Cart cart = UserRepository.getInstance().getUser().getCart();
-        return new CartWrapper(cart);
+        return new CartResponse(cart);
     }
 
     @PostMapping("")
-    public CartWrapper addToCart(@RequestParam("foodName") String foodName,
-                                 @RequestParam("restaurantId") String restaurantId) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
-        UserRepository.getInstance().addToCart(foodName, restaurantId);
+    public CartResponse addToCart(@RequestBody CartRequest request) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
+        UserRepository.getInstance().addToCart(request.getFoodName(), request.getRestaurantId());
 
         Cart cart = UserRepository.getInstance().getUser().getCart();
 
-        return new CartWrapper(cart);
+        return new CartResponse(cart);
     }
 
     @DeleteMapping("")
-    public CartWrapper removeFromCart(@RequestParam("foodName") String foodName,
-                                      @RequestParam("restaurantId") String restaurantId) throws CartItemDoesntExist {
-        UserRepository.getInstance().removeFromCart(foodName, restaurantId);
+    public CartResponse removeFromCart(@RequestBody CartRequest request) throws CartItemDoesntExist {
+        UserRepository.getInstance().removeFromCart(request.getFoodName(), request.getRestaurantId());
 
         Cart cart = UserRepository.getInstance().getUser().getCart();
 
-        return new CartWrapper(cart);
+        return new CartResponse(cart);
     }
 
     @PostMapping("/order")

@@ -1,14 +1,14 @@
 package com.loghme.models.User;
 
-import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
-import com.loghme.models.Food.Exceptions.InvalidCount;
-import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
-import com.loghme.models.Restaurant.Exceptions.RestaurantAlreadyExists;
-import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
-import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
+import com.loghme.models.Cart.exceptions.DifferentRestaurant;
+import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
+import com.loghme.models.Food.exceptions.InvalidCount;
+import com.loghme.models.Restaurant.exceptions.FoodDoesntExist;
+import com.loghme.models.Restaurant.exceptions.RestaurantAlreadyExists;
+import com.loghme.models.Restaurant.exceptions.RestaurantDoesntExist;
+import com.loghme.models.Restaurant.exceptions.RestaurantOutOfRange;
 import com.loghme.repositories.RestaurantRepository;
-import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
+import com.loghme.models.Wallet.exceptions.NotEnoughBalance;
 import com.loghme.repositories.UserRepository;
 import org.junit.After;
 import org.junit.Assert;

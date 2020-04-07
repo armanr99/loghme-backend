@@ -5,7 +5,7 @@ import com.loghme.configs.Fields;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Food.PartyFood;
 import com.loghme.models.Location.Location;
-import com.loghme.models.Restaurant.Exceptions.FoodAlreadyExistsInRestaurant;
+import com.loghme.models.Restaurant.exceptions.FoodAlreadyExistsInRestaurant;
 
 import java.util.ArrayList;
 import java.util.HashMap;

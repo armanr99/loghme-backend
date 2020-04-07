@@ -1,18 +1,18 @@
 package com.loghme.models.User;
 
 import com.loghme.models.Cart.Cart;
-import com.loghme.models.Cart.Exceptions.CartItemDoesntExist;
-import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
+import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
+import com.loghme.models.Cart.exceptions.DifferentRestaurant;
+import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
-import com.loghme.models.Food.Exceptions.InvalidCount;
+import com.loghme.models.Food.exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
 import com.loghme.models.Restaurant.Restaurant;
-import com.loghme.models.User.Exceptions.OrderDoesntExist;
-import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
-import com.loghme.models.Wallet.Exceptions.WrongAmount;
+import com.loghme.models.User.exceptions.OrderDoesntExist;
+import com.loghme.models.Wallet.exceptions.NotEnoughBalance;
+import com.loghme.models.Wallet.exceptions.WrongAmount;
 import com.loghme.models.Wallet.Wallet;
 import com.loghme.repositories.DeliveryRepository;
 
