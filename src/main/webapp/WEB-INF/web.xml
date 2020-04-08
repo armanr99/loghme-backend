@@ -20,4 +20,25 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>com.loghme.filters.CorsFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>DelayFilter</filter-name>
+        <filter-class>com.loghme.filters.DelayFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>DelayFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>

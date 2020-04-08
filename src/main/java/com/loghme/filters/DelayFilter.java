@@ -1,12 +1,10 @@
 package com.loghme.filters;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 import com.loghme.configs.Configs;
 
-@WebFilter("/*")
 public class DelayFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
