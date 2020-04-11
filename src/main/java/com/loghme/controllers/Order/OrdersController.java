@@ -16,7 +16,6 @@ public class OrdersController {
     @GetMapping("")
     public OrdersResponse getOrders() {
         ArrayList<Order> orders = UserRepository.getInstance().getUser().getOrdersList();
-        System.out.println(orders.size());
         return new OrdersResponse(orders);
     }
 
