@@ -8,5 +8,6 @@ public class Path {
         public static final String WALLET = "/wallet";
         public static final String ORDERS = "/orders";
         public static final String FOOD_PARTY = "/foodparty";
+        public static final String FOOD_PARTY_TIME = "/remainingSeconds";
     }
 }

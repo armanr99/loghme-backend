@@ -41,7 +41,7 @@ public class FoodPartyScheduler {
         scheduler.shutdown();
     }
 
-    long getRemainingSeconds() {
+    public long getRemainingSeconds() {
         long timeDiff = new Date().getTime() - restartDate.getTime();
         long timeDiffSeconds = timeDiff / 1000;
         long checkTime = FoodPartyConfigs.CHECK_TIME_MINUTE * 60;
