@@ -6,13 +6,13 @@ import com.loghme.models.CartItem.CartItem;
 import java.util.ArrayList;
 
 public class CartResponse {
-    ArrayList<CartItemResponse> items;
+    ArrayList<CartItemResponse> cart;
 
     public CartResponse(Cart cart) {
-        items = new ArrayList<>();
+        this.cart = new ArrayList<>();
 
         for (CartItem cartItem : cart.getCartItemsList()) {
-            items.add(new CartItemResponse(cartItem));
+            this.cart.add(new CartItemResponse(cartItem));
         }
     }
 }
