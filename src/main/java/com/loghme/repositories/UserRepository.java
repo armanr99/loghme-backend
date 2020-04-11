@@ -49,8 +49,8 @@ public class UserRepository {
 
     private User getSampleUser() {
         int id = 0;
-        String firstName = "Ehsan";
-        String lastName = "KhamesPanah";
+        String firstName = "احسان";
+        String lastName = "خامس‌پناه";
         String phoneNumber = "+989123456789";
         String email = "ekhamespanah@yahoo.com";
         Location location = new Location(0, 0);

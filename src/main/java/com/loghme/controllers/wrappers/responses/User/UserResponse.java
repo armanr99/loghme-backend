@@ -1,7 +1,10 @@
 package com.loghme.controllers.wrappers.responses.User;
 
+import com.loghme.controllers.wrappers.responses.Cart.CartItemResponse;
 import com.loghme.controllers.wrappers.responses.Cart.CartResponse;
 import com.loghme.controllers.wrappers.responses.Order.OrderResponse;
+import com.loghme.models.Cart.Cart;
+import com.loghme.models.CartItem.CartItem;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
 import com.loghme.models.User.User;
@@ -16,12 +19,12 @@ public class UserResponse {
     private String email;
     private Location location;
     private double credit;
-    private CartResponse cart;
+    private ArrayList<CartItemResponse> cart;
     private ArrayList<OrderResponse> orders;
 
     public UserResponse(User user) {
         setInfo(user);
-        setCart(user);
+        setCart(user.getCart());
         setOrders(user);
     }
 
@@ -35,8 +38,12 @@ public class UserResponse {
         this.credit = user.getCredit();
     }
 
-    private void setCart(User user) {
-        this.cart = new CartResponse(user.getCart());
+    private void setCart(Cart cart) {
+        this.cart = new ArrayList<>();
+
+        for (CartItem cartItem : cart.getCartItemsList()) {
+            this.cart.add(new CartItemResponse(cartItem));
+        }
     }
 
     private void setOrders(User user) {

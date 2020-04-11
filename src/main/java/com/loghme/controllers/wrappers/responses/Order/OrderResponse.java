@@ -15,11 +15,11 @@ public class OrderResponse {
 
     public OrderResponse(Order order) {
         this.id = order.getId();
-        addCart(order.getCart());
+        setCart(order.getCart());
         this.state = order.getDeliveryInfo().getState();
     }
 
-    private void addCart(Cart cart) {
+    private void setCart(Cart cart) {
         this.cart = new ArrayList<>();
 
         for (CartItem cartItem : cart.getCartItemsList()) {
