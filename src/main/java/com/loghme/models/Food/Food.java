@@ -24,6 +24,10 @@ public class Food {
         return description;
     }
 
+    public String getImage() {
+        return image;
+    }
+
     public double getPopularity() {
         return popularity;
     }

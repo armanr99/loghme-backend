@@ -12,6 +12,14 @@ public class PartyFood extends Food {
         this.oldPrice = oldPrice;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public double getOldPrice() {
+        return oldPrice;
+    }
+
     @Override
     public void validateCount(double count) throws InvalidCount {
         if(this.count < count)

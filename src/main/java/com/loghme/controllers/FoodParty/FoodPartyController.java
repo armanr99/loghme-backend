@@ -1,7 +1,7 @@
 package com.loghme.controllers.FoodParty;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantsResponse;
+import com.loghme.controllers.wrappers.responses.FoodParty.PartyFoodsResponse;
 import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.repositories.RestaurantRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 @RequestMapping(Path.Web.FOOD_PARTY)
 public class FoodPartyController {
     @GetMapping("")
-    public RestaurantsResponse getFoodPartyRestaurants() {
+    public PartyFoodsResponse getPartyFoods() {
         ArrayList<Restaurant> foodPartyRestaurants = RestaurantRepository.getInstance().getFoodPartyRestaurants();
-        return new RestaurantsResponse(foodPartyRestaurants);
+        return new PartyFoodsResponse(foodPartyRestaurants);
     }
 }
