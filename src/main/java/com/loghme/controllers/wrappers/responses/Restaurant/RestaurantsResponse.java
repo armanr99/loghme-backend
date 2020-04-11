@@ -5,7 +5,7 @@ import com.loghme.models.Restaurant.Restaurant;
 import java.util.ArrayList;
 
 public class RestaurantsResponse {
-    private ArrayList<RestaurantResponse> restaurants;
+    private ArrayList<RestaurantSmallResponse> restaurants;
 
     public RestaurantsResponse(ArrayList<Restaurant> restaurants) {
         setRestaurants(restaurants);
@@ -15,7 +15,7 @@ public class RestaurantsResponse {
         this.restaurants = new ArrayList<>();
 
         for(Restaurant restaurant : restaurants) {
-            this.restaurants.add(new RestaurantResponse(restaurant));
+            this.restaurants.add(new RestaurantSmallResponse(restaurant));
         }
     }
 }
