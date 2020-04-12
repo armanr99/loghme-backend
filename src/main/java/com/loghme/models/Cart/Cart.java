@@ -113,9 +113,12 @@ public class Cart {
     private void removeItemFromCart(String foodName, String restaurantId) {
         CartItem cartItem = cartItems.get(foodName);
 
-        if(cartItem.getCount() == 1)
+        if(cartItem.getCount() == 1) {
             cartItems.remove(foodName);
-        else
+            this.restaurant = null;
+        }
+        else {
             cartItem.decreaseCount();
+        }
     }
 }

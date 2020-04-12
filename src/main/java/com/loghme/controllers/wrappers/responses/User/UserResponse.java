@@ -19,7 +19,7 @@ public class UserResponse {
     private String email;
     private Location location;
     private double credit;
-    private ArrayList<CartItemResponse> cart;
+    private CartResponse cart;
     private ArrayList<OrderResponse> orders;
 
     public UserResponse(User user) {
@@ -39,11 +39,7 @@ public class UserResponse {
     }
 
     private void setCart(Cart cart) {
-        this.cart = new ArrayList<>();
-
-        for (CartItem cartItem : cart.getCartItemsList()) {
-            this.cart.add(new CartItemResponse(cartItem));
-        }
+        this.cart = new CartResponse(cart);
     }
 
     private void setOrders(User user) {
