@@ -1,6 +1,9 @@
 package com.loghme.controllers.wrappers.responses.Restaurant;
 
+import com.loghme.controllers.wrappers.responses.Food.FoodResponse;
+import com.loghme.controllers.wrappers.responses.FoodParty.PartyFoodResponse;
 import com.loghme.models.Food.Food;
+import com.loghme.models.Food.PartyFood;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Restaurant.Restaurant;
 
@@ -11,11 +14,12 @@ public class RestaurantResponse {
     private String name;
     private Location location;
     private String logo;
-    private ArrayList<Food> menu;
-    private ArrayList<Food> foodPartyMenu;
+    private ArrayList<FoodResponse> menu;
+    private ArrayList<PartyFoodResponse> foodPartyMenu;
 
     public RestaurantResponse(Restaurant restaurant) {
         setInfo(restaurant);
+        setMenu(restaurant);
         setFoodPartyMenu(restaurant);
     }
 
@@ -24,11 +28,19 @@ public class RestaurantResponse {
         this.name = restaurant.getName();
         this.location = restaurant.getLocation();
         this.logo = restaurant.getLogo();
-        this.menu = restaurant.getListMenu();
+    }
+
+    private void setMenu(Restaurant restaurant) {
+        menu = new ArrayList<>();
+
+        for(Food food : restaurant.getListMenu())
+            menu.add(new FoodResponse(restaurant, food));
     }
 
     private void setFoodPartyMenu(Restaurant restaurant) {
         foodPartyMenu = new ArrayList<>();
-        foodPartyMenu.addAll(restaurant.getListPartyFoodsMenu());
+
+        for(PartyFood partyFood : restaurant.getListPartyFoodsMenu())
+            foodPartyMenu.add(new PartyFoodResponse(restaurant, partyFood));
     }
 }
