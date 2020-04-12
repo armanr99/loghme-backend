@@ -1,7 +1,7 @@
 package com.loghme.controllers.FoodParty;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.responses.FoodParty.PartyFoodsResponse;
+import com.loghme.controllers.wrappers.responses.FoodParty.FoodPartyResponse;
 import com.loghme.controllers.wrappers.responses.FoodParty.RemainingTimeResponse;
 import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.repositories.RestaurantRepository;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
 @RequestMapping(Path.Web.FOOD_PARTY)
 public class FoodPartyController {
     @GetMapping("")
-    public PartyFoodsResponse getPartyFoods() {
+    public FoodPartyResponse getPartyFoods() {
         ArrayList<Restaurant> foodPartyRestaurants = RestaurantRepository.getInstance().getFoodPartyRestaurants();
-        return new PartyFoodsResponse(foodPartyRestaurants);
+        return new FoodPartyResponse(foodPartyRestaurants);
     }
 
     @GetMapping(Path.Web.FOOD_PARTY_TIME)
