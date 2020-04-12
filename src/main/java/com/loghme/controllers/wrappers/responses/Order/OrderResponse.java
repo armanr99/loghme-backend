@@ -1,29 +1,17 @@
 package com.loghme.controllers.wrappers.responses.Order;
 
-import com.loghme.controllers.wrappers.responses.Cart.CartItemResponse;
-import com.loghme.controllers.wrappers.responses.Cart.CartResponse;
-import com.loghme.models.Cart.Cart;
-import com.loghme.models.CartItem.CartItem;
+import com.loghme.controllers.wrappers.responses.Cart.CartResponse;;
 import com.loghme.models.Order.Order;
 
-import java.util.ArrayList;
 
 public class OrderResponse {
     private String id;
-    private ArrayList<CartItemResponse> cart;
+    private CartResponse cart;
     private String state;
 
     public OrderResponse(Order order) {
         this.id = order.getId();
-        setCart(order.getCart());
-        this.state = order.getDeliveryInfo().getState();
-    }
-
-    private void setCart(Cart cart) {
-        this.cart = new ArrayList<>();
-
-        for (CartItem cartItem : cart.getCartItemsList()) {
-            this.cart.add(new CartItemResponse(cartItem));
-        }
+        this.cart = new CartResponse(order.getCart());
+        this.state = order.getState();
     }
 }
