@@ -7,7 +7,7 @@ import com.loghme.repositories.UserRepository;
 
 import java.util.Date;
 
-class DeliveryInfo {
+public class DeliveryInfo {
     private Delivery delivery;
     private long totalTime;
     private Date startDate;
@@ -19,7 +19,15 @@ class DeliveryInfo {
         this.startDate = new Date();
     }
 
-    String getState() {
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public String getState() {
         return (getRemainingSeconds() == 0 ? DeliveryConfigs.State.DELIVERED : DeliveryConfigs.State.DELIVERING);
     }
 

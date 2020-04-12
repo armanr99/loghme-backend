@@ -9,7 +9,7 @@ import com.loghme.configs.ServerConfigs;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Food.PartyFood;
 import com.loghme.models.Location.Location;
-import com.loghme.models.Restaurant.Exceptions.*;
+import com.loghme.models.Restaurant.exceptions.*;
 import com.loghme.models.Restaurant.Restaurant;
 import com.loghme.models.User.User;
 import com.loghme.utils.HTTPRequester;

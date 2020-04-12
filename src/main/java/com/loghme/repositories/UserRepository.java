@@ -4,22 +4,23 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
+import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
+import com.loghme.models.Cart.exceptions.DifferentRestaurant;
+import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
 import com.loghme.configs.*;
-import com.loghme.models.Food.Exceptions.InvalidCount;
+import com.loghme.models.Food.exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
-import com.loghme.models.Restaurant.Exceptions.FoodDoesntExist;
-import com.loghme.models.Restaurant.Exceptions.RestaurantDoesntExist;
-import com.loghme.models.Restaurant.Exceptions.RestaurantOutOfRange;
+import com.loghme.models.Restaurant.exceptions.FoodDoesntExist;
+import com.loghme.models.Restaurant.exceptions.RestaurantDoesntExist;
+import com.loghme.models.Restaurant.exceptions.RestaurantOutOfRange;
 import com.loghme.models.Restaurant.Restaurant;
-import com.loghme.models.User.Exceptions.OrderDoesntExist;
+import com.loghme.models.User.exceptions.OrderDoesntExist;
 import com.loghme.models.User.User;
-import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
-import com.loghme.models.Wallet.Exceptions.WrongAmount;
+import com.loghme.models.Wallet.exceptions.NotEnoughBalance;
+import com.loghme.models.Wallet.exceptions.WrongAmount;
 import com.loghme.models.Wallet.Wallet;
 
 import java.lang.reflect.Type;
@@ -48,8 +49,8 @@ public class UserRepository {
 
     private User getSampleUser() {
         int id = 0;
-        String firstName = "Ehsan";
-        String lastName = "KhamesPanah";
+        String firstName = "احسان";
+        String lastName = "خامس‌پناه";
         String phoneNumber = "+989123456789";
         String email = "ekhamespanah@yahoo.com";
         Location location = new Location(0, 0);
@@ -115,5 +116,9 @@ public class UserRepository {
 
     public Order getOrder(String orderId) throws OrderDoesntExist {
         return user.getOrder(orderId);
+    }
+
+    public void removeFromCart(String foodName, String restaurantId) throws CartItemDoesntExist {
+        user.removeFromCart(foodName, restaurantId);
     }
 }

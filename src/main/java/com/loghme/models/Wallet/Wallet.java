@@ -1,7 +1,7 @@
 package com.loghme.models.Wallet;
 
-import com.loghme.models.Wallet.Exceptions.NotEnoughBalance;
-import com.loghme.models.Wallet.Exceptions.WrongAmount;
+import com.loghme.models.Wallet.exceptions.NotEnoughBalance;
+import com.loghme.models.Wallet.exceptions.WrongAmount;
 
 public class Wallet {
     private double credit;

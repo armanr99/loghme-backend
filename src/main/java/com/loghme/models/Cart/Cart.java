@@ -1,9 +1,10 @@
 package com.loghme.models.Cart;
 
-import com.loghme.models.Cart.Exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.Exceptions.EmptyCartFinalize;
+import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
+import com.loghme.models.Cart.exceptions.DifferentRestaurant;
+import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
 import com.loghme.models.CartItem.CartItem;
-import com.loghme.models.Food.Exceptions.InvalidCount;
+import com.loghme.models.Food.exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Location.Location;
 import com.loghme.models.Order.Order;
@@ -93,5 +94,31 @@ public class Cart {
 
     public Location getRestaurantLocation() {
         return (restaurant == null ? null : restaurant.getLocation());
+    }
+
+    public void removeItem(String foodName, String restaurantId) throws CartItemDoesntExist {
+        validateRemoveItem(foodName, restaurantId);
+        removeItemFromCart(foodName, restaurantId);
+    }
+
+    private void validateRemoveItem(String foodName, String restaurantId) throws CartItemDoesntExist {
+        if(cartItems.size() == 0)
+            throw new CartItemDoesntExist(foodName, restaurantId);
+        else if(!restaurant.getId().equals(restaurantId))
+            throw new CartItemDoesntExist(foodName, restaurantId);
+        else if(!cartItems.containsKey(foodName))
+            throw new CartItemDoesntExist(foodName, restaurantId);
+    }
+
+    private void removeItemFromCart(String foodName, String restaurantId) {
+        CartItem cartItem = cartItems.get(foodName);
+
+        if(cartItem.getCount() == 1) {
+            cartItems.remove(foodName);
+            this.restaurant = null;
+        }
+        else {
+            cartItem.decreaseCount();
+        }
     }
 }

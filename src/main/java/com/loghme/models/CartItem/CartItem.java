@@ -1,6 +1,6 @@
 package com.loghme.models.CartItem;
 
-import com.loghme.models.Food.Exceptions.InvalidCount;
+import com.loghme.models.Food.exceptions.InvalidCount;
 import com.loghme.models.Food.Food;
 import com.loghme.models.Restaurant.Restaurant;
 
@@ -19,8 +19,16 @@ public class CartItem {
         count++;
     }
 
+    public void decreaseCount() {
+        count--;
+    }
+
     public String getFoodName() {
         return food.getName();
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
     public String getRestaurantId() {
@@ -29,6 +37,10 @@ public class CartItem {
 
     public String getRestaurantName() {
         return restaurant.getName();
+    }
+
+    public Food getFood() {
+        return food;
     }
 
     public int getCount() {

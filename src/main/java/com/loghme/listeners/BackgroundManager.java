@@ -1,7 +1,7 @@
 package com.loghme.listeners;
 
 import com.loghme.configs.ServerConfigs;
-import com.loghme.models.Restaurant.Exceptions.RestaurantAlreadyExists;
+import com.loghme.models.Restaurant.exceptions.RestaurantAlreadyExists;
 import com.loghme.repositories.DeliveryRepository;
 import com.loghme.repositories.RestaurantRepository;
 import com.loghme.schedulers.FoodPartyScheduler;

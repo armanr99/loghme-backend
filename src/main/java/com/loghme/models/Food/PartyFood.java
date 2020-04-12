@@ -1,6 +1,6 @@
 package com.loghme.models.Food;
 
-import com.loghme.models.Food.Exceptions.InvalidCount;
+import com.loghme.models.Food.exceptions.InvalidCount;
 
 public class PartyFood extends Food {
     private int count;

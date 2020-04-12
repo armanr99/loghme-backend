@@ -1,6 +1,6 @@
 package com.loghme.models.Food;
 
-import com.loghme.models.Food.Exceptions.InvalidCount;
+import com.loghme.models.Food.exceptions.InvalidCount;
 
 public class Food {
     private String name;
@@ -22,6 +22,10 @@ public class Food {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public double getPopularity() {

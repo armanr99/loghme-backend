@@ -3,11 +3,13 @@ package com.loghme.schedulers;
 import com.loghme.configs.FoodPartyConfigs;
 import com.loghme.repositories.RestaurantRepository;
 
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class FoodPartyScheduler {
+    private Date restartDate;
     private ScheduledExecutorService scheduler;
     private static FoodPartyScheduler instance = null;
 
@@ -24,6 +26,7 @@ public class FoodPartyScheduler {
     public void handleFoodParty() {
         final Runnable foodPartyRequester = () -> {
             try {
+                restartDate = new Date();
                 RestaurantRepository.getInstance().clearPartyFoods();
                 RestaurantRepository.getInstance().fetchFoodParties();
             } catch (Exception exception) {
@@ -36,5 +39,13 @@ public class FoodPartyScheduler {
 
     public void shutdown() {
         scheduler.shutdown();
+    }
+
+    public long getRemainingSeconds() {
+        long timeDiff = new Date().getTime() - restartDate.getTime();
+        long timeDiffSeconds = timeDiff / 1000;
+        long checkTime = FoodPartyConfigs.CHECK_TIME_MINUTE * 60;
+
+        return (checkTime  - timeDiffSeconds < 0 ? 0 : checkTime - timeDiffSeconds);
     }
 }
