@@ -47,8 +47,11 @@ public class CartController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity finalizeOrder() throws InvalidCount, EmptyCartFinalize, NotEnoughBalance {
+    public UserResponse finalizeOrder() throws InvalidCount, EmptyCartFinalize, NotEnoughBalance {
         UserRepository.getInstance().finalizeOrder();
-        return new ResponseEntity(HttpStatus.OK);
+
+        User user = UserRepository.getInstance().getUser();
+
+        return new UserResponse(user);
     }
 }
