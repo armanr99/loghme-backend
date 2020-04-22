@@ -14,7 +14,7 @@ import com.loghme.models.domain.Restaurant.exceptions.FoodDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
 import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
-import com.loghme.repositories.UserRepository;
+import com.loghme.models.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

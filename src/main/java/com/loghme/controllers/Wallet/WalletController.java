@@ -4,7 +4,7 @@ import com.loghme.configs.Path;
 import com.loghme.controllers.wrappers.requests.Wallet.WalletRequest;
 import com.loghme.controllers.wrappers.responses.Wallet.WalletResponse;
 import com.loghme.models.domain.Wallet.exceptions.WrongAmount;
-import com.loghme.repositories.UserRepository;
+import com.loghme.models.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

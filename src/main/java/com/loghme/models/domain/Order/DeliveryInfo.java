@@ -3,7 +3,7 @@ package com.loghme.models.domain.Order;
 import com.loghme.configs.DeliveryConfigs;
 import com.loghme.models.domain.Delivery.Delivery;
 import com.loghme.models.domain.Location.Location;
-import com.loghme.repositories.UserRepository;
+import com.loghme.models.repositories.UserRepository;
 
 import java.util.Date;
 

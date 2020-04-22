@@ -4,8 +4,8 @@ import com.loghme.models.domain.Cart.exceptions.DifferentRestaurant;
 import com.loghme.models.domain.Cart.exceptions.EmptyCartFinalize;
 import com.loghme.models.domain.Food.exceptions.InvalidCount;
 import com.loghme.models.domain.Restaurant.exceptions.*;
-import com.loghme.repositories.RestaurantRepository;
-import com.loghme.repositories.UserRepository;
+import com.loghme.models.repositories.RestaurantRepository;
+import com.loghme.models.repositories.UserRepository;
 import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
 
 import java.util.List;

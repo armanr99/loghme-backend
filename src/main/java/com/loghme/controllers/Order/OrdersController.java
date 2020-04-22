@@ -5,7 +5,7 @@ import com.loghme.controllers.wrappers.responses.Order.OrderResponse;
 import com.loghme.controllers.wrappers.responses.Order.OrdersResponse;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.User.exceptions.OrderDoesntExist;
-import com.loghme.repositories.UserRepository;
+import com.loghme.models.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

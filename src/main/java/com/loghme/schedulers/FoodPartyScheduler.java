@@ -1,7 +1,7 @@
 package com.loghme.schedulers;
 
 import com.loghme.configs.FoodPartyConfigs;
-import com.loghme.repositories.RestaurantRepository;
+import com.loghme.models.repositories.RestaurantRepository;
 
 import java.util.Date;
 import java.util.concurrent.Executors;

@@ -14,7 +14,7 @@ import com.loghme.models.domain.User.exceptions.OrderDoesntExist;
 import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
 import com.loghme.models.domain.Wallet.exceptions.WrongAmount;
 import com.loghme.models.domain.Wallet.Wallet;
-import com.loghme.repositories.DeliveryRepository;
+import com.loghme.models.repositories.DeliveryRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;

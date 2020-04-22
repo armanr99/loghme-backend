@@ -1,4 +1,4 @@
-package com.loghme.repositories;
+package com.loghme.models.repositories;
 
 import com.loghme.configs.DeliveryConfigs;
 import com.loghme.models.domain.Location.Location;

@@ -1,4 +1,4 @@
-package com.loghme.repositories;
+package com.loghme.models.repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

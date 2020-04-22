@@ -2,8 +2,8 @@ package com.loghme.listeners;
 
 import com.loghme.configs.ServerConfigs;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantAlreadyExists;
-import com.loghme.repositories.DeliveryRepository;
-import com.loghme.repositories.RestaurantRepository;
+import com.loghme.models.repositories.DeliveryRepository;
+import com.loghme.models.repositories.RestaurantRepository;
 import com.loghme.schedulers.FoodPartyScheduler;
 
 import javax.servlet.ServletContextEvent;
