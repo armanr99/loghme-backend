@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loghme.configs.DeliveryConfigs;
 import com.loghme.configs.ServerConfigs;
-import com.loghme.models.Delivery.Delivery;
-import com.loghme.models.Location.Location;
-import com.loghme.models.Order.Order;
+import com.loghme.models.domain.Delivery.Delivery;
+import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.Order.Order;
 import com.loghme.repositories.UserRepository;
 import com.loghme.utils.HTTPRequester;
 

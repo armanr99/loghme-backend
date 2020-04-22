@@ -1,7 +1,7 @@
 package com.loghme.controllers.wrappers.responses.Cart;
 
-import com.loghme.models.Cart.Cart;
-import com.loghme.models.CartItem.CartItem;
+import com.loghme.models.domain.Cart.Cart;
+import com.loghme.models.domain.CartItem.CartItem;
 
 import java.util.ArrayList;
 

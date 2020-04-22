@@ -1,8 +1,8 @@
 package com.loghme.controllers.wrappers.responses.FoodParty;
 
 import com.loghme.controllers.wrappers.responses.Food.PartyFoodResponse;
-import com.loghme.models.Food.PartyFood;
-import com.loghme.models.Restaurant.Restaurant;
+import com.loghme.models.domain.Food.PartyFood;
+import com.loghme.models.domain.Restaurant.Restaurant;
 
 import java.util.ArrayList;
 

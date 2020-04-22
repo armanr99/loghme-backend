@@ -1,7 +1,7 @@
 package com.loghme.controllers.wrappers.responses.Restaurant;
 
-import com.loghme.models.Location.Location;
-import com.loghme.models.Restaurant.Restaurant;
+import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.Restaurant.Restaurant;
 
 public class RestaurantSmallResponse {
     private String id;

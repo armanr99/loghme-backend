@@ -3,7 +3,7 @@ package com.loghme.controllers.FoodParty;
 import com.loghme.configs.Path;
 import com.loghme.controllers.wrappers.responses.FoodParty.FoodPartyResponse;
 import com.loghme.controllers.wrappers.responses.FoodParty.RemainingTimeResponse;
-import com.loghme.models.Restaurant.Restaurant;
+import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.repositories.RestaurantRepository;
 import com.loghme.schedulers.FoodPartyScheduler;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,13 +1,12 @@
 package com.loghme.controllers.wrappers.responses.User;
 
-import com.loghme.controllers.wrappers.responses.Cart.CartItemResponse;
 import com.loghme.controllers.wrappers.responses.Cart.CartResponse;
 import com.loghme.controllers.wrappers.responses.Order.OrderResponse;
-import com.loghme.models.Cart.Cart;
-import com.loghme.models.CartItem.CartItem;
-import com.loghme.models.Location.Location;
-import com.loghme.models.Order.Order;
-import com.loghme.models.User.User;
+import com.loghme.models.domain.Cart.Cart;
+import com.loghme.models.domain.CartItem.CartItem;
+import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.Order.Order;
+import com.loghme.models.domain.User.User;
 
 import java.util.ArrayList;
 

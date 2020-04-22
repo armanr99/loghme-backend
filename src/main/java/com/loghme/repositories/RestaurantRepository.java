@@ -6,12 +6,12 @@ import com.loghme.configs.Configs;
 import com.loghme.configs.Fields;
 import com.loghme.configs.GeneralConstants;
 import com.loghme.configs.ServerConfigs;
-import com.loghme.models.Food.Food;
-import com.loghme.models.Food.PartyFood;
-import com.loghme.models.Location.Location;
-import com.loghme.models.Restaurant.exceptions.*;
-import com.loghme.models.Restaurant.Restaurant;
-import com.loghme.models.User.User;
+import com.loghme.models.domain.Food.Food;
+import com.loghme.models.domain.Food.PartyFood;
+import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.Restaurant.exceptions.*;
+import com.loghme.models.domain.Restaurant.Restaurant;
+import com.loghme.models.domain.User.User;
 import com.loghme.utils.HTTPRequester;
 
 import java.lang.reflect.Type;

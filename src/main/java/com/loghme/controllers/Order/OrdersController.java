@@ -3,8 +3,8 @@ package com.loghme.controllers.Order;
 import com.loghme.configs.Path;
 import com.loghme.controllers.wrappers.responses.Order.OrderResponse;
 import com.loghme.controllers.wrappers.responses.Order.OrdersResponse;
-import com.loghme.models.Order.Order;
-import com.loghme.models.User.exceptions.OrderDoesntExist;
+import com.loghme.models.domain.Order.Order;
+import com.loghme.models.domain.User.exceptions.OrderDoesntExist;
 import com.loghme.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,9 +1,9 @@
 package com.loghme.repositories;
 
 import com.loghme.configs.DeliveryConfigs;
-import com.loghme.models.Location.Location;
-import com.loghme.models.Order.Order;
-import com.loghme.models.Restaurant.Restaurant;
+import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.Order.Order;
+import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.schedulers.OrderScheduler;
 
 import java.util.ArrayList;
