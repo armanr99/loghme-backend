@@ -1,4 +1,4 @@
-package com.loghme.models.repositories;
+package com.loghme.models.services;
 
 import com.loghme.configs.DeliveryConfigs;
 import com.loghme.models.domain.Location.Location;
@@ -8,18 +8,18 @@ import com.loghme.schedulers.OrderScheduler;
 
 import java.util.ArrayList;
 
-public class DeliveryRepository {
+public class DeliveryService {
     private ArrayList<OrderScheduler> orderSchedulers;
-    private static DeliveryRepository instance = null;
+    private static DeliveryService instance = null;
 
-    public static DeliveryRepository getInstance() {
+    public static DeliveryService getInstance() {
         if (instance == null) {
-            instance = new DeliveryRepository();
+            instance = new DeliveryService();
         }
         return instance;
     }
 
-    private DeliveryRepository() {
+    private DeliveryService() {
         orderSchedulers = new ArrayList<>();
     }
 
@@ -35,7 +35,7 @@ public class DeliveryRepository {
     }
 
     public long getExpectedDeliveryTime(Restaurant restaurant) {
-        Location userLocation = UserRepository.getInstance().getUser().getLocation();
+        Location userLocation = UserService.getInstance().getUser().getLocation();
         Location restaurantLocation = restaurant.getLocation();
         double userRestaurantDistance = userLocation.getEuclideanDistanceFrom(restaurantLocation);
 

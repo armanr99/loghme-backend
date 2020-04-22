@@ -14,7 +14,7 @@ import com.loghme.models.domain.Restaurant.exceptions.FoodDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
 import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
-import com.loghme.models.repositories.UserRepository;
+import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,33 +24,33 @@ import java.util.ArrayList;
 public class CartController {
     @GetMapping("")
     public CartResponse getCart() {
-        Cart cart = UserRepository.getInstance().getUser().getCart();
+        Cart cart = UserService.getInstance().getUser().getCart();
         return new CartResponse(cart);
     }
 
     @PostMapping("")
     public CartResponse addToCart(@RequestBody CartRequest request) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
-        UserRepository.getInstance().addToCart(request.getFoodName(), request.getRestaurantId());
+        UserService.getInstance().addToCart(request.getFoodName(), request.getRestaurantId());
 
-        Cart cart = UserRepository.getInstance().getUser().getCart();
+        Cart cart = UserService.getInstance().getUser().getCart();
 
         return new CartResponse(cart);
     }
 
     @DeleteMapping("")
     public CartResponse removeFromCart(@RequestBody CartRequest request) throws CartItemDoesntExist {
-        UserRepository.getInstance().removeFromCart(request.getFoodName(), request.getRestaurantId());
+        UserService.getInstance().removeFromCart(request.getFoodName(), request.getRestaurantId());
 
-        Cart cart = UserRepository.getInstance().getUser().getCart();
+        Cart cart = UserService.getInstance().getUser().getCart();
 
         return new CartResponse(cart);
     }
 
     @PostMapping("/order")
     public OrdersResponse finalizeOrder() throws InvalidCount, EmptyCartFinalize, NotEnoughBalance {
-        UserRepository.getInstance().finalizeOrder();
+        UserService.getInstance().finalizeOrder();
 
-        ArrayList<Order> orders = UserRepository.getInstance().getUser().getOrdersList();
+        ArrayList<Order> orders = UserService.getInstance().getUser().getOrdersList();
 
         return new OrdersResponse(orders);
     }

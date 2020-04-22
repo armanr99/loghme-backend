@@ -16,8 +16,8 @@ import com.loghme.models.domain.Restaurant.exceptions.RestaurantAlreadyExists;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
 import com.loghme.models.domain.User.User;
-import com.loghme.models.repositories.RestaurantRepository;
-import com.loghme.models.repositories.UserRepository;
+import com.loghme.models.services.RestaurantService;
+import com.loghme.models.services.UserService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,8 +38,8 @@ public class LoghmeTest {
     @After
     public void tearDown() {
         loghmeTest = null;
-        UserRepository.clearInstance();
-        RestaurantRepository.clearInstance();
+        UserService.clearInstance();
+        RestaurantService.clearInstance();
     }
 
     @Test
@@ -51,7 +51,7 @@ public class LoghmeTest {
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
 
-            Restaurant hesturan = RestaurantRepository.getInstance().getRestaurantInstance("1");
+            Restaurant hesturan = RestaurantService.getInstance().getRestaurantInstance("1");
             Assert.assertEquals(hesturan.getName(), "Hesturan");
             Assert.assertEquals(hesturan.getLocation().getX(), 1, 1e-9);
             Assert.assertEquals(hesturan.getLocation().getY(), 3, 1e-9);
@@ -78,7 +78,7 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurantJson);
             loghmeTest.addFood(testAddFoodJson);
 
-            Restaurant hesturan = RestaurantRepository.getInstance().getRestaurantInstance("1");
+            Restaurant hesturan = RestaurantService.getInstance().getRestaurantInstance("1");
             Food gheime = hesturan.getFood("Gheime");
             Assert.assertNotNull(gheime);
             Assert.assertEquals(gheime.getName(), "Gheime");
@@ -160,7 +160,7 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurantJson);
             loghmeTest.addToCart(testAddToCart);
 
-            User user = UserRepository.getInstance().getUser();
+            User user = UserService.getInstance().getUser();
 
             List<CartItem> userCartItems = user.getCartItemsList();
             Assert.assertEquals(1, userCartItems.size());

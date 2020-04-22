@@ -1,4 +1,4 @@
-package com.loghme.models.repositories;
+package com.loghme.models.services;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -17,20 +17,20 @@ import com.loghme.utils.HTTPRequester;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class RestaurantRepository {
+public class RestaurantService {
     private Gson gson;
     private HashMap<String, Restaurant> restaurants;
     private ArrayList<Restaurant> foodPartyRestaurants;
-    private static RestaurantRepository instance = null;
+    private static RestaurantService instance = null;
 
-    public static RestaurantRepository getInstance() {
+    public static RestaurantService getInstance() {
         if (instance == null) {
-            instance = new RestaurantRepository();
+            instance = new RestaurantService();
         }
         return instance;
     }
 
-    private RestaurantRepository() {
+    private RestaurantService() {
         gson = new Gson();
         restaurants = new HashMap<>();
         foodPartyRestaurants = new ArrayList<>();
@@ -108,7 +108,7 @@ public class RestaurantRepository {
     }
 
     public ArrayList<String> getRecommendedRestaurants() {
-        User user = UserRepository.getInstance().getUser();
+        User user = UserService.getInstance().getUser();
         ArrayList<String> recommendedRestaurants = new ArrayList<>();
         ArrayList<Double> popularities = new ArrayList<>();
 

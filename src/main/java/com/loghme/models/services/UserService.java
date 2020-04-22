@@ -1,4 +1,4 @@
-package com.loghme.models.repositories;
+package com.loghme.models.services;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -27,14 +27,14 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository {
+public class UserService {
     private Gson gson;
     private User user;
-    private static UserRepository instance = null;
+    private static UserService instance = null;
 
-    public static UserRepository getInstance() {
+    public static UserService getInstance() {
         if(instance == null)
-            instance = new UserRepository();
+            instance = new UserService();
         return instance;
     }
 
@@ -42,7 +42,7 @@ public class UserRepository {
         instance = null;
     }
 
-    private UserRepository() {
+    private UserService() {
         gson = new Gson();
         user = getSampleUser();
     }
@@ -101,7 +101,7 @@ public class UserRepository {
     }
 
     public void addToCart(String foodName, String restaurantId) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
-        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurantInstanceIfInRange(restaurantId, user.getLocation(), Configs.VISIBLE_RESTAURANTS_DISTANCE);
+        Restaurant restaurant = RestaurantService.getInstance().getRestaurantInstanceIfInRange(restaurantId, user.getLocation(), Configs.VISIBLE_RESTAURANTS_DISTANCE);
         Food food = restaurant.getFood(foodName);
 
         if(food == null)

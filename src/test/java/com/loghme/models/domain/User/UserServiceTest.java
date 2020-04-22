@@ -7,24 +7,24 @@ import com.loghme.models.domain.Restaurant.exceptions.FoodDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantAlreadyExists;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
-import com.loghme.models.repositories.RestaurantRepository;
+import com.loghme.models.services.RestaurantService;
 import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
-import com.loghme.models.repositories.UserRepository;
+import com.loghme.models.services.UserService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class UserRepositoryTest {
+public class UserServiceTest {
     @After
     public void tearDown() {
-        UserRepository.clearInstance();
-        RestaurantRepository.clearInstance();
+        UserService.clearInstance();
+        RestaurantService.clearInstance();
     }
 
     @Test (expected = EmptyCartFinalize.class)
     public void testFinalizeOrderEmptyCart() throws EmptyCartFinalize {
         try {
-            UserRepository.getInstance().finalizeOrder();
+            UserService.getInstance().finalizeOrder();
         } catch (NotEnoughBalance | InvalidCount notEnoughBalance) {
             Assert.fail();
         }
@@ -38,10 +38,10 @@ public class UserRepositoryTest {
                 "55000}]}";
         String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantId\": \"1\"}";
         try {
-            RestaurantRepository.getInstance().addRestaurant(testAddRestaurantJson);
-            UserRepository.getInstance().addToCart(testAddToCart);
-            UserRepository.getInstance().addToCart(testAddToCart);
-            UserRepository.getInstance().finalizeOrder();
+            RestaurantService.getInstance().addRestaurant(testAddRestaurantJson);
+            UserService.getInstance().addToCart(testAddToCart);
+            UserService.getInstance().addToCart(testAddToCart);
+            UserService.getInstance().finalizeOrder();
         } catch (RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange | EmptyCartFinalize | InvalidCount exception) {
             Assert.fail();
         }

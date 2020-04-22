@@ -3,7 +3,7 @@ package com.loghme.models.domain.Order;
 import com.loghme.configs.DeliveryConfigs;
 import com.loghme.models.domain.Delivery.Delivery;
 import com.loghme.models.domain.Location.Location;
-import com.loghme.models.repositories.UserRepository;
+import com.loghme.models.services.UserService;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ public class DeliveryInfo {
 
     DeliveryInfo(Delivery delivery, Location restaurantLocation) {
         this.delivery = delivery;
-        Location userLocation = UserRepository.getInstance().getUser().getLocation();
+        Location userLocation = UserService.getInstance().getUser().getLocation();
         this.totalTime = delivery.getTotalTime(restaurantLocation, userLocation);
         this.startDate = new Date();
     }

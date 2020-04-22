@@ -1,7 +1,7 @@
 package com.loghme.schedulers;
 
 import com.loghme.configs.FoodPartyConfigs;
-import com.loghme.models.repositories.RestaurantRepository;
+import com.loghme.models.services.RestaurantService;
 
 import java.util.Date;
 import java.util.concurrent.Executors;
@@ -27,8 +27,8 @@ public class FoodPartyScheduler {
         final Runnable foodPartyRequester = () -> {
             try {
                 restartDate = new Date();
-                RestaurantRepository.getInstance().clearPartyFoods();
-                RestaurantRepository.getInstance().fetchFoodParties();
+                RestaurantService.getInstance().clearPartyFoods();
+                RestaurantService.getInstance().fetchFoodParties();
             } catch (Exception exception) {
                 System.out.println("Error in fetching data: " + exception.toString());
             }
