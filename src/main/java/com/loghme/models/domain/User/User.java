@@ -28,7 +28,7 @@ public class User {
     private Cart cart;
     private Location location;
     private Wallet wallet;
-    private HashMap<String, Order> orders;
+    private HashMap<Integer, Order> orders;
 
     public User(int id, String firstName, String lastName, String phoneNumber, String email, double credit, Location location) {
         this.id = id;
@@ -106,7 +106,7 @@ public class User {
         return new ArrayList<>(orders.values());
     }
 
-    public Order getOrder(String orderId) throws OrderDoesntExist {
+    public Order getOrder(int orderId) throws OrderDoesntExist {
         if (!orders.containsKey(orderId))
             throw new OrderDoesntExist(orderId);
         else

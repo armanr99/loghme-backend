@@ -2,13 +2,13 @@ package com.loghme.models.domain.User.exceptions;
 
 
 public class OrderDoesntExist extends Exception {
-    private String inavlidOrderId;
+    private int inavlidOrderId;
 
-    public OrderDoesntExist(String inavlidOrderId) {
+    public OrderDoesntExist(int inavlidOrderId) {
         this.inavlidOrderId = inavlidOrderId;
     }
 
     public String toString() {
-        return String.format("Order with id %s does not exist", inavlidOrderId);
+        return String.format("Order with id %d does not exist", inavlidOrderId);
     }
 }

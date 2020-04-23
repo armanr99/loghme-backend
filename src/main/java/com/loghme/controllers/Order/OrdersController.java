@@ -20,7 +20,7 @@ public class OrdersController {
     }
 
     @GetMapping("{id}")
-    public OrderResponse getOrder(@PathVariable(value = "id") String id) throws OrderDoesntExist {
+    public OrderResponse getOrder(@PathVariable(value = "id") int id) throws OrderDoesntExist {
         Order order = UserService.getInstance().getOrder(id);
         return new OrderResponse(order);
     }

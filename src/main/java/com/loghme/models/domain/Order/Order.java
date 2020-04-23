@@ -10,13 +10,17 @@ import java.util.ArrayList;
 
 public class Order {
     private Cart cart;
-    private String id;
+    private int id;
     private DeliveryInfo deliveryInfo;
 
     public Order(Cart cart) {
         this.cart = cart;
         this.id = OrderIdHandler.getNextId();
         this.deliveryInfo = null;
+    }
+
+    public Order(int id, int userId) {
+        //TODO
     }
 
     public void setDelivery(Delivery delivery) {
@@ -31,7 +35,7 @@ public class Order {
         return (deliveryInfo == null ? DeliveryConfigs.State.SEARCHING : deliveryInfo.getState());
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -53,5 +57,9 @@ public class Order {
 
     public DeliveryInfo getDeliveryInfo() {
         return deliveryInfo;
+    }
+
+    public int getUserId() {
+        return 0; //TODO
     }
 }

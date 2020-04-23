@@ -5,7 +5,7 @@ import com.loghme.models.domain.Order.Order;
 
 
 public class OrderResponse {
-    private String id;
+    private int id;
     private CartResponse cart;
     private String state;
 

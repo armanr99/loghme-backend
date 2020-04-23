@@ -65,7 +65,7 @@ public class UserService {
         user.charge(amount);
     }
 
-    public Order getOrder(String orderId) throws OrderDoesntExist {
+    public Order getOrder(int orderId) throws OrderDoesntExist {
         User user = UserRepository.getInstance().getUser();
         return user.getOrder(orderId);
     }
