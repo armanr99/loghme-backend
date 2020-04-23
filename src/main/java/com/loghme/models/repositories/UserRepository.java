@@ -33,8 +33,8 @@ public class UserRepository {
         String lastName = "خامس‌پناه";
         String phoneNumber = "+989123456789";
         String email = "ekhamespanah@yahoo.com";
+        double credit = 100000;
         Location location = new Location(0, 0);
-        Wallet wallet = new Wallet(100000);
-        return new User(id, firstName, lastName, phoneNumber, email, location, wallet);
+        return new User(id, firstName, lastName, phoneNumber, email, credit, location);
     }
 }

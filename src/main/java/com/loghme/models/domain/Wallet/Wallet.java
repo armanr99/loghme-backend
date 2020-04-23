@@ -6,7 +6,7 @@ import com.loghme.models.domain.Wallet.exceptions.WrongAmount;
 public class Wallet {
     private double credit;
 
-    public Wallet(int credit) {
+    public Wallet(double credit) {
         this.credit = credit;
     }
 

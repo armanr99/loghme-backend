@@ -30,16 +30,16 @@ public class User {
     private Wallet wallet;
     private HashMap<String, Order> orders;
 
-    public User(int id, String firstName, String lastName, String phoneNumber, String email, Location location, Wallet wallet) {
+    public User(int id, String firstName, String lastName, String phoneNumber, String email, double credit, Location location) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.location = location;
-        this.wallet = wallet;
         this.cart = new Cart();
         this.orders = new HashMap<>();
+        this.wallet = new Wallet(credit);
     }
 
     public int getId() {
