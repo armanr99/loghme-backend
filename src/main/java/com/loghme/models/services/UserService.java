@@ -11,7 +11,6 @@ import com.loghme.models.domain.CartItem.CartItem;
 import com.loghme.configs.*;
 import com.loghme.models.domain.Food.exceptions.InvalidCount;
 import com.loghme.models.domain.Food.Food;
-import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.Restaurant.exceptions.FoodDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
@@ -21,7 +20,7 @@ import com.loghme.models.domain.User.exceptions.OrderDoesntExist;
 import com.loghme.models.domain.User.User;
 import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
 import com.loghme.models.domain.Wallet.exceptions.WrongAmount;
-import com.loghme.models.domain.Wallet.Wallet;
+import com.loghme.models.repositories.UserRepository;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ import java.util.List;
 
 public class UserService {
     private Gson gson;
-    private User user;
     private static UserService instance = null;
 
     public static UserService getInstance() {
@@ -40,29 +38,44 @@ public class UserService {
 
     public static void clearInstance() {
         instance = null;
+        UserRepository.clearInstance();
     }
 
     private UserService() {
         gson = new Gson();
-        user = getSampleUser();
-    }
-
-    private User getSampleUser() {
-        int id = 0;
-        String firstName = "احسان";
-        String lastName = "خامس‌پناه";
-        String phoneNumber = "+989123456789";
-        String email = "ekhamespanah@yahoo.com";
-        Location location = new Location(0, 0);
-        Wallet wallet = new Wallet(100000);
-        return new User(id, firstName, lastName, phoneNumber, email, location, wallet);
     }
 
     public User getUser() {
-        return user;
+        return UserRepository.getInstance().getUser();
     }
 
-    public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
+    public void addToCart(String foodName, String restaurantId) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
+        User user = UserRepository.getInstance().getUser();
+        Restaurant restaurant = RestaurantService.getInstance().getRestaurantInstanceIfInRange(restaurantId, user.getLocation(), Configs.VISIBLE_RESTAURANTS_DISTANCE);
+        Food food = restaurant.getFood(foodName);
+
+        if(food == null)
+            throw new FoodDoesntExist(foodName, restaurantId);
+        else
+            user.addToCart(food, restaurant);
+    }
+
+    public void chargeUser(double amount) throws WrongAmount {
+        User user = UserRepository.getInstance().getUser();
+        user.charge(amount);
+    }
+
+    public Order getOrder(String orderId) throws OrderDoesntExist {
+        User user = UserRepository.getInstance().getUser();
+        return user.getOrder(orderId);
+    }
+
+    public void removeFromCart(String foodName, String restaurantId) throws CartItemDoesntExist {
+        User user = UserRepository.getInstance().getUser();
+        user.removeFromCart(foodName, restaurantId);
+    }
+
+    public void addToCartStr(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
         JsonObject foodInfoObject = gson.fromJson(foodInfo, JsonObject.class);
         JsonElement foodNameElement = foodInfoObject.get(Fields.FOOD_NAME);
         JsonElement restaurantIdElement = foodInfoObject.get(Fields.RESTAURANT_Id);
@@ -72,7 +85,8 @@ public class UserService {
         addToCart(foodName, restaurantId);
     }
 
-    public String getCart() {
+    public String getCartStr() {
+        User user = UserRepository.getInstance().getUser();
         ArrayList<CartItem> userCartItems = user.getCartItemsList();
         ArrayList<JsonObject> serializedUserCartItems = new ArrayList<>();
 
@@ -93,32 +107,11 @@ public class UserService {
     }
 
     public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance, InvalidCount {
-        String jsonCart = getCart();
+        String jsonCart = getCartStr();
+        User user = UserRepository.getInstance().getUser();
 
         user.finalizeOrder();
 
         return jsonCart;
-    }
-
-    public void addToCart(String foodName, String restaurantId) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
-        Restaurant restaurant = RestaurantService.getInstance().getRestaurantInstanceIfInRange(restaurantId, user.getLocation(), Configs.VISIBLE_RESTAURANTS_DISTANCE);
-        Food food = restaurant.getFood(foodName);
-
-        if(food == null)
-            throw new FoodDoesntExist(foodName, restaurantId);
-        else
-            user.addToCart(food, restaurant);
-    }
-
-    public void chargeUser(double amount) throws WrongAmount {
-        user.charge(amount);
-    }
-
-    public Order getOrder(String orderId) throws OrderDoesntExist {
-        return user.getOrder(orderId);
-    }
-
-    public void removeFromCart(String foodName, String restaurantId) throws CartItemDoesntExist {
-        user.removeFromCart(foodName, restaurantId);
     }
 }

@@ -39,8 +39,8 @@ public class UserServiceTest {
         String testAddToCart = "{\"foodName\": \"Kabab\", \"restaurantId\": \"1\"}";
         try {
             RestaurantService.getInstance().addRestaurant(testAddRestaurantJson);
-            UserService.getInstance().addToCart(testAddToCart);
-            UserService.getInstance().addToCart(testAddToCart);
+            UserService.getInstance().addToCartStr(testAddToCart);
+            UserService.getInstance().addToCartStr(testAddToCart);
             UserService.getInstance().finalizeOrder();
         } catch (RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange | EmptyCartFinalize | InvalidCount exception) {
             Assert.fail();

@@ -33,11 +33,11 @@ public class Loghme {
     }
 
     public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {
-        UserService.getInstance().addToCart(foodInfo);
+        UserService.getInstance().addToCartStr(foodInfo);
     }
 
     public String getCart() {
-        return UserService.getInstance().getCart();
+        return UserService.getInstance().getCartStr();
     }
 
     public String finalizeOrder() throws EmptyCartFinalize, NotEnoughBalance, InvalidCount {
