@@ -30,6 +30,10 @@ public class Food {
         return image;
     }
 
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
     public double getPopularity() {
         return popularity;
     }
