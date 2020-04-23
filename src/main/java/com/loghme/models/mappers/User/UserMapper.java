@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class UserMapper extends Mapper<User, Integer> implements IUserMapper {
     private static UserMapper instance = null;
+    private static final String TABLE_NAME = "User";
 
     public static UserMapper getInstance() throws SQLException {
         if (instance == null) {
@@ -23,7 +24,23 @@ public class UserMapper extends Mapper<User, Integer> implements IUserMapper {
 
     @Override
     public ArrayList<String> getCreateTableStatement() {
-        return null;
+        ArrayList<String> statements = new ArrayList<>();
+
+        statements.add(String.format("DROP TABLE IF EXISTS %s", TABLE_NAME));
+        statements.add(
+                String.format(
+                        "CREATE TABLE %s (\n"
+                                + "   id INTEGER PRIMARY KEY\n"
+                                + "   firstName VARCHAR(255) NOT NULL,\n"
+                                + "   lastName VARCHAR(255) NOT NULL,\n"
+                                + "   email VARCHAR(255) NOT NULL,\n"
+                                + "   phoneNumber VARCHAR(255) NOT NULL,\n"
+                                + "   credit DOUBLE NOT NULL DEFAULT 0,\n"
+                                + "   posX DOUBLE NOT NULL\n"
+                                + "   posY DOUBLE NOT NULL\n"
+                                + ");",
+                        TABLE_NAME));
+        return statements;
     }
 
     @Override
