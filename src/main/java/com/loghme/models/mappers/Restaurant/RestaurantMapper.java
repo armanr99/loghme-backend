@@ -32,10 +32,10 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
         statements.add(
                 String.format(
                         "CREATE TABLE %s (\n"
-                                + "   id VARCHAR(255) PRIMARY KEY\n"
+                                + "   id VARCHAR(255) PRIMARY KEY,\n"
                                 + "   name VARCHAR(255) NOT NULL,\n"
                                 + "   logo VARCHAR(255) NOT NULL,\n"
-                                + "   posX DOUBLE NOT NULL\n"
+                                + "   posX DOUBLE NOT NULL,\n"
                                 + "   posY DOUBLE NOT NULL\n"
                                 + ");",
                         TABLE_NAME));

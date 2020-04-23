@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Loghme {
 
-    public void addRestaurant(String serializedRestaurant) throws RestaurantAlreadyExists {
+    public void addRestaurant(String serializedRestaurant) throws RestaurantAlreadyExists, FoodAlreadyExistsInRestaurant {
         RestaurantService.getInstance().addRestaurant(serializedRestaurant);
     }
 

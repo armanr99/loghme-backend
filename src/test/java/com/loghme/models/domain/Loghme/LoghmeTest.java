@@ -11,10 +11,7 @@ import com.loghme.configs.GeneralConstants;
 import com.loghme.models.domain.Food.exceptions.InvalidCount;
 import com.loghme.models.domain.Food.Food;
 import com.loghme.models.domain.Restaurant.*;
-import com.loghme.models.domain.Restaurant.exceptions.FoodDoesntExist;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantAlreadyExists;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
+import com.loghme.models.domain.Restaurant.exceptions.*;
 import com.loghme.models.domain.User.User;
 import com.loghme.models.services.RestaurantService;
 import com.loghme.models.services.UserService;
@@ -62,7 +59,7 @@ public class LoghmeTest {
             Assert.assertEquals(gheime.getDescription(), "it's yummy!");
             Assert.assertEquals(gheime.getPopularity(), 0.8, 1e-9);
             Assert.assertEquals(gheime.getPrice(), 20000, 1e-9);
-        } catch (RestaurantAlreadyExists | RestaurantDoesntExist restaurantAlreadyExists) {
+        } catch (RestaurantAlreadyExists | RestaurantDoesntExist | FoodAlreadyExistsInRestaurant restaurantAlreadyExists) {
             Assert.fail();
         }
     }
@@ -190,7 +187,7 @@ public class LoghmeTest {
            loghmeTest.addRestaurant(testAddRestaurantJson2);
            loghmeTest.addToCart(testAddToCart1);
            loghmeTest.addToCart(testAddToCart2);
-       } catch(RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | RestaurantOutOfRange | InvalidCount exception) {
+       } catch(RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | RestaurantOutOfRange | InvalidCount | FoodAlreadyExistsInRestaurant exception) {
            Assert.fail();
        }
    }

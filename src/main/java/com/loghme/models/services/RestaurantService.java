@@ -35,7 +35,7 @@ public class RestaurantService {
         foodPartyRestaurants = new ArrayList<>();
     }
 
-    public void fetchData(String sourceURL) throws JsonSyntaxException, RestaurantAlreadyExists {
+    public void fetchData(String sourceURL) throws JsonSyntaxException, RestaurantAlreadyExists, FoodAlreadyExistsInRestaurant {
         String restaurantsData = HTTPRequester.get(sourceURL);
         JsonArray restaurantsDataArray = gson.fromJson(restaurantsData, JsonArray.class);
 
@@ -49,7 +49,7 @@ public class RestaurantService {
         RestaurantRepository.clearInstance();
     }
 
-    public void addRestaurant(String serializedRestaurant) throws JsonSyntaxException, RestaurantAlreadyExists {
+    public void addRestaurant(String serializedRestaurant) throws JsonSyntaxException, RestaurantAlreadyExists, FoodAlreadyExistsInRestaurant {
         JsonObject restaurantObject = gson.fromJson(serializedRestaurant, JsonObject.class);
         JsonElement menuElement = restaurantObject.remove(Fields.MENU);
         Restaurant newRestaurant = gson.fromJson(restaurantObject.toString(), Restaurant.class);
@@ -152,7 +152,7 @@ public class RestaurantService {
         return restaurantsWithinDistance;
     }
 
-    public void fetchFoodParties() throws JsonSyntaxException, RestaurantDoesntExist {
+    public void fetchFoodParties() throws JsonSyntaxException, RestaurantDoesntExist, FoodAlreadyExistsInRestaurant {
         String restaurantsData = HTTPRequester.get(ServerConfigs.FOOD_PARTY_URL);
         JsonArray restaurantsDataArray = gson.fromJson(restaurantsData, JsonArray.class);
 
@@ -161,7 +161,7 @@ public class RestaurantService {
         }
     }
 
-    private void handleFoodPartyRestaurant(String serializedRestaurant) throws JsonSyntaxException, RestaurantDoesntExist {
+    private void handleFoodPartyRestaurant(String serializedRestaurant) throws JsonSyntaxException, RestaurantDoesntExist, FoodAlreadyExistsInRestaurant {
         JsonObject restaurantObject = gson.fromJson(serializedRestaurant, JsonObject.class);
         String restaurantMenuJson = restaurantObject.remove(Fields.MENU).toString();
         restaurantObject.add(Fields.MENU, new JsonArray());
@@ -172,7 +172,7 @@ public class RestaurantService {
         addPartyFoods(restaurantId, restaurantMenuJson);
     }
 
-    private void addRestaurantIfDoesntExist(String serializedRestaurant) {
+    private void addRestaurantIfDoesntExist(String serializedRestaurant) throws FoodAlreadyExistsInRestaurant {
         try {
             addRestaurant(serializedRestaurant);
         } catch (RestaurantAlreadyExists ignored) {}

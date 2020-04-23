@@ -30,9 +30,9 @@ public class Restaurant {
         this.location = location;
     }
 
-    public void addFoods(ArrayList<Food> menu) {
+    public void addFoods(ArrayList<Food> menu) throws FoodAlreadyExistsInRestaurant {
         for (Food food : menu) {
-            this.menu.put(food.getName(), food);
+            addFood(food);
         }
     }
 
@@ -62,15 +62,17 @@ public class Restaurant {
         if (menu.containsKey(newFoodName))
             throw new FoodAlreadyExistsInRestaurant(newFood.getName(), this.name);
 
+        newFood.setRestaurantId(this.id);
         menu.put(newFoodName, newFood);
     }
 
     public void addFood(JsonObject newFoodJsonObj) throws FoodAlreadyExistsInRestaurant {
         String foodName = newFoodJsonObj.get(Fields.NAME).getAsString();
         String foodDescription = newFoodJsonObj.get(Fields.DESCRIPTION).getAsString();
+        String image = "";
         double foodPopularity = newFoodJsonObj.get(Fields.POPULARITY).getAsDouble();
         double foodPrice = newFoodJsonObj.get(Fields.PRICE).getAsDouble();
-        Food newFood = new Food(foodName, foodDescription, foodPopularity, foodPrice);
+        Food newFood = new Food(foodName, foodDescription, image, foodPopularity, foodPrice);
 
         this.addFood(newFood);
     }

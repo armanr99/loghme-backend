@@ -3,10 +3,7 @@ package com.loghme.models.domain.User;
 import com.loghme.models.domain.Cart.exceptions.DifferentRestaurant;
 import com.loghme.models.domain.Cart.exceptions.EmptyCartFinalize;
 import com.loghme.models.domain.Food.exceptions.InvalidCount;
-import com.loghme.models.domain.Restaurant.exceptions.FoodDoesntExist;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantAlreadyExists;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
+import com.loghme.models.domain.Restaurant.exceptions.*;
 import com.loghme.models.services.RestaurantService;
 import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
 import com.loghme.models.services.UserService;
@@ -42,7 +39,7 @@ public class UserServiceTest {
             UserService.getInstance().addToCartStr(testAddToCart);
             UserService.getInstance().addToCartStr(testAddToCart);
             UserService.getInstance().finalizeOrder();
-        } catch (RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange | EmptyCartFinalize | InvalidCount exception) {
+        } catch (RestaurantAlreadyExists | RestaurantDoesntExist | FoodDoesntExist | DifferentRestaurant | RestaurantOutOfRange | EmptyCartFinalize | InvalidCount | FoodAlreadyExistsInRestaurant exception) {
             Assert.fail();
         }
     }

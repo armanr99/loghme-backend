@@ -1,6 +1,7 @@
 package com.loghme.models.domain.Restaurant;
 
 import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.Restaurant.exceptions.FoodAlreadyExistsInRestaurant;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantAlreadyExists;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
@@ -28,7 +29,7 @@ public class RestaurantServiceTest {
             RestaurantService.getInstance().addRestaurant(testAddRestaurantJson);
             Location userLocation = new Location(0, 0);
             RestaurantService.getInstance().getRestaurantInstanceIfInRange("1", userLocation, 170);
-        } catch (RestaurantAlreadyExists | RestaurantDoesntExist exception) {
+        } catch (RestaurantAlreadyExists | RestaurantDoesntExist | FoodAlreadyExistsInRestaurant exception) {
             Assert.fail();
         }
     }

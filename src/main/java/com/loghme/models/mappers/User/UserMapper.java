@@ -33,13 +33,13 @@ public class UserMapper extends Mapper<User, Integer> implements IUserMapper {
         statements.add(
                 String.format(
                         "CREATE TABLE %s (\n"
-                                + "   id INTEGER PRIMARY KEY\n"
+                                + "   id INTEGER PRIMARY KEY,\n"
                                 + "   firstName VARCHAR(255) NOT NULL,\n"
                                 + "   lastName VARCHAR(255) NOT NULL,\n"
                                 + "   phoneNumber VARCHAR(255) NOT NULL,\n"
                                 + "   email VARCHAR(255) NOT NULL,\n"
                                 + "   credit DOUBLE NOT NULL DEFAULT 0,\n"
-                                + "   posX DOUBLE NOT NULL\n"
+                                + "   posX DOUBLE NOT NULL,\n"
                                 + "   posY DOUBLE NOT NULL\n"
                                 + ");",
                         TABLE_NAME));
