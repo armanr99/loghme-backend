@@ -13,14 +13,21 @@ import java.util.HashMap;
 public class Restaurant {
     private String id;
     private String name;
-    private Location location;
     private String logo;
+    private Location location;
     private HashMap<String, Food> menu;
     private HashMap<String, PartyFood> foodPartyMenu;
 
     public Restaurant() {
         this.menu = new HashMap<>();
         this.foodPartyMenu = new HashMap<>();
+    }
+
+    public Restaurant(String id, String name, String logo, Location location) {
+        this.id = id;
+        this.name = name;
+        this.logo = logo;
+        this.location = location;
     }
 
     public void addFoods(ArrayList<Food> menu) {
