@@ -14,7 +14,7 @@ import com.loghme.models.domain.User.exceptions.OrderDoesntExist;
 import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
 import com.loghme.models.domain.Wallet.exceptions.WrongAmount;
 import com.loghme.models.domain.Wallet.Wallet;
-import com.loghme.models.repositories.DeliveryRepository;
+import com.loghme.models.services.DeliveryService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,7 +87,7 @@ public class User {
             orders.put(order.getId(), order);
 
             cart = new Cart();
-            DeliveryRepository.getInstance().addDelivery(order);
+            DeliveryService.getInstance().addDelivery(order);
         } catch(InvalidCount invalidCount) {
             cart = new Cart();
             throw invalidCount;
