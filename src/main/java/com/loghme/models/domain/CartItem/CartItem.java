@@ -8,6 +8,8 @@ public class CartItem {
     int userId;
     private Food food;
     private Restaurant restaurant;
+    String restaurantId;
+    String foodName;
     private int count;
 
     public CartItem(int userId, Food food, Restaurant restaurant) {
@@ -15,6 +17,13 @@ public class CartItem {
         this.count = 1;
         this.food = food;
         this.restaurant = restaurant;
+    }
+
+    public CartItem(int userId, String restaurantId, String foodName, int count) {
+        this.userId  = userId;
+        this.restaurantId = restaurantId;
+        this.foodName = foodName;
+        this.count = count;
     }
 
     public void increaseCount() {
@@ -53,7 +62,15 @@ public class CartItem {
         return food.getPrice() * count;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
     public void finalizeItem() throws InvalidCount {
         food.sell(count);
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }
