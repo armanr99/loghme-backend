@@ -17,19 +17,19 @@ public class Loghme {
     }
 
     public void addFood(String serializedFood) throws FoodAlreadyExistsInRestaurant, RestaurantDoesntExist {
-        RestaurantService.getInstance().addFood(serializedFood);
+        RestaurantService.getInstance().addFoodStr(serializedFood);
     }
 
     public List<String> getRestaurants() {
-        return RestaurantService.getInstance().getRestaurants();
+        return RestaurantService.getInstance().getRestaurantsStr();
     }
 
     public String getRestaurant(String restaurantInfo) throws RestaurantDoesntExist {
-        return RestaurantService.getInstance().getRestaurant(restaurantInfo);
+        return RestaurantService.getInstance().getRestaurantStr(restaurantInfo);
     }
 
     public String getFood(String foodInfo) throws FoodDoesntExist, RestaurantDoesntExist {
-        return RestaurantService.getInstance().getFood(foodInfo);
+        return RestaurantService.getInstance().getFoodStr(foodInfo);
     }
 
     public void addToCart(String foodInfo) throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant, RestaurantOutOfRange, InvalidCount {

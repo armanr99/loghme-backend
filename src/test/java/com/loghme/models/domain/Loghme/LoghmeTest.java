@@ -51,7 +51,7 @@ public class LoghmeTest {
         try {
             loghmeTest.addRestaurant(testAddRestaurantJson);
 
-            Restaurant hesturan = RestaurantService.getInstance().getRestaurantInstance("1");
+            Restaurant hesturan = RestaurantService.getInstance().getRestaurant("1");
             Assert.assertEquals(hesturan.getName(), "Hesturan");
             Assert.assertEquals(hesturan.getLocation().getX(), 1, 1e-9);
             Assert.assertEquals(hesturan.getLocation().getY(), 3, 1e-9);
@@ -78,7 +78,7 @@ public class LoghmeTest {
             loghmeTest.addRestaurant(testAddRestaurantJson);
             loghmeTest.addFood(testAddFoodJson);
 
-            Restaurant hesturan = RestaurantService.getInstance().getRestaurantInstance("1");
+            Restaurant hesturan = RestaurantService.getInstance().getRestaurant("1");
             Food gheime = hesturan.getFood("Gheime");
             Assert.assertNotNull(gheime);
             Assert.assertEquals(gheime.getName(), "Gheime");

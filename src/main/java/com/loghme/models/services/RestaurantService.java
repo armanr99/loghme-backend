@@ -12,6 +12,7 @@ import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Restaurant.exceptions.*;
 import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.models.domain.User.User;
+import com.loghme.models.repositories.RestaurantRepository;
 import com.loghme.utils.HTTPRequester;
 
 import java.lang.reflect.Type;
@@ -19,7 +20,6 @@ import java.util.*;
 
 public class RestaurantService {
     private Gson gson;
-    private HashMap<String, Restaurant> restaurants;
     private ArrayList<Restaurant> foodPartyRestaurants;
     private static RestaurantService instance = null;
 
@@ -32,7 +32,6 @@ public class RestaurantService {
 
     private RestaurantService() {
         gson = new Gson();
-        restaurants = new HashMap<>();
         foodPartyRestaurants = new ArrayList<>();
     }
 
@@ -47,43 +46,40 @@ public class RestaurantService {
 
     public static void clearInstance() {
         instance = null;
+        RestaurantRepository.clearInstance();
     }
 
     public void addRestaurant(String serializedRestaurant) throws JsonSyntaxException, RestaurantAlreadyExists {
         JsonObject restaurantObject = gson.fromJson(serializedRestaurant, JsonObject.class);
         JsonElement menuElement = restaurantObject.remove(Fields.MENU);
         Restaurant newRestaurant = gson.fromJson(restaurantObject.toString(), Restaurant.class);
-        String newRestaurantId = newRestaurant.getId();
-
-        if (restaurants.containsKey(newRestaurantId))
-            throw new RestaurantAlreadyExists(newRestaurantId);
 
         Type listType = new TypeToken<List<Food>>() {}.getType();
         ArrayList<Food> menu = gson.fromJson(menuElement, listType);
         newRestaurant.addFoods(menu);
 
-        restaurants.put(newRestaurantId, newRestaurant);
+        RestaurantRepository.getInstance().addRestaurant(newRestaurant);
     }
 
-    public void addFood(String serializedFood)
+    public void addFoodStr(String serializedFood)
             throws JsonParseException, FoodAlreadyExistsInRestaurant, RestaurantDoesntExist {
         JsonObject foodWithRestaurantId = gson.fromJson(serializedFood, JsonObject.class);
         JsonElement restaurantIdElement = foodWithRestaurantId.remove(Fields.RESTAURANT_Id);
         String restaurantId = restaurantIdElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantIdElement.getAsString();
 
-        Restaurant restaurant = getRestaurantInstance(restaurantId);
+        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurant(restaurantId);
         restaurant.addFood(foodWithRestaurantId);
     }
 
-    public List<String> getRestaurants() {
-        return new ArrayList<>(restaurants.keySet());
+    public List<String> getRestaurantsStr() {
+        return RestaurantRepository.getInstance().getRestaurantsStr();
     }
 
-    public String getRestaurant(String restaurantInfo) throws JsonParseException, RestaurantDoesntExist {
+    public String getRestaurantStr(String restaurantInfo) throws JsonParseException, RestaurantDoesntExist {
         JsonElement restaurantIdElement = gson.fromJson(restaurantInfo, JsonObject.class).get(Fields.Id);
         String restaurantId = restaurantIdElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantIdElement.getAsString();
 
-        Restaurant restaurant = getRestaurantInstance(restaurantId);
+        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurant(restaurantId);
         JsonObject restaurantObject = gson.toJsonTree(restaurant, Restaurant.class).getAsJsonObject();
         restaurantObject.remove(Fields.MENU);
         JsonElement menuElement = gson.toJsonTree(restaurant.getListMenu());
@@ -92,19 +88,19 @@ public class RestaurantService {
         return gson.toJson(restaurantObject, JsonObject.class);
     }
 
-    public String getFood(String foodInfo) throws JsonParseException, RestaurantDoesntExist, FoodDoesntExist {
+    public String getFoodStr(String foodInfo) throws JsonParseException, RestaurantDoesntExist, FoodDoesntExist {
         JsonElement restaurantIdElement = gson.fromJson(foodInfo, JsonObject.class).get(Fields.RESTAURANT_Id);
         JsonElement foodNameElement = gson.fromJson(foodInfo, JsonObject.class).get(Fields.FOOD_NAME);
         String restaurantId = restaurantIdElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : restaurantIdElement.getAsString();
         String foodName = foodNameElement.isJsonNull() ? GeneralConstants.EMPTY_STRING : foodNameElement.getAsString();
 
-        Restaurant restaurant = getRestaurantInstance(restaurantId);
+        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurant(restaurantId);
         Food food = restaurant.getFood(foodName);
 
         if (food == null)
             throw new FoodDoesntExist(foodName, restaurantId);
         else
-            return gson.toJson(restaurants.get(restaurantId).getFood(foodName));
+            return gson.toJson(food);
     }
 
     public ArrayList<String> getRecommendedRestaurants() {
@@ -112,7 +108,7 @@ public class RestaurantService {
         ArrayList<String> recommendedRestaurants = new ArrayList<>();
         ArrayList<Double> popularities = new ArrayList<>();
 
-        for (Restaurant restaurant : restaurants.values()) {
+        for (Restaurant restaurant : RestaurantRepository.getInstance().getRestaurants()) {
             double popularity = getPopularity(restaurant, user);
             if (recommendedRestaurants.size() < Configs.MAX_RECOMMENDED_SIZE) {
                 recommendedRestaurants.add(restaurant.getName());
@@ -138,15 +134,8 @@ public class RestaurantService {
         return (averageFoodsPopularity / distanceFromUser);
     }
 
-    public Restaurant getRestaurantInstance(String restaurantId) throws RestaurantDoesntExist {
-        if (!restaurants.containsKey(restaurantId))
-            throw new RestaurantDoesntExist(restaurantId);
-        else
-            return restaurants.get(restaurantId);
-    }
-
     public Restaurant getRestaurantInstanceIfInRange(String restaurantId, Location source, double distance) throws RestaurantDoesntExist, RestaurantOutOfRange {
-        Restaurant restaurant = this.getRestaurantInstance(restaurantId);
+        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurant(restaurantId);
         if (Double.compare(restaurant.getLocation().getEuclideanDistanceFrom(source), distance) <= 0)
             return restaurant;
         else
@@ -156,7 +145,7 @@ public class RestaurantService {
     public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance) {
         ArrayList<Restaurant> restaurantsWithinDistance = new ArrayList<>();
 
-        for (Restaurant restaurant : restaurants.values())
+        for (Restaurant restaurant : RestaurantRepository.getInstance().getRestaurants())
             if (Double.compare(restaurant.getLocation().getEuclideanDistanceFrom(source), distance) <= 0)
                 restaurantsWithinDistance.add(restaurant);
 
@@ -190,7 +179,7 @@ public class RestaurantService {
     }
 
     private void addPartyFoods(String restaurantId, String serializedMenu) throws RestaurantDoesntExist {
-        Restaurant restaurant = getRestaurantInstance(restaurantId);
+        Restaurant restaurant = RestaurantRepository.getInstance().getRestaurant(restaurantId);
         foodPartyRestaurants.add(restaurant);
 
         Type listType = new TypeToken<List<PartyFood>>() {}.getType();
@@ -207,5 +196,9 @@ public class RestaurantService {
 
     public ArrayList<Restaurant> getFoodPartyRestaurants() {
         return foodPartyRestaurants;
+    }
+
+    public Restaurant getRestaurant(String restaurantId) throws RestaurantDoesntExist {
+        return RestaurantRepository.getInstance().getRestaurant(restaurantId);
     }
 }
