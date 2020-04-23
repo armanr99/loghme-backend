@@ -7,22 +7,28 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConnectionPool {
-    private static BasicDataSource ds = new BasicDataSource();
+    private BasicDataSource dataSource;
+    private static ConnectionPool instance;
 
-    static {
-        ds.setDriverClassName(DatabaseConfigs.driverClassName);
-        ds.setUrl(DatabaseConfigs.url);
-        ds.setUsername(DatabaseConfigs.username);
-        ds.setPassword(DatabaseConfigs.password);
-        ds.setMinIdle(DatabaseConfigs.minIdle);
-        ds.setMaxIdle(DatabaseConfigs.maxIdle);
-        ds.setMaxOpenPreparedStatements(DatabaseConfigs.maxOpenPreparedStatements);
-    }
-
-    public static Connection getConnection() throws SQLException {
-        return ds.getConnection();
+    public static ConnectionPool getInstance() {
+        if (instance == null) {
+            instance = new ConnectionPool();
+        }
+        return instance;
     }
 
     private ConnectionPool() {
+        dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(DatabaseConfigs.driverClassName);
+        dataSource.setUrl(DatabaseConfigs.url);
+        dataSource.setUsername(DatabaseConfigs.username);
+        dataSource.setPassword(DatabaseConfigs.password);
+        dataSource.setMinIdle(DatabaseConfigs.minIdle);
+        dataSource.setMaxIdle(DatabaseConfigs.maxIdle);
+        dataSource.setMaxOpenPreparedStatements(DatabaseConfigs.maxOpenPreparedStatements);
+    }
+
+    public Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 }
