@@ -37,7 +37,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.location = location;
-        this.cart = new Cart();
+        this.cart = new Cart(id);
         this.orders = new HashMap<>();
         this.wallet = new Wallet(credit);
     }
@@ -86,10 +86,10 @@ public class User {
             Order order = cart.finalizeOrder();
             orders.put(order.getId(), order);
 
-            cart = new Cart();
+            cart = new Cart(id);
             DeliveryService.getInstance().addDelivery(order);
         } catch(InvalidCount invalidCount) {
-            cart = new Cart();
+            cart = new Cart(id);
             throw invalidCount;
         }
     }

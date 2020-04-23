@@ -13,10 +13,12 @@ import com.loghme.models.domain.Restaurant.Restaurant;
 import java.util.*;
 
 public class Cart {
+    private int userId;
     private Restaurant restaurant;
     private Map<String, CartItem> cartItems;
 
-    public Cart() {
+    public Cart(int userId) {
+        this.userId = userId;
         cartItems = new HashMap<>();
     }
 
@@ -74,7 +76,7 @@ public class Cart {
         if (cartItems.containsKey(food.getName())) {
             cartItems.get(food.getName()).increaseCount();
         } else {
-            CartItem newCartItem = new CartItem(food, restaurant);
+            CartItem newCartItem = new CartItem(userId, food, restaurant);
             cartItems.put(food.getName(), newCartItem);
         }
     }

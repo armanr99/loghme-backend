@@ -5,11 +5,13 @@ import com.loghme.models.domain.Food.Food;
 import com.loghme.models.domain.Restaurant.Restaurant;
 
 public class CartItem {
+    int userId;
     private Food food;
     private Restaurant restaurant;
     private int count;
 
-    public CartItem(Food food, Restaurant restaurant) {
+    public CartItem(int userId, Food food, Restaurant restaurant) {
+        this.userId  = userId;
         this.count = 1;
         this.food = food;
         this.restaurant = restaurant;
