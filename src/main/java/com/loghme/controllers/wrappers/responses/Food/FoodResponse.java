@@ -1,8 +1,8 @@
 package com.loghme.controllers.wrappers.responses.Food;
 
 import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantSmallResponse;
-import com.loghme.models.Food.Food;
-import com.loghme.models.Restaurant.Restaurant;
+import com.loghme.models.domain.Food.Food;
+import com.loghme.models.domain.Restaurant.Restaurant;
 
 public class FoodResponse {
     private String name;

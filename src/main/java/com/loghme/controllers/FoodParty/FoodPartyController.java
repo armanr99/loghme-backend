@@ -3,8 +3,8 @@ package com.loghme.controllers.FoodParty;
 import com.loghme.configs.Path;
 import com.loghme.controllers.wrappers.responses.FoodParty.FoodPartyResponse;
 import com.loghme.controllers.wrappers.responses.FoodParty.RemainingTimeResponse;
-import com.loghme.models.Restaurant.Restaurant;
-import com.loghme.repositories.RestaurantRepository;
+import com.loghme.models.domain.Restaurant.Restaurant;
+import com.loghme.models.services.RestaurantService;
 import com.loghme.schedulers.FoodPartyScheduler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class FoodPartyController {
     @GetMapping("")
     public FoodPartyResponse getPartyFoods() {
-        ArrayList<Restaurant> foodPartyRestaurants = RestaurantRepository.getInstance().getFoodPartyRestaurants();
+        ArrayList<Restaurant> foodPartyRestaurants = RestaurantService.getInstance().getFoodPartyRestaurants();
         return new FoodPartyResponse(foodPartyRestaurants);
     }
 

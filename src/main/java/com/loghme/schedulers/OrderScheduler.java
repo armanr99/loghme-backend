@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loghme.configs.DeliveryConfigs;
 import com.loghme.configs.ServerConfigs;
-import com.loghme.models.Delivery.Delivery;
-import com.loghme.models.Location.Location;
-import com.loghme.models.Order.Order;
-import com.loghme.repositories.UserRepository;
+import com.loghme.models.domain.Delivery.Delivery;
+import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.Order.Order;
+import com.loghme.models.services.UserService;
 import com.loghme.utils.HTTPRequester;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class OrderScheduler {
 
     private Delivery getBestDelivery(ArrayList<Delivery> deliveries) {
         Location restaurantLocation = order.getRestaurantLocation();
-        Location userLocation = UserRepository.getInstance().getUser().getLocation();
+        Location userLocation = UserService.getInstance().getUser().getLocation();
 
         return deliveries.stream().min(Comparator.comparing(delivery -> delivery.getTotalTime(restaurantLocation, userLocation))).get();
     }

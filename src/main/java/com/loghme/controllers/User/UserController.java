@@ -2,8 +2,8 @@ package com.loghme.controllers.User;
 
 import com.loghme.configs.Path;
 import com.loghme.controllers.wrappers.responses.User.UserResponse;
-import com.loghme.models.User.User;
-import com.loghme.repositories.UserRepository;
+import com.loghme.models.domain.User.User;
+import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @GetMapping("")
     public UserResponse getUser() {
-        User user = UserRepository.getInstance().getUser();
+        User user = UserService.getInstance().getUser();
         return new UserResponse(user);
     }
 }

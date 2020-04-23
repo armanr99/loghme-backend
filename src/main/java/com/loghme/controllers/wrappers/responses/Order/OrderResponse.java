@@ -1,7 +1,7 @@
 package com.loghme.controllers.wrappers.responses.Order;
 
 import com.loghme.controllers.wrappers.responses.Cart.CartResponse;;
-import com.loghme.models.Order.Order;
+import com.loghme.models.domain.Order.Order;
 
 
 public class OrderResponse {

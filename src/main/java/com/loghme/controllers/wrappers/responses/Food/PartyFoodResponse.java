@@ -1,7 +1,7 @@
 package com.loghme.controllers.wrappers.responses.Food;
 
-import com.loghme.models.Food.PartyFood;
-import com.loghme.models.Restaurant.Restaurant;
+import com.loghme.models.domain.Food.PartyFood;
+import com.loghme.models.domain.Restaurant.Restaurant;
 
 public class PartyFoodResponse extends FoodResponse {
     private int count;

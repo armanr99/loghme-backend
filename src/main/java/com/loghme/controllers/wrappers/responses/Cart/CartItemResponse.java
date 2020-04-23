@@ -3,9 +3,9 @@ package com.loghme.controllers.wrappers.responses.Cart;
 import com.loghme.controllers.wrappers.responses.Food.FoodResponse;
 import com.loghme.controllers.wrappers.responses.Food.PartyFoodResponse;
 import com.loghme.controllers.wrappers.responses.Restaurant.RestaurantSmallResponse;
-import com.loghme.models.CartItem.CartItem;
-import com.loghme.models.Food.Food;
-import com.loghme.models.Food.PartyFood;
+import com.loghme.models.domain.CartItem.CartItem;
+import com.loghme.models.domain.Food.Food;
+import com.loghme.models.domain.Food.PartyFood;
 
 public class CartItemResponse {
     private FoodResponse food;

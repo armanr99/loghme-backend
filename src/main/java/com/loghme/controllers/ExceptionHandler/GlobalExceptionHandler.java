@@ -1,16 +1,16 @@
 package com.loghme.controllers.ExceptionHandler;
 
 import com.loghme.controllers.wrappers.responses.Exception.ExceptionResponse;
-import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
-import com.loghme.models.Cart.exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
-import com.loghme.models.Food.exceptions.InvalidCount;
-import com.loghme.models.Restaurant.exceptions.FoodDoesntExist;
-import com.loghme.models.Restaurant.exceptions.RestaurantDoesntExist;
-import com.loghme.models.Restaurant.exceptions.RestaurantOutOfRange;
-import com.loghme.models.User.exceptions.OrderDoesntExist;
-import com.loghme.models.Wallet.exceptions.NotEnoughBalance;
-import com.loghme.models.Wallet.exceptions.WrongAmount;
+import com.loghme.models.domain.Cart.exceptions.CartItemDoesntExist;
+import com.loghme.models.domain.Cart.exceptions.DifferentRestaurant;
+import com.loghme.models.domain.Cart.exceptions.EmptyCartFinalize;
+import com.loghme.models.domain.Food.exceptions.InvalidCount;
+import com.loghme.models.domain.Restaurant.exceptions.FoodDoesntExist;
+import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
+import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
+import com.loghme.models.domain.User.exceptions.OrderDoesntExist;
+import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
+import com.loghme.models.domain.Wallet.exceptions.WrongAmount;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

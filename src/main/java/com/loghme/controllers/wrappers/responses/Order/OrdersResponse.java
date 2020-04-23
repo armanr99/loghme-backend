@@ -1,6 +1,6 @@
 package com.loghme.controllers.wrappers.responses.Order;
 
-import com.loghme.models.Order.Order;
+import com.loghme.models.domain.Order.Order;
 
 import java.util.ArrayList;
 
