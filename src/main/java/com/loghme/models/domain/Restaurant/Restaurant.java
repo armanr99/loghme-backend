@@ -72,7 +72,7 @@ public class Restaurant {
         String image = "";
         double foodPopularity = newFoodJsonObj.get(Fields.POPULARITY).getAsDouble();
         double foodPrice = newFoodJsonObj.get(Fields.PRICE).getAsDouble();
-        Food newFood = new Food(foodName, foodDescription, image, foodPopularity, foodPrice);
+        Food newFood = new Food(foodName, id, foodDescription, image, foodPopularity, foodPrice);
 
         this.addFood(newFood);
     }

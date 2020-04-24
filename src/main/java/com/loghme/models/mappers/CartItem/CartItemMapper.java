@@ -2,7 +2,7 @@ package com.loghme.models.mappers.CartItem;
 
 import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.CartItem.CartItem;
-import com.loghme.models.mappers.utils.TripleKey.TripleKey;
+import com.loghme.models.utils.TripleKey.TripleKey;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,9 +49,9 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
         return String.format(
                 "SELECT * FROM %s WHERE userId = %s AND restaurantId = %s AND foodName = %s;",
                 TABLE_NAME,
-                id.getFirstKeyAsString(),
-                id.getSecondKeyAsString(),
-                id.getThirdKeyAsString());
+                id.getFirstKeyStr(),
+                id.getSecondKeyAsStr(),
+                id.getThirdKeyAsStr());
     }
 
     @Override
@@ -71,9 +71,9 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
         return String.format(
                 "DELETE FROM %s WHERE WHERE userId = %s AND restaurantId = %s AND foodName = %s;",
                 TABLE_NAME,
-                id.getFirstKeyAsString(),
-                id.getSecondKeyAsString(),
-                id.getThirdKeyAsString());
+                id.getFirstKeyStr(),
+                id.getSecondKeyAsStr(),
+                id.getThirdKeyAsStr());
     }
 
     @Override
