@@ -92,4 +92,8 @@ public class UserMapper extends Mapper<User, Integer> implements IUserMapper {
         return String.format(
                 "INSERT IGNORE INTO %s (%s) VALUES (?, ?, ?, ?, ?, ?, ?, ?);", TABLE_NAME, COLUMN_NAMES);
     }
+
+    private String getFindAllStatement() {
+        return String.format("SELECT * FROM %s;", TABLE_NAME);
+    }
 }

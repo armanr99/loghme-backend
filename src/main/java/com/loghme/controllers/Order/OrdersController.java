@@ -23,7 +23,7 @@ public class OrdersController {
     }
 
     @GetMapping("{id}")
-    public OrderResponse getOrder(@PathVariable(value = "id") int id) throws OrderDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist {
+    public OrderResponse getOrder(@PathVariable(value = "id") int id) throws OrderDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException {
         Order order = UserService.getInstance().getOrder(id);
         return new OrderResponse(order);
     }

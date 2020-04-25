@@ -17,6 +17,7 @@ import com.loghme.models.repositories.RestaurantRepository;
 import com.loghme.schedulers.FoodPartyScheduler;
 import com.loghme.utils.HTTPRequester;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class RestaurantService {
@@ -34,7 +35,7 @@ public class RestaurantService {
         gson = new Gson();
     }
 
-    public void fetchRestaurants(String sourceURL) throws JsonSyntaxException {
+    public void fetchRestaurants(String sourceURL) throws JsonSyntaxException, SQLException {
         String restaurantsData = HTTPRequester.get(sourceURL);
         RestaurantInput[] restaurantInputs =
                 gson.fromJson(restaurantsData, RestaurantInput[].class);
@@ -46,7 +47,7 @@ public class RestaurantService {
 
     public Restaurant getRestaurantInstanceIfInRange(
             String restaurantId, Location source, double distance)
-            throws RestaurantDoesntExist, RestaurantOutOfRange {
+            throws RestaurantDoesntExist, RestaurantOutOfRange, SQLException {
         Restaurant restaurant = RestaurantRepository.getInstance().getRestaurant(restaurantId);
 
         if (isRestaurantInRange(restaurant, source, distance)) {
@@ -56,7 +57,7 @@ public class RestaurantService {
         }
     }
 
-    public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance) {
+    public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance) throws SQLException {
         ArrayList<Restaurant> restaurantsWithinDistance = new ArrayList<>();
 
         for (Restaurant restaurant : RestaurantRepository.getInstance().getRestaurants()) {
@@ -81,7 +82,7 @@ public class RestaurantService {
         return FoodPartyScheduler.getInstance().getRemainingSeconds();
     }
 
-    public void fetchPartyFoods() throws JsonSyntaxException {
+    public void fetchPartyFoods() throws JsonSyntaxException, SQLException {
         String restaurantsData = HTTPRequester.get(ServerConfigs.FOOD_PARTY_URL);
         FoodPartyRestaurantInput[] foodPartyRestaurantInputs =
                 gson.fromJson(restaurantsData, FoodPartyRestaurantInput[].class);

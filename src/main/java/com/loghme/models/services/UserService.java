@@ -42,7 +42,7 @@ public class UserService {
     }
 
     private void validateAddToCart(User user, String restaurantId, String foodName)
-            throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, InvalidCount {
+            throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, InvalidCount, SQLException {
         Restaurant restaurant =
                 RestaurantService.getInstance()
                         .getRestaurantInstanceIfInRange(

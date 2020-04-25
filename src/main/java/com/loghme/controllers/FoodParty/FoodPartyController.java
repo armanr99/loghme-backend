@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
 @RequestMapping(Path.Web.FOOD_PARTY)
 public class FoodPartyController {
     @GetMapping("")
-    public FoodPartyResponse getPartyFoods() throws RestaurantDoesntExist {
+    public FoodPartyResponse getPartyFoods() throws RestaurantDoesntExist, SQLException {
         ArrayList<PartyFood> partyFoods = RestaurantService.getInstance().getPartyFoods();
         return new FoodPartyResponse(partyFoods);
     }

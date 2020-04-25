@@ -9,6 +9,7 @@ import com.loghme.models.domain.OrderItem.OrderItem;
 import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.models.repositories.OrderRepository;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Order {
@@ -65,7 +66,7 @@ public class Order {
         return OrderRepository.getInstance().getOrderItems(id);
     }
 
-    public Restaurant getRestaurant() throws RestaurantDoesntExist, OrderItemDoesntExist {
+    public Restaurant getRestaurant() throws RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
         return OrderRepository.getInstance().getOrderRestaurant(this.id);
     }
 

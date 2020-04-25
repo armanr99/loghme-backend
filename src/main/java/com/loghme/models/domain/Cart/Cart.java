@@ -8,6 +8,7 @@ import com.loghme.models.repositories.CartRepository;
 import com.loghme.models.repositories.OrderRepository;
 import com.loghme.models.services.DeliveryService;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class Cart {
@@ -73,7 +74,7 @@ public class Cart {
     }
 
     public void finalizeOrder()
-            throws EmptyCart, InvalidCount, RestaurantDoesntExist, FoodDoesntExist {
+            throws EmptyCart, InvalidCount, RestaurantDoesntExist, FoodDoesntExist, SQLException {
         ArrayList<CartItem> cartItems = getCartItems();
 
         validateFinalizeOrder(cartItems);
@@ -87,7 +88,7 @@ public class Cart {
     }
 
     private void runFinalizeOrder(ArrayList<CartItem> cartItems)
-            throws RestaurantDoesntExist, FoodDoesntExist, InvalidCount {
+            throws RestaurantDoesntExist, FoodDoesntExist, InvalidCount, SQLException {
         try {
             finalizeItems(cartItems);
             Order order = createOrder(cartItems);
@@ -100,7 +101,7 @@ public class Cart {
     }
 
     private void finalizeItems(ArrayList<CartItem> cartItems)
-            throws InvalidCount, RestaurantDoesntExist, FoodDoesntExist {
+            throws InvalidCount, RestaurantDoesntExist, FoodDoesntExist, SQLException {
         for (CartItem cartItem : cartItems) {
             cartItem.finalizeItem();
         }
@@ -114,7 +115,7 @@ public class Cart {
         return order;
     }
 
-    public Restaurant getRestaurant() throws RestaurantDoesntExist, EmptyCart {
+    public Restaurant getRestaurant() throws RestaurantDoesntExist, EmptyCart, SQLException {
         return CartRepository.getInstance().getCartRestaurant(userId);
     }
 }

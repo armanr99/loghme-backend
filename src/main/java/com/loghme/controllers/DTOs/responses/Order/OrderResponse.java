@@ -7,6 +7,7 @@ import com.loghme.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.OrderItem.OrderItem;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -15,7 +16,7 @@ public class OrderResponse {
     private OrderItemsResponse cart;
     private String state;
 
-    public OrderResponse(Order order) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist {
+    public OrderResponse(Order order) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
         this.id = order.getId();
         this.cart = new OrderItemsResponse(order);
         this.state = order.getState();

@@ -34,7 +34,24 @@ public abstract class Mapper<T, I> implements IMapper<T, I> {
         }
     }
 
-    public void executeUpdate(Connection con, PreparedStatement st) throws SQLException {
+    protected ArrayList<T> findAll(Connection con, PreparedStatement st) throws SQLException {
+        ArrayList<T> result = new ArrayList<>();
+        ResultSet resultSet;
+        try {
+            resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                result.add(convertResultSetToObject(resultSet));
+            }
+            resultSet.close();
+            closeStatement(con, st);
+            return result;
+        } catch (SQLException ex) {
+            System.out.println("error in Mapper.findByID query.");
+            throw ex;
+        }
+    }
+
+    protected void executeUpdate(Connection con, PreparedStatement st) throws SQLException {
         try {
             st.executeUpdate();
             closeStatement(con, st);

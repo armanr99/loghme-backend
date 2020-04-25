@@ -6,6 +6,7 @@ import com.loghme.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.CartItem.CartItem;
 import com.loghme.models.domain.Restaurant.Restaurant;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -59,7 +60,7 @@ public class CartRepository {
         cartItems.clear();
     }
 
-    public Restaurant getCartRestaurant(int userId) throws EmptyCart, RestaurantDoesntExist {
+    public Restaurant getCartRestaurant(int userId) throws EmptyCart, RestaurantDoesntExist, SQLException {
         CartItem orderItem = getFirstCartItem(userId);
         String restaurantId = orderItem.getRestaurantId();
 

@@ -5,6 +5,8 @@ import com.loghme.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.models.repositories.RestaurantRepository;
 
+import java.sql.SQLException;
+
 public class Food {
     private String name;
     private String restaurantId;
@@ -60,7 +62,7 @@ public class Food {
         this.restaurantId = restaurantId;
     }
 
-    public Restaurant getRestaurant() throws RestaurantDoesntExist {
+    public Restaurant getRestaurant() throws RestaurantDoesntExist, SQLException {
         return RestaurantRepository.getInstance().getRestaurant(restaurantId);
     }
 }

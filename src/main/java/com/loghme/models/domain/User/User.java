@@ -8,6 +8,7 @@ import com.loghme.models.domain.Wallet.Wallet;
 import com.loghme.models.repositories.OrderRepository;
 import com.loghme.models.repositories.UserRepository;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class User {
@@ -93,14 +94,14 @@ public class User {
 
     public void finalizeOrder()
             throws EmptyCart, NotEnoughBalance, InvalidCount, FoodDoesntExist, WrongAmount,
-                    RestaurantDoesntExist {
+            RestaurantDoesntExist, SQLException {
         double totalPrice = cart.getTotalPrice();
         wallet.withdraw(totalPrice);
 
         try {
             cart.finalizeOrder();
             UserRepository.getInstance().updateUser(this);
-        } catch (InvalidCount | RestaurantDoesntExist | FoodDoesntExist ex) {
+        } catch (InvalidCount | RestaurantDoesntExist | FoodDoesntExist | SQLException ex) {
             chargeWallet(totalPrice);
             UserRepository.getInstance().updateUser(this);
             throw ex;

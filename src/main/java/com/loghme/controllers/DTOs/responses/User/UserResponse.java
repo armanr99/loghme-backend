@@ -11,6 +11,7 @@ import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.User.User;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserResponse {
@@ -24,7 +25,7 @@ public class UserResponse {
     private CartResponse cart;
     private ArrayList<OrderResponse> orders;
 
-    public UserResponse(User user) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist {
+    public UserResponse(User user) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
         setInfo(user);
         setCart(user.getCart());
         setOrders(user);
@@ -44,7 +45,7 @@ public class UserResponse {
         this.cart = new CartResponse(cart);
     }
 
-    private void setOrders(User user) throws RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist {
+    private void setOrders(User user) throws RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException {
         orders = new ArrayList<>();
 
         for(Order order : user.getOrders()) {

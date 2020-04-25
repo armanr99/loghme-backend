@@ -1,9 +1,12 @@
 package com.loghme.models.mappers.Restaurant;
 
+import com.loghme.database.ConncetionPool.ConnectionPool;
 import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Restaurant.Restaurant;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 public class RestaurantMapper extends Mapper<Restaurant, String> implements IRestaurantMapper {
     private static RestaurantMapper instance = null;
     private static final String TABLE_NAME = "Restaurant";
-    private static final String COLUMN_NAMES = " id, name, logo, posX, posY ";
+    private static final String COLUMN_NAMES = "id, name, logo, posX, posY";
 
     public static RestaurantMapper getInstance() throws SQLException {
         if (instance == null) {
@@ -28,13 +31,12 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
     public ArrayList<String> getCreateTableStatement() {
         ArrayList<String> statements = new ArrayList<>();
 
-        statements.add(String.format("DROP TABLE IF EXISTS %s", TABLE_NAME));
         statements.add(
                 String.format(
-                        "CREATE TABLE %s (\n"
+                        "CREATE TABLE IF NOT EXISTS %s (\n"
                                 + "   id VARCHAR(255) PRIMARY KEY,\n"
-                                + "   name VARCHAR(255) NOT NULL,\n"
-                                + "   logo VARCHAR(255) NOT NULL,\n"
+                                + "   name VARCHAR(1023) NOT NULL,\n"
+                                + "   logo VARCHAR(1023) NOT NULL,\n"
                                 + "   posX DOUBLE NOT NULL,\n"
                                 + "   posY DOUBLE NOT NULL\n"
                                 + ");",
@@ -42,24 +44,45 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
         return statements;
     }
 
-    public String getFindStatement() {
+    public Restaurant find(String restaurantId) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getFindStatement());
+        st.setString(1, restaurantId);
+
+        return findOne(con, st);
+    }
+
+    public ArrayList<Restaurant> findAll() throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getFindAllStatement());
+
+        return findAll(con, st);
+    }
+
+    public void insert(Restaurant restaurant) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getInsertStatement());
+
+        st.setString(1, restaurant.getId());
+        st.setString(2, restaurant.getName());
+        st.setString(3, restaurant.getLogo());
+        st.setDouble(4, restaurant.getLocation().getX());
+        st.setDouble(5, restaurant.getLocation().getY());
+
+        executeUpdate(con, st);
+    }
+
+    private String getFindStatement() {
         return String.format("SELECT * FROM %s WHERE id = ?;", TABLE_NAME);
     }
 
-    public String getInsertStatement(Restaurant restaurant) {
+    private String getInsertStatement() {
         return String.format(
-                "INSERT INTO %s (%s) VALUES (%s, %s, %s, %f, %f",
-                TABLE_NAME,
-                COLUMN_NAMES,
-                restaurant.getId(),
-                restaurant.getName(),
-                restaurant.getLogo(),
-                restaurant.getLocation().getX(),
-                restaurant.getLocation().getY());
+                "INSERT IGNORE INTO %s (%s) VALUES (?, ?, ?, ?, ?);", TABLE_NAME, COLUMN_NAMES);
     }
 
-    public String getDeleteStatement() {
-        return String.format("DELETE FROM %s WHERE id = ?;", TABLE_NAME);
+    private String getFindAllStatement() {
+        return String.format("SELECT * FROM %s;", TABLE_NAME);
     }
 
     @Override

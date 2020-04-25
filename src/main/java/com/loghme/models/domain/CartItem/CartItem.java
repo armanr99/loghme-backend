@@ -9,6 +9,8 @@ import com.loghme.models.repositories.CartRepository;
 import com.loghme.models.repositories.RestaurantRepository;
 import com.loghme.models.services.RestaurantService;
 
+import java.sql.SQLException;
+
 public class CartItem {
     private int count;
     private int userId;
@@ -56,7 +58,7 @@ public class CartItem {
         return RestaurantService.getInstance().getFood(restaurantId, foodName).getPrice() * count;
     }
 
-    public void finalizeItem() throws RestaurantDoesntExist, InvalidCount, FoodDoesntExist {
+    public void finalizeItem() throws RestaurantDoesntExist, InvalidCount, FoodDoesntExist, SQLException {
         Restaurant restaurant = RestaurantRepository.getInstance().getRestaurant(restaurantId);
         Food food = restaurant.getFood(foodName);
 

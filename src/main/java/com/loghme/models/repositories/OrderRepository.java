@@ -8,6 +8,7 @@ import com.loghme.models.domain.Order.OrderIdHandler;
 import com.loghme.models.domain.OrderItem.OrderItem;
 import com.loghme.models.domain.Restaurant.Restaurant;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderRepository {
@@ -72,7 +73,7 @@ public class OrderRepository {
     }
 
     public Restaurant getOrderRestaurant(int orderId)
-            throws OrderItemDoesntExist, RestaurantDoesntExist {
+            throws OrderItemDoesntExist, RestaurantDoesntExist, SQLException {
         OrderItem orderItem = getFirstOrderItem(orderId);
         String restaurantId = orderItem.getRestaurantId();
 

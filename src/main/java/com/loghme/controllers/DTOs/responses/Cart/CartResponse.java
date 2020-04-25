@@ -7,6 +7,7 @@ import com.loghme.models.domain.Cart.Cart;
 import com.loghme.models.domain.CartItem.CartItem;
 import com.loghme.models.domain.Restaurant.Restaurant;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CartResponse {
@@ -24,7 +25,7 @@ public class CartResponse {
 
         try {
             restaurant = cart.getRestaurant();
-        } catch (EmptyCart emptyCart) {
+        } catch (EmptyCart | SQLException emptyCart) {
             restaurant = null;
         }
 
