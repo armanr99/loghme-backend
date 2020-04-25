@@ -6,6 +6,7 @@ import com.loghme.models.domain.Delivery.Delivery;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.services.UserService;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 public class DeliveryInfo {
@@ -18,7 +19,7 @@ public class DeliveryInfo {
         Location userLocation = null;
         try {
             userLocation = UserService.getInstance().getUser(0).getLocation();
-        } catch (UserDoesntExist userDoesntExist) {
+        } catch (UserDoesntExist | SQLException userDoesntExist) {
             userDoesntExist.printStackTrace();
         }
         this.totalTime = delivery.getTotalTime(restaurantLocation, userLocation);

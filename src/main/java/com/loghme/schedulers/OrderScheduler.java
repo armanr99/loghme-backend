@@ -14,6 +14,7 @@ import com.loghme.models.domain.Order.Order;
 import com.loghme.models.services.UserService;
 import com.loghme.utils.HTTPRequester;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.Executors;
@@ -46,7 +47,8 @@ public class OrderScheduler {
                             assignDelivery(deliveries);
                         } catch (UserDoesntExist
                                 | RestaurantDoesntExist
-                                | OrderItemDoesntExist ex) {
+                                | OrderItemDoesntExist
+                                | SQLException ex) {
                             ex.printStackTrace();
                         }
                     }
@@ -57,7 +59,7 @@ public class OrderScheduler {
     }
 
     private void assignDelivery(ArrayList<Delivery> deliveries)
-            throws UserDoesntExist, OrderItemDoesntExist, RestaurantDoesntExist {
+            throws UserDoesntExist, OrderItemDoesntExist, RestaurantDoesntExist, SQLException {
         Location restaurantLocation = order.getRestaurant().getLocation();
         Delivery bestDelivery = getBestDelivery(deliveries, restaurantLocation);
         DeliveryInfo deliveryInfo = new DeliveryInfo(bestDelivery, restaurantLocation);
@@ -66,7 +68,7 @@ public class OrderScheduler {
     }
 
     private Delivery getBestDelivery(ArrayList<Delivery> deliveries, Location restaurantLocation)
-            throws UserDoesntExist {
+            throws UserDoesntExist, SQLException {
         assert (deliveries.size() > 0);
         Location userLocation = UserService.getInstance().getUser(0).getLocation();
 

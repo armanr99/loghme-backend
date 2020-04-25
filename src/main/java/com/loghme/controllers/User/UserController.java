@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
+
 
 @RestController
 @RequestMapping(Path.Web.USER)
 public class UserController {
     @GetMapping("")
-    public UserResponse getUser() throws UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist {
+    public UserResponse getUser() throws UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         User user = UserService.getInstance().getUser(userId);
         return new UserResponse(user);

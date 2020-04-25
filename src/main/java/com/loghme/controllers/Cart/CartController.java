@@ -11,13 +11,14 @@ import com.loghme.models.domain.Order.Order;
 import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
 @RequestMapping(Path.Web.CART)
 public class CartController {
     @GetMapping("")
-    public CartResponse getCart() throws UserDoesntExist, FoodDoesntExist, EmptyCart, RestaurantDoesntExist {
+    public CartResponse getCart() throws UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         Cart cart = UserService.getInstance().getCart(userId);
         return new CartResponse(cart);
@@ -26,7 +27,7 @@ public class CartController {
     @PostMapping("")
     public CartResponse addToCart(@RequestBody CartRequest request)
             throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist,
-            DifferentRestaurant, InvalidCount, UserDoesntExist, EmptyCart {
+            DifferentRestaurant, InvalidCount, UserDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         String restaurantId = request.getRestaurantId();
         String foodName = request.getFoodName();
@@ -39,7 +40,7 @@ public class CartController {
 
     @DeleteMapping("")
     public CartResponse removeFromCart(@RequestBody CartRequest request)
-            throws CartItemDoesntExist, UserDoesntExist, FoodDoesntExist, EmptyCart, RestaurantDoesntExist {
+            throws CartItemDoesntExist, UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         String restaurantId = request.getRestaurantId();
         String foodName = request.getFoodName();
@@ -53,7 +54,7 @@ public class CartController {
     @PostMapping("/order")
     public OrdersResponse finalizeOrder()
             throws InvalidCount, EmptyCart, NotEnoughBalance, UserDoesntExist,
-            RestaurantDoesntExist, FoodDoesntExist, WrongAmount, OrderItemDoesntExist {
+            RestaurantDoesntExist, FoodDoesntExist, WrongAmount, OrderItemDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         UserService.getInstance().finalizeOrder(userId);
 

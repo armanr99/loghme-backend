@@ -9,11 +9,13 @@ import com.loghme.exceptions.WrongAmount;
 import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 @RestController
 @RequestMapping(Path.Web.WALLET)
 public class WalletController {
     @PostMapping("")
-    public WalletResponse chargeUser(@RequestBody WalletRequest request) throws WrongAmount, UserDoesntExist {
+    public WalletResponse chargeUser(@RequestBody WalletRequest request) throws WrongAmount, UserDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         double amount = request.getAmount();
 

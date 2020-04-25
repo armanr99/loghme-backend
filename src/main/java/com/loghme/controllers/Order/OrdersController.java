@@ -9,13 +9,14 @@ import com.loghme.models.domain.Order.Order;
 import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
 @RequestMapping(Path.Web.ORDERS)
 public class OrdersController {
     @GetMapping("")
-    public OrdersResponse getOrders() throws UserDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist {
+    public OrdersResponse getOrders() throws UserDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         ArrayList<Order> orders = UserService.getInstance().getOrders(userId);
         return new OrdersResponse(orders);

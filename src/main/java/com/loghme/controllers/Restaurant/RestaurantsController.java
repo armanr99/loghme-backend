@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
 @RequestMapping(Path.Web.RESTAURANTS)
 public class RestaurantsController {
     @GetMapping("")
-    public RestaurantsResponse getRestaurants() throws UserDoesntExist {
+    public RestaurantsResponse getRestaurants() throws UserDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         Location userLocation = UserService.getInstance().getUser(userId).getLocation();
         ArrayList<Restaurant> restaurants =
@@ -35,7 +36,7 @@ public class RestaurantsController {
 
     @GetMapping("{id}")
     public RestaurantResponse getRestaurant(@PathVariable(value = "id") String id)
-            throws RestaurantOutOfRange, RestaurantDoesntExist, UserDoesntExist {
+            throws RestaurantOutOfRange, RestaurantDoesntExist, UserDoesntExist, SQLException {
         int userId = UserConfigs.DEFAULT_ID;
         Location userLocation = UserService.getInstance().getUser(userId).getLocation();
         RestaurantService restaurantService = RestaurantService.getInstance();

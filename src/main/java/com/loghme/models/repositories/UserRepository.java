@@ -4,11 +4,11 @@ import com.loghme.configs.UserConfigs;
 import com.loghme.exceptions.UserDoesntExist;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.User.User;
+import com.loghme.models.mappers.User.UserMapper;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 
 public class UserRepository {
-    private ArrayList<User> users;
     private static UserRepository instance = null;
 
     public static UserRepository getInstance() {
@@ -18,19 +18,19 @@ public class UserRepository {
         return instance;
     }
 
-    private UserRepository() {
-        users = new ArrayList<>();
-        users.add(getSampleUser());
+    public void addSampleUser() throws SQLException {
+        User sampleUser = getSampleUser();
+        UserMapper.getInstance().insert(sampleUser);
     }
 
-    public User getUser(int userId) throws UserDoesntExist {
-        for (User user : users) {
-            if (user.getId() == userId) {
-                return user;
-            }
-        }
+    public User getUser(int userId) throws UserDoesntExist, SQLException {
+        User user = UserMapper.getInstance().find(userId);
 
-        throw new UserDoesntExist(userId);
+        if (user == null) {
+            throw new UserDoesntExist(userId);
+        } else {
+            return user;
+        }
     }
 
     private User getSampleUser() {

@@ -10,6 +10,7 @@ import com.loghme.models.domain.User.User;
 import com.loghme.models.repositories.OrderRepository;
 import com.loghme.models.repositories.UserRepository;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserService {
@@ -22,18 +23,18 @@ public class UserService {
         return instance;
     }
 
-    public User getUser(int userId) throws UserDoesntExist {
+    public User getUser(int userId) throws UserDoesntExist, SQLException {
         return UserRepository.getInstance().getUser(userId);
     }
 
-    public Cart getCart(int userId) throws UserDoesntExist {
+    public Cart getCart(int userId) throws UserDoesntExist, SQLException {
         User user = getUser(userId);
         return user.getCart();
     }
 
     public void addToCart(int userId, String restaurantId, String foodName)
             throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant,
-                    RestaurantOutOfRange, InvalidCount, UserDoesntExist {
+            RestaurantOutOfRange, InvalidCount, UserDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
 
         validateAddToCart(user, restaurantId, foodName);
@@ -55,17 +56,17 @@ public class UserService {
     }
 
     public void removeFromCart(int userId, String restaurantId, String foodName)
-            throws CartItemDoesntExist, UserDoesntExist {
+            throws CartItemDoesntExist, UserDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
         user.removeFromCart(restaurantId, foodName);
     }
 
-    public void chargeUser(int userId, double amount) throws WrongAmount, UserDoesntExist {
+    public void chargeUser(int userId, double amount) throws WrongAmount, UserDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
         user.chargeWallet(amount);
     }
 
-    public ArrayList<Order> getOrders(int userId) throws UserDoesntExist {
+    public ArrayList<Order> getOrders(int userId) throws UserDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
         return user.getOrders();
     }
@@ -76,7 +77,7 @@ public class UserService {
 
     public void finalizeOrder(int userId)
             throws EmptyCart, NotEnoughBalance, InvalidCount, UserDoesntExist, WrongAmount,
-                    FoodDoesntExist, RestaurantDoesntExist {
+            FoodDoesntExist, RestaurantDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
         user.finalizeOrder();
     }
