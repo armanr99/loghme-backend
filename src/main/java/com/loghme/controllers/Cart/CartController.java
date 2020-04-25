@@ -1,19 +1,13 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.requests.Cart.CartRequest;
-import com.loghme.controllers.wrappers.responses.Cart.CartResponse;
-import com.loghme.controllers.wrappers.responses.Order.OrdersResponse;
+import com.loghme.configs.UserConfigs;
+import com.loghme.controllers.DTOs.requests.Cart.CartRequest;
+import com.loghme.controllers.DTOs.responses.Cart.CartResponse;
+import com.loghme.controllers.DTOs.responses.Order.OrdersResponse;
+import com.loghme.exceptions.*;
 import com.loghme.models.domain.Cart.Cart;
-import com.loghme.models.domain.Cart.exceptions.CartItemDoesntExist;
-import com.loghme.models.domain.Cart.exceptions.DifferentRestaurant;
-import com.loghme.models.domain.Cart.exceptions.EmptyCartFinalize;
-import com.loghme.models.domain.Food.exceptions.InvalidCount;
 import com.loghme.models.domain.Order.Order;
-import com.loghme.models.domain.Restaurant.exceptions.FoodDoesntExist;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantOutOfRange;
-import com.loghme.models.domain.Wallet.exceptions.NotEnoughBalance;
 import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,35 +17,47 @@ import java.util.ArrayList;
 @RequestMapping(Path.Web.CART)
 public class CartController {
     @GetMapping("")
-    public CartResponse getCart() {
-        Cart cart = UserService.getInstance().getUser().getCart();
+    public CartResponse getCart() throws UserDoesntExist, FoodDoesntExist, EmptyCart, RestaurantDoesntExist {
+        int userId = UserConfigs.DEFAULT_ID;
+        Cart cart = UserService.getInstance().getCart(userId);
         return new CartResponse(cart);
     }
 
     @PostMapping("")
-    public CartResponse addToCart(@RequestBody CartRequest request) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
-        UserService.getInstance().addToCart(request.getFoodName(), request.getRestaurantId());
+    public CartResponse addToCart(@RequestBody CartRequest request)
+            throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist,
+            DifferentRestaurant, InvalidCount, UserDoesntExist, EmptyCart {
+        int userId = UserConfigs.DEFAULT_ID;
+        String restaurantId = request.getRestaurantId();
+        String foodName = request.getFoodName();
 
-        Cart cart = UserService.getInstance().getUser().getCart();
+        UserService.getInstance().addToCart(userId, restaurantId, foodName);
 
+        Cart cart = UserService.getInstance().getCart(userId);
         return new CartResponse(cart);
     }
 
     @DeleteMapping("")
-    public CartResponse removeFromCart(@RequestBody CartRequest request) throws CartItemDoesntExist {
-        UserService.getInstance().removeFromCart(request.getFoodName(), request.getRestaurantId());
+    public CartResponse removeFromCart(@RequestBody CartRequest request)
+            throws CartItemDoesntExist, UserDoesntExist, FoodDoesntExist, EmptyCart, RestaurantDoesntExist {
+        int userId = UserConfigs.DEFAULT_ID;
+        String restaurantId = request.getRestaurantId();
+        String foodName = request.getFoodName();
 
-        Cart cart = UserService.getInstance().getUser().getCart();
+        UserService.getInstance().removeFromCart(userId, restaurantId, foodName);
 
+        Cart cart = UserService.getInstance().getCart(userId);
         return new CartResponse(cart);
     }
 
     @PostMapping("/order")
-    public OrdersResponse finalizeOrder() throws InvalidCount, EmptyCartFinalize, NotEnoughBalance {
-        UserService.getInstance().finalizeOrder();
+    public OrdersResponse finalizeOrder()
+            throws InvalidCount, EmptyCart, NotEnoughBalance, UserDoesntExist,
+            RestaurantDoesntExist, FoodDoesntExist, WrongAmount, OrderItemDoesntExist {
+        int userId = UserConfigs.DEFAULT_ID;
+        UserService.getInstance().finalizeOrder(userId);
 
-        ArrayList<Order> orders = UserService.getInstance().getUser().getOrdersList();
-
+        ArrayList<Order> orders = UserService.getInstance().getOrders(userId);
         return new OrdersResponse(orders);
     }
 }

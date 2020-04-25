@@ -1,65 +1,81 @@
 package com.loghme.models.domain.Order;
 
 import com.loghme.configs.DeliveryConfigs;
-import com.loghme.models.domain.Cart.Cart;
+import com.loghme.exceptions.FoodDoesntExist;
+import com.loghme.exceptions.OrderItemDoesntExist;
+import com.loghme.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.CartItem.CartItem;
-import com.loghme.models.domain.Delivery.Delivery;
-import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.OrderItem.OrderItem;
+import com.loghme.models.domain.Restaurant.Restaurant;
+import com.loghme.models.repositories.OrderRepository;
 
 import java.util.ArrayList;
 
 public class Order {
-    private Cart cart;
     private int id;
-    private DeliveryInfo deliveryInfo;
+    private int userId;
+    private DeliveryInfo deliveryInfo = null;
 
-    public Order(Cart cart) {
-        this.cart = cart;
-        this.id = OrderIdHandler.getNextId();
-        this.deliveryInfo = null;
+    public Order(int userId) {
+        this.userId = userId;
     }
 
     public Order(int id, int userId) {
-        //TODO
-    }
-
-    public void setDelivery(Delivery delivery) {
-        deliveryInfo = new DeliveryInfo(delivery, cart.getRestaurantLocation());
-    }
-
-    public Location getRestaurantLocation() {
-        return cart.getRestaurantLocation();
-    }
-
-    public String getState() {
-        return (deliveryInfo == null ? DeliveryConfigs.State.SEARCHING : deliveryInfo.getState());
+        this.id = id;
+        this.userId = userId;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getRestaurantName() {
-        return cart.getRestaurantName();
-    }
-
-    public ArrayList<CartItem> getCartItemsList() {
-        return cart.getCartItemsList();
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public double getRemainingSeconds() {
-        return (deliveryInfo == null ? -1 : deliveryInfo.getRemainingSeconds());
-    }
-
-    public DeliveryInfo getDeliveryInfo() {
-        return deliveryInfo;
-    }
-
     public int getUserId() {
-        return 0; //TODO
+        return userId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void addOrderItems(ArrayList<CartItem> cartItems) {
+        ArrayList<OrderItem> orderItems = new ArrayList<>();
+
+        for (CartItem cartItem : cartItems) {
+            OrderItem orderItem =
+                    new OrderItem(
+                            this.id,
+                            cartItem.getRestaurantId(),
+                            cartItem.getFoodName(),
+                            cartItem.getCount());
+            orderItems.add(orderItem);
+        }
+
+        OrderRepository.getInstance().addOrderItems(orderItems);
+    }
+
+    public String getState() {
+        return (deliveryInfo == null ? DeliveryConfigs.State.SEARCHING : deliveryInfo.getState());
+    }
+
+    public void setDelivery(DeliveryInfo deliveryInfo) {
+        this.deliveryInfo = deliveryInfo;
+    }
+
+    public ArrayList<OrderItem> getOrderItems() {
+        return OrderRepository.getInstance().getOrderItems(id);
+    }
+
+    public Restaurant getRestaurant() throws RestaurantDoesntExist, OrderItemDoesntExist {
+        return OrderRepository.getInstance().getOrderRestaurant(this.id);
+    }
+
+    public double getTotalPrice() throws FoodDoesntExist {
+        double totalPrice = 0;
+
+        for (OrderItem orderItem : getOrderItems()) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+
+        return totalPrice;
     }
 }

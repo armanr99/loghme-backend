@@ -1,13 +1,12 @@
 package com.loghme.models.repositories;
 
+import com.loghme.models.DTOs.Restaurant.FoodPartyRestaurantInput;
+import com.loghme.models.DTOs.Restaurant.RestaurantInput;
 import com.loghme.models.domain.Restaurant.Restaurant;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantAlreadyExists;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantDoesntExist;
+import com.loghme.exceptions.RestaurantDoesntExist;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public class RestaurantRepository {
     private HashMap<String, Restaurant> restaurants;
@@ -20,30 +19,46 @@ public class RestaurantRepository {
         return instance;
     }
 
-    public static void clearInstance() {
-        instance = null;
-    }
-
     private RestaurantRepository() {
         restaurants = new HashMap<>();
     }
 
-    public void addRestaurant(Restaurant restaurant) throws RestaurantAlreadyExists {
-        if (restaurants.containsKey(restaurant.getId()))
-            throw new RestaurantAlreadyExists(restaurant.getId());
-        else
+    public void addRestaurant(RestaurantInput restaurantInput) {
+        Restaurant restaurant =
+                new Restaurant(
+                        restaurantInput.getId(),
+                        restaurantInput.getName(),
+                        restaurantInput.getLogo(),
+                        restaurantInput.getLocation());
+        addRestaurant(restaurant);
+
+        FoodRepository.getInstance().addRestaurantFoods(restaurantInput);
+    }
+
+    public void addFoodPartyRestaurant(FoodPartyRestaurantInput foodPartyRestaurantInput) {
+        Restaurant restaurant =
+                new Restaurant(
+                        foodPartyRestaurantInput.getId(),
+                        foodPartyRestaurantInput.getName(),
+                        foodPartyRestaurantInput.getLogo(),
+                        foodPartyRestaurantInput.getLocation());
+        addRestaurant(restaurant);
+
+        PartyFoodRepository.getInstance().addRestaurantPartyFoods(foodPartyRestaurantInput);
+    }
+
+    private void addRestaurant(Restaurant restaurant) {
+        if (!restaurants.containsKey(restaurant.getId())) {
             restaurants.put(restaurant.getId(), restaurant);
+        }
     }
 
     public Restaurant getRestaurant(String restaurantId) throws RestaurantDoesntExist {
-        if (!restaurants.containsKey(restaurantId))
+        if (!restaurants.containsKey(restaurantId)) {
             throw new RestaurantDoesntExist(restaurantId);
-        else
+        } else {
             return restaurants.get(restaurantId);
-    }
-
-    public List<String> getRestaurantsStr() {
-        return new ArrayList<>(restaurants.keySet());
+        }
     }
 
     public Collection<Restaurant> getRestaurants() {

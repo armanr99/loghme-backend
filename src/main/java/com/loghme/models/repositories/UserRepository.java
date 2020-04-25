@@ -1,11 +1,14 @@
 package com.loghme.models.repositories;
 
+import com.loghme.configs.UserConfigs;
+import com.loghme.exceptions.UserDoesntExist;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.User.User;
-import com.loghme.models.domain.Wallet.Wallet;
+
+import java.util.ArrayList;
 
 public class UserRepository {
-    private User user;
+    private ArrayList<User> users;
     private static UserRepository instance = null;
 
     public static UserRepository getInstance() {
@@ -16,19 +19,22 @@ public class UserRepository {
     }
 
     private UserRepository() {
-        user = getSampleUser();
+        users = new ArrayList<>();
+        users.add(getSampleUser());
     }
 
-    public static void clearInstance() {
-        instance = null;
-    }
+    public User getUser(int userId) throws UserDoesntExist {
+        for (User user : users) {
+            if (user.getId() == userId) {
+                return user;
+            }
+        }
 
-    public User getUser() {
-        return user;
+        throw new UserDoesntExist(userId);
     }
 
     private User getSampleUser() {
-        int id = 0;
+        int id = UserConfigs.DEFAULT_ID;
         String firstName = "احسان";
         String lastName = "خامس‌پناه";
         String phoneNumber = "+989123456789";
@@ -37,4 +43,6 @@ public class UserRepository {
         Location location = new Location(0, 0);
         return new User(id, firstName, lastName, phoneNumber, email, credit, location);
     }
+
+    public void updateUser(User user) {}
 }
