@@ -10,7 +10,7 @@ public abstract class Mapper<T, I> implements IMapper<T, I> {
 
     protected abstract T convertResultSetToObject(ResultSet rs) throws SQLException;
 
-    protected void closeStatement(Connection con, PreparedStatement st) throws SQLException {
+    private void closeStatement(Connection con, Statement st) throws SQLException {
         st.close();
         con.close();
     }
@@ -54,6 +54,16 @@ public abstract class Mapper<T, I> implements IMapper<T, I> {
     protected void executeUpdate(Connection con, PreparedStatement st) throws SQLException {
         try {
             st.executeUpdate();
+            closeStatement(con, st);
+        } catch (SQLException ex) {
+            System.out.println("error in Mapper.insert query.");
+            throw ex;
+        }
+    }
+
+    protected void executeUpdateBatch(Connection con, PreparedStatement st) throws SQLException {
+        try {
+            st.executeBatch();
             closeStatement(con, st);
         } catch (SQLException ex) {
             System.out.println("error in Mapper.insert query.");

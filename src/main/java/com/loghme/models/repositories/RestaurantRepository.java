@@ -1,12 +1,11 @@
 package com.loghme.models.repositories;
 
-import com.loghme.models.DTOs.Restaurant.FoodPartyRestaurantInput;
-import com.loghme.models.DTOs.Restaurant.RestaurantInput;
 import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.exceptions.RestaurantDoesntExist;
 import com.loghme.models.mappers.Restaurant.RestaurantMapper;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class RestaurantRepository {
@@ -19,33 +18,8 @@ public class RestaurantRepository {
         return instance;
     }
 
-    public void addRestaurant(RestaurantInput restaurantInput) throws SQLException {
-        Restaurant restaurant =
-                new Restaurant(
-                        restaurantInput.getId(),
-                        restaurantInput.getName(),
-                        restaurantInput.getLogo(),
-                        restaurantInput.getLocation());
-        addRestaurant(restaurant);
-
-        FoodRepository.getInstance().addRestaurantFoods(restaurantInput);
-    }
-
-    public void addFoodPartyRestaurant(FoodPartyRestaurantInput foodPartyRestaurantInput)
-            throws SQLException {
-        Restaurant restaurant =
-                new Restaurant(
-                        foodPartyRestaurantInput.getId(),
-                        foodPartyRestaurantInput.getName(),
-                        foodPartyRestaurantInput.getLogo(),
-                        foodPartyRestaurantInput.getLocation());
-        addRestaurant(restaurant);
-
-        PartyFoodRepository.getInstance().addRestaurantPartyFoods(foodPartyRestaurantInput);
-    }
-
-    private void addRestaurant(Restaurant restaurant) throws SQLException {
-        RestaurantMapper.getInstance().insert(restaurant);
+    public void addRestaurants(ArrayList<Restaurant> restaurants) throws SQLException {
+        RestaurantMapper.getInstance().insertBatch(restaurants);
     }
 
     public Restaurant getRestaurant(String restaurantId)

@@ -22,7 +22,7 @@ public class PartyFoodRepository {
         partyFoods = new ArrayList<>();
     }
 
-    void addRestaurantPartyFoods(FoodPartyRestaurantInput restaurantInput) {
+    public void addRestaurantPartyFoods(FoodPartyRestaurantInput restaurantInput) {
         String restaurantId = restaurantInput.getId();
         ArrayList<PartyFoodInput> restaurantPartyFoodInputs = restaurantInput.getMenu();
 

@@ -40,9 +40,37 @@ public class RestaurantService {
         RestaurantInput[] restaurantInputs =
                 gson.fromJson(restaurantsData, RestaurantInput[].class);
 
+        addRestaurants(restaurantInputs);
+        addFoods(restaurantInputs);
+    }
+
+    private void addRestaurants(RestaurantInput[] restaurantInputs) throws SQLException {
+        ArrayList<Restaurant> restaurants = makeRestaurantInstances(restaurantInputs);
+        RestaurantRepository.getInstance().addRestaurants(restaurants);
+    }
+
+    private ArrayList<Restaurant> makeRestaurantInstances(RestaurantInput[] restaurantInputs) {
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
+
         for (RestaurantInput restaurantInput : restaurantInputs) {
-            RestaurantRepository.getInstance().addRestaurant(restaurantInput);
+            restaurants.add(makeRestaurantInstance(restaurantInput));
         }
+
+        return restaurants;
+    }
+
+    private void addFoods(RestaurantInput[] restaurantInputs) {
+        for(RestaurantInput restaurantInput : restaurantInputs) {
+            FoodRepository.getInstance().addRestaurantFoods(restaurantInput);
+        }
+    }
+
+    private Restaurant makeRestaurantInstance(RestaurantInput restaurantInput) {
+        return new Restaurant(
+                restaurantInput.getId(),
+                restaurantInput.getName(),
+                restaurantInput.getLogo(),
+                restaurantInput.getLocation());
     }
 
     public Restaurant getRestaurantInstanceIfInRange(
@@ -57,7 +85,8 @@ public class RestaurantService {
         }
     }
 
-    public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance) throws SQLException {
+    public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance)
+            throws SQLException {
         ArrayList<Restaurant> restaurantsWithinDistance = new ArrayList<>();
 
         for (Restaurant restaurant : RestaurantRepository.getInstance().getRestaurants()) {
@@ -87,9 +116,37 @@ public class RestaurantService {
         FoodPartyRestaurantInput[] foodPartyRestaurantInputs =
                 gson.fromJson(restaurantsData, FoodPartyRestaurantInput[].class);
 
+        addFoodPartyRestaurants(foodPartyRestaurantInputs);
+        addPartyFoods(foodPartyRestaurantInputs);
+    }
+
+    private void addFoodPartyRestaurants(FoodPartyRestaurantInput[] foodPartyRestaurantInputs) throws SQLException {
+        ArrayList<Restaurant> restaurants = makeRestaurantInstances(foodPartyRestaurantInputs);
+        RestaurantRepository.getInstance().addRestaurants(restaurants);
+    }
+
+    private ArrayList<Restaurant> makeRestaurantInstances(FoodPartyRestaurantInput[] foodPartyRestaurantInputs) {
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
+
         for (FoodPartyRestaurantInput foodPartyRestaurantInput : foodPartyRestaurantInputs) {
-            RestaurantRepository.getInstance().addFoodPartyRestaurant(foodPartyRestaurantInput);
+            restaurants.add(makeRestaurantInstance(foodPartyRestaurantInput));
         }
+
+        return restaurants;
+    }
+
+    private void addPartyFoods(FoodPartyRestaurantInput[] foodPartyRestaurantInputs) {
+        for(FoodPartyRestaurantInput foodPartyRestaurantInput : foodPartyRestaurantInputs) {
+            PartyFoodRepository.getInstance().addRestaurantPartyFoods(foodPartyRestaurantInput);
+        }
+    }
+
+    private Restaurant makeRestaurantInstance(FoodPartyRestaurantInput foodPartyRestaurantInputs) {
+        return new Restaurant(
+                foodPartyRestaurantInputs.getId(),
+                foodPartyRestaurantInputs.getName(),
+                foodPartyRestaurantInputs.getLogo(),
+                foodPartyRestaurantInputs.getLocation());
     }
 
     public void deletePartyFoods() {

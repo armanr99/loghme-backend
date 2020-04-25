@@ -5,10 +5,7 @@ import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Restaurant.Restaurant;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class RestaurantMapper extends Mapper<Restaurant, String> implements IRestaurantMapper {
@@ -59,17 +56,20 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
         return findAll(con, st);
     }
 
-    public void insert(Restaurant restaurant) throws SQLException {
+    public void insertBatch(ArrayList<Restaurant> restaurants) throws SQLException {
         Connection con = ConnectionPool.getInstance().getConnection();
         PreparedStatement st = con.prepareStatement(getInsertStatement());
 
-        st.setString(1, restaurant.getId());
-        st.setString(2, restaurant.getName());
-        st.setString(3, restaurant.getLogo());
-        st.setDouble(4, restaurant.getLocation().getX());
-        st.setDouble(5, restaurant.getLocation().getY());
+        for (Restaurant restaurant : restaurants) {
+            st.setString(1, restaurant.getId());
+            st.setString(2, restaurant.getName());
+            st.setString(3, restaurant.getLogo());
+            st.setDouble(4, restaurant.getLocation().getX());
+            st.setDouble(5, restaurant.getLocation().getY());
+            st.addBatch();
+        }
 
-        executeUpdate(con, st);
+        executeUpdateBatch(con, st);
     }
 
     private String getFindStatement() {

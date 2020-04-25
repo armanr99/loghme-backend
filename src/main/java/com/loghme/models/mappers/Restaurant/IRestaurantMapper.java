@@ -8,6 +8,6 @@ import java.util.ArrayList;
 
 interface IRestaurantMapper extends IMapper<Restaurant, String> {
     Restaurant find(String restaurantId) throws SQLException;
-    void insert(Restaurant restaurant) throws SQLException;
+    void insertBatch(ArrayList<Restaurant> restaurants) throws SQLException;
     ArrayList<Restaurant> findAll() throws SQLException;
 }
