@@ -39,21 +39,18 @@ public class OrderMapper extends Mapper<Order, Integer> implements IOrderMapper 
         return statements;
     }
 
-    @Override
-    public String getFindStatement(Integer id) {
-        return String.format("SELECT * FROM %s WHERE id = %d;", TABLE_NAME, id);
+    public String getFindStatement() {
+        return String.format("SELECT * FROM %s WHERE id = ?;", TABLE_NAME);
     }
 
-    @Override
     public String getInsertStatement(Order order) {
         return String.format(
                 "INSERT INTO %s (%s) VALUES (%d, %d);",
                 TABLE_NAME, COLUMN_NAMES, order.getId(), order.getUserId());
     }
 
-    @Override
-    public String getDeleteStatement(Integer id) {
-        return String.format("DELETE FROM %s WHERE id = %d;", TABLE_NAME, id);
+    public String getDeleteStatement() {
+        return String.format("DELETE FROM %s WHERE id = ?;", TABLE_NAME);
     }
 
     @Override

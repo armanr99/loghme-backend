@@ -44,14 +44,12 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
         return statements;
     }
 
-    @Override
-    public String getFindStatement(TripleKey id) {
+    public String getFindStatement() {
         return String.format(
-                "SELECT * FROM %s WHERE userId = %s AND restaurantId = %s AND foodName = %s;",
-                TABLE_NAME, id.getFirstKeyStr(), id.getSecondKeyAsStr(), id.getThirdKeyAsStr());
+                "SELECT * FROM %s WHERE userId = ? AND restaurantId = ? AND foodName = ?;",
+                TABLE_NAME);
     }
 
-    @Override
     public String getInsertStatement(CartItem cartItem) {
         return String.format(
                 "INSERT INTO %s (%s) VALUES (%d, %s, %s, %d);",
@@ -63,11 +61,10 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
                 cartItem.getCount());
     }
 
-    @Override
-    public String getDeleteStatement(TripleKey id) {
+    public String getDeleteStatement() {
         return String.format(
-                "DELETE FROM %s WHERE WHERE userId = %s AND restaurantId = %s AND foodName = %s;",
-                TABLE_NAME, id.getFirstKeyStr(), id.getSecondKeyAsStr(), id.getThirdKeyAsStr());
+                "DELETE FROM %s WHERE WHERE userId = ? AND restaurantId = ? AND foodName = ?;",
+                TABLE_NAME);
     }
 
     @Override

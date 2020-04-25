@@ -6,52 +6,41 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public abstract class Mapper<T, I> implements IMapper<T, I> {
-    protected abstract String getFindStatement(I id);
-
-    protected abstract String getInsertStatement(T t);
-
-    protected abstract String getDeleteStatement(I id);
-
     protected abstract ArrayList<String> getCreateTableStatement();
 
     protected abstract T convertResultSetToObject(ResultSet rs) throws SQLException;
 
-    public T find(I id) throws SQLException {
-        try (Connection con = ConnectionPool.getInstance().getConnection();
-                PreparedStatement st = con.prepareStatement(getFindStatement(id))) {
-            ResultSet resultSet;
-            try {
-                resultSet = st.executeQuery();
-                resultSet.next();
-                return convertResultSetToObject(resultSet);
-            } catch (SQLException ex) {
-                System.out.println("error in Mapper.findByID query.");
-                throw ex;
+    protected void closeStatement(Connection con, PreparedStatement st) throws SQLException {
+        st.close();
+        con.close();
+    }
+
+    protected T findOne(Connection con, PreparedStatement st) throws SQLException {
+        ResultSet resultSet;
+        try {
+            resultSet = st.executeQuery();
+            if (!resultSet.next()) {
+                resultSet.close();
+                closeStatement(con, st);
+                return null;
             }
+            T convertedObject = convertResultSetToObject(resultSet);
+            resultSet.close();
+            closeStatement(con, st);
+            return convertedObject;
+        } catch (SQLException ex) {
+            System.out.println("error in Mapper.findByID query.");
+            throw ex;
         }
     }
 
-    public void insert(T obj) throws SQLException {
-        try (Connection con = ConnectionPool.getInstance().getConnection();
-                PreparedStatement st = con.prepareStatement(getInsertStatement(obj))) {
-            try {
-                st.executeUpdate();
-            } catch (SQLException ex) {
-                System.out.println("error in Mapper.insert query.");
-                throw ex;
-            }
-        }
-    }
-
-    public void delete(I id) throws SQLException {
-        try (Connection con = ConnectionPool.getInstance().getConnection();
-                PreparedStatement st = con.prepareStatement(getDeleteStatement(id))) {
-            try {
-                st.executeUpdate();
-            } catch (SQLException ex) {
-                System.out.println("error in Mapper.delete query.");
-                throw ex;
-            }
+    public void executeUpdate(Connection con, PreparedStatement st) throws SQLException {
+        try {
+            st.executeUpdate();
+            closeStatement(con, st);
+        } catch (SQLException ex) {
+            System.out.println("error in Mapper.insert query.");
+            throw ex;
         }
     }
 

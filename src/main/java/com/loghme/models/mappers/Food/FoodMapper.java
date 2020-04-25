@@ -46,14 +46,10 @@ public class FoodMapper extends Mapper<Food, PairKey> implements IFoodMapper {
         return statements;
     }
 
-    @Override
-    public String getFindStatement(PairKey id) {
-        return String.format(
-                "SELECT * FROM %s WHERE restaurantId = %s AND name = %s;",
-                TABLE_NAME, id.getFirstKeyStr(), id.getSecondKeyStr());
+    public String getFindStatement() {
+        return String.format("SELECT * FROM %s WHERE restaurantId = ? AND name = ?;", TABLE_NAME);
     }
 
-    @Override
     public String getInsertStatement(Food food) {
         return String.format(
                 "INSERT INTO %s (%s) VALUES (%s, %s, %s, %s, %f, %f);",
@@ -67,11 +63,8 @@ public class FoodMapper extends Mapper<Food, PairKey> implements IFoodMapper {
                 food.getPrice());
     }
 
-    @Override
-    public String getDeleteStatement(PairKey id) {
-        return String.format(
-                "DELETE FROM %s WHERE restaurantId = %s AND name = %s;",
-                TABLE_NAME, id.getFirstKeyStr(), id.getSecondKeyStr());
+    public String getDeleteStatement() {
+        return String.format("DELETE FROM %s WHERE restaurantId = ? AND name = ?;", TABLE_NAME);
     }
 
     @Override

@@ -29,6 +29,11 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException ex) {
+            System.out.println("Error in getting connection");
+            throw ex;
+        }
     }
 }

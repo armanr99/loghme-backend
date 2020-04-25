@@ -46,13 +46,11 @@ public class UserMapper extends Mapper<User, Integer> implements IUserMapper {
         return statements;
     }
 
-    @Override
-    public String getFindStatement(Integer id) {
-        return String.format("SELECT * FROM %s WHERE id = %d;", TABLE_NAME, id);
+    private String getFindStatement() {
+        return String.format("SELECT * FROM %s WHERE id = ?;", TABLE_NAME);
     }
 
-    @Override
-    public String getInsertStatement(User user) {
+    private String getInsertStatement(User user) {
         return String.format(
                 "INSERT INTO %s (%s) VALUES (%d, %s, %s, %s, %s, %f, %f, %f",
                 TABLE_NAME,
@@ -67,9 +65,8 @@ public class UserMapper extends Mapper<User, Integer> implements IUserMapper {
                 user.getLocation().getY());
     }
 
-    @Override
-    public String getDeleteStatement(Integer id) {
-        return String.format("DELETE FROM %s WHERE id = %d;", TABLE_NAME, id);
+    private String getDeleteStatement() {
+        return String.format("DELETE FROM %s WHERE id = ?;", TABLE_NAME);
     }
 
     @Override

@@ -42,12 +42,10 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
         return statements;
     }
 
-    @Override
-    public String getFindStatement(String id) {
-        return String.format("SELECT * FROM %s WHERE id = %s;", TABLE_NAME, id);
+    public String getFindStatement() {
+        return String.format("SELECT * FROM %s WHERE id = ?;", TABLE_NAME);
     }
 
-    @Override
     public String getInsertStatement(Restaurant restaurant) {
         return String.format(
                 "INSERT INTO %s (%s) VALUES (%s, %s, %s, %f, %f",
@@ -60,9 +58,8 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
                 restaurant.getLocation().getY());
     }
 
-    @Override
-    public String getDeleteStatement(String id) {
-        return String.format("DELETE FROM %s WHERE id = %s;", TABLE_NAME, id);
+    public String getDeleteStatement() {
+        return String.format("DELETE FROM %s WHERE id = ?;", TABLE_NAME);
     }
 
     @Override
