@@ -1,8 +1,6 @@
 package com.loghme.listeners;
 
 import com.loghme.configs.ServerConfigs;
-import com.loghme.models.domain.Restaurant.exceptions.FoodAlreadyExistsInRestaurant;
-import com.loghme.models.domain.Restaurant.exceptions.RestaurantAlreadyExists;
 import com.loghme.models.services.DeliveryService;
 import com.loghme.models.services.RestaurantService;
 import com.loghme.schedulers.FoodPartyScheduler;
@@ -28,9 +26,9 @@ public class BackgroundManager implements ServletContextListener {
 
     private void fetchRestaurants() {
         try {
-            RestaurantService.getInstance().fetchData(ServerConfigs.DATA_URL);
-        } catch (RestaurantAlreadyExists | FoodAlreadyExistsInRestaurant restaurantAlreadyExists) {
-            System.out.println("Error in fetching data: " + restaurantAlreadyExists.toString());
+            RestaurantService.getInstance().fetchRestaurants(ServerConfigs.DATA_URL);
+        } catch (Exception ex) {
+            System.out.println("Error in fetching restaurants data: " + ex.toString());
         }
     }
 }

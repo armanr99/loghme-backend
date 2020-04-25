@@ -27,8 +27,8 @@ public class FoodPartyScheduler {
         final Runnable foodPartyRequester = () -> {
             try {
                 restartDate = new Date();
-                RestaurantService.getInstance().clearPartyFoods();
-                RestaurantService.getInstance().fetchFoodParties();
+                RestaurantService.getInstance().deletePartyFoods();
+                RestaurantService.getInstance().fetchPartyFoods();
             } catch (Exception exception) {
                 System.out.println("Error in fetching data: " + exception.toString());
             }

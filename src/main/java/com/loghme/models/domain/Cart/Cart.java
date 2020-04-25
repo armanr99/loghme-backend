@@ -1,126 +1,120 @@
 package com.loghme.models.domain.Cart;
 
-import com.loghme.models.domain.Cart.exceptions.CartItemDoesntExist;
-import com.loghme.models.domain.Cart.exceptions.DifferentRestaurant;
-import com.loghme.models.domain.Cart.exceptions.EmptyCartFinalize;
+import com.loghme.exceptions.*;
 import com.loghme.models.domain.CartItem.CartItem;
-import com.loghme.models.domain.Food.exceptions.InvalidCount;
-import com.loghme.models.domain.Food.Food;
-import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.Restaurant.Restaurant;
+import com.loghme.models.repositories.CartRepository;
+import com.loghme.models.repositories.OrderRepository;
+import com.loghme.models.services.DeliveryService;
 
 import java.util.*;
 
 public class Cart {
     private int userId;
-    private Restaurant restaurant;
-    private Map<String, CartItem> cartItems;
 
     public Cart(int userId) {
         this.userId = userId;
-        cartItems = new HashMap<>();
     }
 
-    public void addToCart(Food food, Restaurant restaurant) throws DifferentRestaurant, InvalidCount {
-        handleRestaurant(restaurant);
-        handleAddCartItem(food, restaurant);
+    public ArrayList<CartItem> getCartItems() {
+        return CartRepository.getInstance().getCartItems(userId);
     }
 
-    public ArrayList<CartItem> getCartItemsList() {
-        return new ArrayList<>(cartItems.values());
+    public void addItem(String restaurantId, String foodName) throws DifferentRestaurant {
+        validateSameRestaurant(restaurantId);
+        handleAddItem(restaurantId, foodName);
     }
 
-    public Order finalizeOrder() throws EmptyCartFinalize, InvalidCount {
-        if(cartItems.size() == 0)
-            throw new EmptyCartFinalize();
-        else {
-            finalizeItems();
-            return new Order(this);
-        }
-    }
-
-    private void finalizeItems() throws InvalidCount {
-        for(CartItem cartItem : cartItems.values())
-            cartItem.finalizeItem();
-    }
-
-    private void handleRestaurant(Restaurant restaurant) throws DifferentRestaurant {
-        if(this.restaurant == null)
-            this.restaurant = restaurant;
-        else if(!this.restaurant.getId().equals(restaurant.getId()))
-            throw new DifferentRestaurant(this.restaurant.getId());
-    }
-
-    private void handleAddCartItem(Food food, Restaurant restaurant) throws InvalidCount {
+    public int getCartItemCount(String restaurantId, String foodName) {
         try {
-            validateCount(food);
-            addCartItem(food, restaurant);
-        } catch(InvalidCount invalidCount) {
-            if(cartItems.size() == 0)
-                this.restaurant = null;
-            throw invalidCount;
+            CartItem cartItem =
+                    CartRepository.getInstance().getCartItem(userId, restaurantId, foodName);
+            return cartItem.getCount();
+        } catch (CartItemDoesntExist cartItemDoesntExist) {
+            return 0;
         }
     }
 
-    private void validateCount(Food food) throws InvalidCount {
-        int newCount = 1;
+    private void validateSameRestaurant(String restaurantId) throws DifferentRestaurant {
+        ArrayList<CartItem> cartItems = getCartItems();
 
-        if(cartItems.containsKey(food.getName()))
-            newCount += cartItems.get(food.getName()).getCount();
-
-        food.validateCount(newCount);
-    }
-
-    private void addCartItem(Food food, Restaurant restaurant) {
-        if (cartItems.containsKey(food.getName())) {
-            cartItems.get(food.getName()).increaseCount();
-        } else {
-            CartItem newCartItem = new CartItem(userId, food, restaurant);
-            cartItems.put(food.getName(), newCartItem);
+        if (cartItems.size() > 0) {
+            if (!restaurantId.equals(cartItems.get(0).getRestaurantId())) {
+                throw new DifferentRestaurant(restaurantId);
+            }
         }
     }
 
-    public double getTotalPrice() {
+    private void handleAddItem(String restaurantId, String foodName) {
+        try {
+            CartItem cartItem =
+                    CartRepository.getInstance().getCartItem(userId, restaurantId, foodName);
+            cartItem.increaseCount();
+        } catch (CartItemDoesntExist cartItemDoesntExist) {
+            CartRepository.getInstance().addCartItem(new CartItem(userId, restaurantId, foodName));
+        }
+    }
+
+    public void removeItem(String restaurantId, String foodName) throws CartItemDoesntExist {
+        CartItem cartItem =
+                CartRepository.getInstance().getCartItem(userId, restaurantId, foodName);
+        cartItem.decreaseCount();
+    }
+
+    public double getTotalPrice() throws FoodDoesntExist {
         double totalPrice = 0;
 
-        for(CartItem cartItem : cartItems.values())
+        for (CartItem cartItem : getCartItems()) {
             totalPrice += cartItem.getTotalPrice();
+        }
 
         return totalPrice;
     }
 
-    public String getRestaurantName() {
-        return (restaurant == null ? null : restaurant.getName());
+    public void finalizeOrder()
+            throws EmptyCart, InvalidCount, RestaurantDoesntExist, FoodDoesntExist {
+        ArrayList<CartItem> cartItems = getCartItems();
+
+        validateFinalizeOrder(cartItems);
+        runFinalizeOrder(cartItems);
     }
 
-    public Location getRestaurantLocation() {
-        return (restaurant == null ? null : restaurant.getLocation());
-    }
-
-    public void removeItem(String foodName, String restaurantId) throws CartItemDoesntExist {
-        validateRemoveItem(foodName, restaurantId);
-        removeItemFromCart(foodName, restaurantId);
-    }
-
-    private void validateRemoveItem(String foodName, String restaurantId) throws CartItemDoesntExist {
-        if(cartItems.size() == 0)
-            throw new CartItemDoesntExist(foodName, restaurantId);
-        else if(!restaurant.getId().equals(restaurantId))
-            throw new CartItemDoesntExist(foodName, restaurantId);
-        else if(!cartItems.containsKey(foodName))
-            throw new CartItemDoesntExist(foodName, restaurantId);
-    }
-
-    private void removeItemFromCart(String foodName, String restaurantId) {
-        CartItem cartItem = cartItems.get(foodName);
-
-        if(cartItem.getCount() == 1) {
-            cartItems.remove(foodName);
-            this.restaurant = null;
+    private void validateFinalizeOrder(ArrayList<CartItem> cartItems) throws EmptyCart {
+        if (cartItems.size() == 0) {
+            throw new EmptyCart();
         }
-        else {
-            cartItem.decreaseCount();
+    }
+
+    private void runFinalizeOrder(ArrayList<CartItem> cartItems)
+            throws RestaurantDoesntExist, FoodDoesntExist, InvalidCount {
+        try {
+            finalizeItems(cartItems);
+            Order order = createOrder(cartItems);
+            CartRepository.getInstance().deleteCart(userId);
+            DeliveryService.getInstance().addDelivery(order);
+        } catch (InvalidCount | RestaurantDoesntExist | FoodDoesntExist ex) {
+            CartRepository.getInstance().deleteCart(userId);
+            throw ex;
         }
+    }
+
+    private void finalizeItems(ArrayList<CartItem> cartItems)
+            throws InvalidCount, RestaurantDoesntExist, FoodDoesntExist {
+        for (CartItem cartItem : cartItems) {
+            cartItem.finalizeItem();
+        }
+    }
+
+    private Order createOrder(ArrayList<CartItem> cartItems) {
+        Order order = new Order(userId);
+        OrderRepository.getInstance().addAndSetOrder(order);
+        order.addOrderItems(cartItems);
+
+        return order;
+    }
+
+    public Restaurant getRestaurant() throws RestaurantDoesntExist, EmptyCart {
+        return CartRepository.getInstance().getCartRestaurant(userId);
     }
 }

@@ -2,7 +2,7 @@ package com.loghme.models.mappers.Food;
 
 import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.Food.Food;
-import com.loghme.models.mappers.utils.PairKey.PairKey;
+import com.loghme.models.utils.PairKey.PairKey;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +50,7 @@ public class FoodMapper extends Mapper<Food, PairKey> implements IFoodMapper {
     public String getFindStatement(PairKey id) {
         return String.format(
                 "SELECT * FROM %s WHERE restaurantId = %s AND name = %s;",
-                TABLE_NAME, id.getFirstKey(), id.getSecondKey());
+                TABLE_NAME, id.getFirstKeyStr(), id.getSecondKeyStr());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class FoodMapper extends Mapper<Food, PairKey> implements IFoodMapper {
     public String getDeleteStatement(PairKey id) {
         return String.format(
                 "DELETE FROM %s WHERE restaurantId = %s AND name = %s;",
-                TABLE_NAME, id.getFirstKey(), id.getSecondKey());
+                TABLE_NAME, id.getFirstKeyStr(), id.getSecondKeyStr());
     }
 
     @Override
@@ -83,9 +83,6 @@ public class FoodMapper extends Mapper<Food, PairKey> implements IFoodMapper {
         double popularity = rs.getDouble(5);
         double price = rs.getDouble(6);
 
-        Food food = new Food(name, description, image, popularity, price);
-        food.setRestaurantId(restaurantId);
-
-        return food;
+        return new Food(name, restaurantId, description, image, popularity, price);
     }
 }

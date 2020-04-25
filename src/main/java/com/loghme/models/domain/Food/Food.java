@@ -1,17 +1,27 @@
 package com.loghme.models.domain.Food;
 
-import com.loghme.models.domain.Food.exceptions.InvalidCount;
+import com.loghme.exceptions.InvalidCount;
+import com.loghme.exceptions.RestaurantDoesntExist;
+import com.loghme.models.domain.Restaurant.Restaurant;
+import com.loghme.models.repositories.RestaurantRepository;
 
 public class Food {
     private String name;
+    private String restaurantId;
     private String description;
     private String image;
-    private String restaurantId;
     private double popularity;
     private double price;
 
-    public Food(String name, String description, String image, double popularity, double price) {
+    public Food(
+            String name,
+            String restaurantId,
+            String description,
+            String image,
+            double popularity,
+            double price) {
         this.name = name;
+        this.restaurantId = restaurantId;
         this.description = description;
         this.image = image;
         this.popularity = popularity;
@@ -48,5 +58,9 @@ public class Food {
 
     public void setRestaurantId(String restaurantId) {
         this.restaurantId = restaurantId;
+    }
+
+    public Restaurant getRestaurant() throws RestaurantDoesntExist {
+        return RestaurantRepository.getInstance().getRestaurant(restaurantId);
     }
 }

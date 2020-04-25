@@ -2,10 +2,10 @@ package com.loghme.models.domain.Order;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-class OrderIdHandler {
+public class OrderIdHandler {
     private static AtomicLong currentId = new AtomicLong(0L);
 
-    static int getNextId() {
+    public static int getNextId() {
         return (int)(currentId.getAndIncrement());
     }
 }

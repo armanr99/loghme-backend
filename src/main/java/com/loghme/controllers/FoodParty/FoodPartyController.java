@@ -1,11 +1,11 @@
 package com.loghme.controllers.FoodParty;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.responses.FoodParty.FoodPartyResponse;
-import com.loghme.controllers.wrappers.responses.FoodParty.RemainingTimeResponse;
-import com.loghme.models.domain.Restaurant.Restaurant;
+import com.loghme.controllers.DTOs.responses.FoodParty.FoodPartyResponse;
+import com.loghme.controllers.DTOs.responses.FoodParty.RemainingTimeResponse;
+import com.loghme.exceptions.RestaurantDoesntExist;
+import com.loghme.models.domain.Food.PartyFood;
 import com.loghme.models.services.RestaurantService;
-import com.loghme.schedulers.FoodPartyScheduler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,14 +16,14 @@ import java.util.ArrayList;
 @RequestMapping(Path.Web.FOOD_PARTY)
 public class FoodPartyController {
     @GetMapping("")
-    public FoodPartyResponse getPartyFoods() {
-        ArrayList<Restaurant> foodPartyRestaurants = RestaurantService.getInstance().getFoodPartyRestaurants();
-        return new FoodPartyResponse(foodPartyRestaurants);
+    public FoodPartyResponse getPartyFoods() throws RestaurantDoesntExist {
+        ArrayList<PartyFood> partyFoods = RestaurantService.getInstance().getPartyFoods();
+        return new FoodPartyResponse(partyFoods);
     }
 
     @GetMapping(Path.Web.FOOD_PARTY_TIME)
     public RemainingTimeResponse getFoodPartyTime() {
-        long remainingSeconds = FoodPartyScheduler.getInstance().getRemainingSeconds();
+        long remainingSeconds = RestaurantService.getInstance().getRemainingFoodPartySeconds();
         return new RemainingTimeResponse(remainingSeconds);
     }
 }

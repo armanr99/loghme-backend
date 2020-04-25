@@ -2,7 +2,7 @@ package com.loghme.models.mappers.CartItem;
 
 import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.CartItem.CartItem;
-import com.loghme.models.mappers.utils.TripleKey.TripleKey;
+import com.loghme.models.utils.TripleKey.TripleKey;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,10 +48,7 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
     public String getFindStatement(TripleKey id) {
         return String.format(
                 "SELECT * FROM %s WHERE userId = %s AND restaurantId = %s AND foodName = %s;",
-                TABLE_NAME,
-                id.getFirstKeyAsString(),
-                id.getSecondKeyAsString(),
-                id.getThirdKeyAsString());
+                TABLE_NAME, id.getFirstKeyStr(), id.getSecondKeyAsStr(), id.getThirdKeyAsStr());
     }
 
     @Override
@@ -70,10 +67,7 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
     public String getDeleteStatement(TripleKey id) {
         return String.format(
                 "DELETE FROM %s WHERE WHERE userId = %s AND restaurantId = %s AND foodName = %s;",
-                TABLE_NAME,
-                id.getFirstKeyAsString(),
-                id.getSecondKeyAsString(),
-                id.getThirdKeyAsString());
+                TABLE_NAME, id.getFirstKeyStr(), id.getSecondKeyAsStr(), id.getThirdKeyAsStr());
     }
 
     @Override
@@ -83,6 +77,9 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
         String foodName = rs.getString(3);
         int count = rs.getInt(4);
 
-        return new CartItem(userId, restaurantId, foodName, count);
+        CartItem cartItem = new CartItem(userId, restaurantId, foodName);
+        cartItem.setCount(count);
+
+        return cartItem;
     }
 }

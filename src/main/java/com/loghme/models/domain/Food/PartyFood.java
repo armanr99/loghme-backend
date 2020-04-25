@@ -1,13 +1,21 @@
 package com.loghme.models.domain.Food;
 
-import com.loghme.models.domain.Food.exceptions.InvalidCount;
+import com.loghme.exceptions.InvalidCount;
 
 public class PartyFood extends Food {
     private int count;
     private double oldPrice;
 
-    public PartyFood(String name, String description, String image, double popularity, double price, int count, double oldPrice) {
-        super(name, description, image, popularity, price);
+    public PartyFood(
+            String name,
+            String restaurantId,
+            String description,
+            String image,
+            double popularity,
+            double price,
+            int count,
+            double oldPrice) {
+        super(name, restaurantId, description, image, popularity, price);
         this.count = count;
         this.oldPrice = oldPrice;
     }
@@ -22,8 +30,7 @@ public class PartyFood extends Food {
 
     @Override
     public void validateCount(double count) throws InvalidCount {
-        if(this.count < count)
-            throw new InvalidCount(this.getName(), this.count);
+        if (this.count < count) throw new InvalidCount(this.getName(), this.count);
     }
 
     @Override
