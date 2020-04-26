@@ -54,7 +54,7 @@ public class CartItem {
         }
     }
 
-    public double getTotalPrice() throws FoodDoesntExist {
+    public double getTotalPrice() throws FoodDoesntExist, SQLException {
         return RestaurantService.getInstance().getFood(restaurantId, foodName).getPrice() * count;
     }
 
@@ -69,7 +69,7 @@ public class CartItem {
         this.count = count;
     }
 
-    public Food getFood() throws FoodDoesntExist {
+    public Food getFood() throws FoodDoesntExist, SQLException {
         return RestaurantService.getInstance().getFood(restaurantId, foodName);
     }
 }

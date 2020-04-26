@@ -63,7 +63,7 @@ public class Cart {
         cartItem.decreaseCount();
     }
 
-    public double getTotalPrice() throws FoodDoesntExist {
+    public double getTotalPrice() throws FoodDoesntExist, SQLException {
         double totalPrice = 0;
 
         for (CartItem cartItem : getCartItems()) {

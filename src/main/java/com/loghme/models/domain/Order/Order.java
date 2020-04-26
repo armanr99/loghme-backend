@@ -70,7 +70,7 @@ public class Order {
         return OrderRepository.getInstance().getOrderRestaurant(this.id);
     }
 
-    public double getTotalPrice() throws FoodDoesntExist {
+    public double getTotalPrice() throws FoodDoesntExist, SQLException {
         double totalPrice = 0;
 
         for (OrderItem orderItem : getOrderItems()) {

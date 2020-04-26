@@ -9,18 +9,20 @@ import com.loghme.models.domain.Food.Food;
 import com.loghme.models.domain.Food.PartyFood;
 import com.loghme.models.domain.Restaurant.Restaurant;
 
+import java.sql.SQLException;
+
 public class CartItemResponse {
     private FoodResponse food;
     private RestaurantSmallResponse restaurant;
     private int count;
 
-    public CartItemResponse(Restaurant restaurant, CartItem cartItem) throws FoodDoesntExist {
+    CartItemResponse(Restaurant restaurant, CartItem cartItem) throws FoodDoesntExist, SQLException {
         setFood(restaurant, cartItem);
         this.restaurant = new RestaurantSmallResponse(restaurant);
         this.count = cartItem.getCount();
     }
 
-    private void setFood(Restaurant restaurant, CartItem cartItem) throws FoodDoesntExist {
+    private void setFood(Restaurant restaurant, CartItem cartItem) throws FoodDoesntExist, SQLException {
         Food food = cartItem.getFood();
         if (food instanceof PartyFood) {
             this.food = new PartyFoodResponse(restaurant, (PartyFood) food);

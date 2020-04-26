@@ -4,6 +4,8 @@ import com.loghme.exceptions.FoodDoesntExist;
 import com.loghme.models.domain.Food.Food;
 import com.loghme.models.services.RestaurantService;
 
+import java.sql.SQLException;
+
 public class OrderItem {
     private String restaurantId;
     private String foodName;
@@ -33,11 +35,11 @@ public class OrderItem {
         return count;
     }
 
-    public Food getFood() throws FoodDoesntExist {
+    public Food getFood() throws FoodDoesntExist, SQLException {
         return RestaurantService.getInstance().getFood(restaurantId, foodName);
     }
 
-    public double getTotalPrice() throws FoodDoesntExist {
+    public double getTotalPrice() throws FoodDoesntExist, SQLException {
         return RestaurantService.getInstance().getFood(restaurantId, foodName).getPrice() * count;
     }
 }

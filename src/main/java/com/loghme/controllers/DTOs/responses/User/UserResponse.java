@@ -41,7 +41,7 @@ public class UserResponse {
         this.credit = user.getCredit();
     }
 
-    private void setCart(Cart cart) throws FoodDoesntExist, RestaurantDoesntExist {
+    private void setCart(Cart cart) throws FoodDoesntExist, RestaurantDoesntExist, SQLException {
         this.cart = new CartResponse(cart);
     }
 

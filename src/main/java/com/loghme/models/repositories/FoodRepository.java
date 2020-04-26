@@ -1,14 +1,13 @@
 package com.loghme.models.repositories;
 
 import com.loghme.exceptions.FoodDoesntExist;
-import com.loghme.models.DTOs.Food.FoodInput;
-import com.loghme.models.DTOs.Restaurant.RestaurantInput;
 import com.loghme.models.domain.Food.Food;
+import com.loghme.models.mappers.Food.FoodMapper;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class FoodRepository {
-    private ArrayList<Food> foods;
     private static FoodRepository instance = null;
 
     public static FoodRepository getInstance() {
@@ -18,64 +17,42 @@ public class FoodRepository {
         return instance;
     }
 
-    private FoodRepository() {
-        foods = new ArrayList<>();
+    public void addRestaurantsFoods(ArrayList<Food> foods) throws SQLException {
+        FoodMapper.getInstance().insertBatch(foods);
     }
 
-    public void addRestaurantFoods(RestaurantInput restaurantInput) {
-        String restaurantId = restaurantInput.getId();
-        ArrayList<FoodInput> restaurantFoodInputs = restaurantInput.getMenu();
+    public Food getFood(String restaurantId, String foodName) throws FoodDoesntExist, SQLException {
+        Food food = FoodMapper.getInstance().find(restaurantId, foodName);
 
-        for (FoodInput foodInput : restaurantFoodInputs) {
-            addRestaurantFood(restaurantId, foodInput);
-        }
+        if(food == null)
+            throw new FoodDoesntExist(foodName, restaurantId);
+        else
+            return food;
     }
 
-    private void addRestaurantFood(String restaurantId, FoodInput foodInput) {
-        Food food =
-                new Food(
-                        foodInput.getName(),
-                        restaurantId,
-                        foodInput.getDescription(),
-                        foodInput.getImage(),
-                        foodInput.getPopularity(),
-                        foodInput.getPrice());
-
-        addFood(food);
+    public ArrayList<Food> getFoods(String restaurantId) throws SQLException {
+        return FoodMapper.getInstance().findAll(restaurantId);
     }
 
-    private void addFood(Food food) {
-        if (!hasFood(food)) {
-            foods.add(food);
-        }
-    }
+    //    public void addRestaurantsFoods(ArrayList<Food> foods) {
+//        String restaurantId = restaurantInput.getId();
+//        ArrayList<FoodInput> restaurantFoodInputs = restaurantInput.getMenu();
+//
+//        for (FoodInput foodInput : restaurantFoodInputs) {
+//            addRestaurantFood(restaurantId, foodInput);
+//        }
+//    }
 
-    private boolean hasFood(Food food) {
-        try {
-            getFood(food.getRestaurantId(), food.getName());
-            return true;
-        } catch (FoodDoesntExist foodDoesntExist) {
-            return false;
-        }
-    }
-
-    public Food getFood(String restaurantId, String foodName) throws FoodDoesntExist {
-        for (Food food : foods) {
-            if (restaurantId.equals(food.getRestaurantId()) && foodName.equals(food.getName())) {
-                return food;
-            }
-        }
-
-        throw new FoodDoesntExist(foodName, restaurantId);
-    }
-
-    public ArrayList<Food> getFoods(String restaurantId) {
-        ArrayList<Food> restaurantFoods = new ArrayList<>();
-
-        for (Food food : foods) {
-            if (restaurantId.equals(food.getRestaurantId())) restaurantFoods.add(food);
-        }
-
-        return restaurantFoods;
-    }
+//    private void addRestaurantFood(String restaurantId, FoodInput foodInput) {
+//        Food food =
+//                new Food(
+//                        foodInput.getName(),
+//                        restaurantId,
+//                        foodInput.getDescription(),
+//                        foodInput.getImage(),
+//                        foodInput.getPopularity(),
+//                        foodInput.getPrice());
+//
+//        addFood(food);
+//    }
 }

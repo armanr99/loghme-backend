@@ -7,6 +7,7 @@ import com.loghme.models.domain.Food.PartyFood;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Restaurant.Restaurant;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RestaurantResponse {
@@ -17,7 +18,7 @@ public class RestaurantResponse {
     private ArrayList<FoodResponse> menu;
     private ArrayList<PartyFoodResponse> foodPartyMenu;
 
-    public RestaurantResponse(Restaurant restaurant) {
+    public RestaurantResponse(Restaurant restaurant) throws SQLException {
         setInfo(restaurant);
         setMenu(restaurant);
         setFoodPartyMenu(restaurant);
@@ -30,7 +31,7 @@ public class RestaurantResponse {
         this.logo = restaurant.getLogo();
     }
 
-    private void setMenu(Restaurant restaurant) {
+    private void setMenu(Restaurant restaurant) throws SQLException {
         menu = new ArrayList<>();
 
         for(Food food : restaurant.getMenu())

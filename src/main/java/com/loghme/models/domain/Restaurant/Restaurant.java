@@ -8,6 +8,7 @@ import com.loghme.models.repositories.FoodRepository;
 import com.loghme.models.repositories.PartyFoodRepository;
 import com.loghme.models.services.RestaurantService;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Restaurant {
@@ -39,7 +40,7 @@ public class Restaurant {
         return location;
     }
 
-    public ArrayList<Food> getMenu() {
+    public ArrayList<Food> getMenu() throws SQLException {
         return FoodRepository.getInstance().getFoods(this.id);
     }
 
@@ -47,7 +48,7 @@ public class Restaurant {
         return PartyFoodRepository.getInstance().getPartyFoods(this.id);
     }
 
-    public Food getFood(String foodName) throws FoodDoesntExist {
+    public Food getFood(String foodName) throws FoodDoesntExist, SQLException {
         return RestaurantService.getInstance().getFood(this.id, foodName);
     }
 }

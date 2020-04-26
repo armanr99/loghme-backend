@@ -14,12 +14,12 @@ public class CartResponse {
     private ArrayList<CartItemResponse> items;
     private double totalPrice;
 
-    public CartResponse(Cart cart) throws FoodDoesntExist, RestaurantDoesntExist {
+    public CartResponse(Cart cart) throws FoodDoesntExist, RestaurantDoesntExist, SQLException {
         totalPrice = cart.getTotalPrice();
         setItems(cart);
     }
 
-    private void setItems(Cart cart) throws RestaurantDoesntExist, FoodDoesntExist {
+    private void setItems(Cart cart) throws RestaurantDoesntExist, FoodDoesntExist, SQLException {
         this.items = new ArrayList<>();
         Restaurant restaurant;
 
