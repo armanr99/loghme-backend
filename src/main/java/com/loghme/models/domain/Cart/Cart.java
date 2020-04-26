@@ -18,11 +18,11 @@ public class Cart {
         this.userId = userId;
     }
 
-    public ArrayList<CartItem> getCartItems() {
+    public ArrayList<CartItem> getCartItems() throws SQLException {
         return CartRepository.getInstance().getCartItems(userId);
     }
 
-    public void addItem(String restaurantId, String foodName) throws DifferentRestaurant {
+    public void addItem(String restaurantId, String foodName) throws DifferentRestaurant, SQLException {
         validateSameRestaurant(restaurantId);
         handleAddItem(restaurantId, foodName);
     }
@@ -32,12 +32,13 @@ public class Cart {
             CartItem cartItem =
                     CartRepository.getInstance().getCartItem(userId, restaurantId, foodName);
             return cartItem.getCount();
-        } catch (CartItemDoesntExist cartItemDoesntExist) {
+        } catch (CartItemDoesntExist | SQLException ex) {
             return 0;
         }
     }
 
-    private void validateSameRestaurant(String restaurantId) throws DifferentRestaurant {
+    private void validateSameRestaurant(String restaurantId)
+            throws DifferentRestaurant, SQLException {
         ArrayList<CartItem> cartItems = getCartItems();
 
         if (cartItems.size() > 0) {
@@ -47,7 +48,7 @@ public class Cart {
         }
     }
 
-    private void handleAddItem(String restaurantId, String foodName) {
+    private void handleAddItem(String restaurantId, String foodName) throws SQLException {
         try {
             CartItem cartItem =
                     CartRepository.getInstance().getCartItem(userId, restaurantId, foodName);
@@ -57,7 +58,8 @@ public class Cart {
         }
     }
 
-    public void removeItem(String restaurantId, String foodName) throws CartItemDoesntExist {
+    public void removeItem(String restaurantId, String foodName)
+            throws CartItemDoesntExist, SQLException {
         CartItem cartItem =
                 CartRepository.getInstance().getCartItem(userId, restaurantId, foodName);
         cartItem.decreaseCount();

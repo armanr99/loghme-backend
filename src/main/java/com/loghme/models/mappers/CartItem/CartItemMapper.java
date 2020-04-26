@@ -122,8 +122,32 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
 
     private String getUpdateCountStatement() {
         return String.format(
-                "UPDATE %s SET count = ? WHERE userId = ? AND restaurantId = ? AND name = ?;",
+                "UPDATE %s SET count = ? WHERE userId = ? AND restaurantId = ? AND foodName = ?;",
                 TABLE_NAME);
+    }
+
+    public CartItem findFirst(int userId) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getFindFirstStatement());
+        st.setInt(1, userId);
+
+        return findOne(con, st);
+    }
+
+    private String getFindFirstStatement() {
+        return String.format("SELECT * FROM %s WHERE userId = ? LIMIT 1;", TABLE_NAME);
+    }
+
+    public void delete(int userId) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getDeleteUserCartStatement());
+        st.setInt(1, userId);
+
+        executeUpdate(con, st);
+    }
+
+    private String getDeleteUserCartStatement() {
+        return String.format("DELETE FROM %s WHERE userId = ?;", TABLE_NAME);
     }
 
     @Override

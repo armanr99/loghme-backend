@@ -72,7 +72,7 @@ public class User {
     }
 
     public void addToCart(String restaurantId, String foodName)
-            throws DifferentRestaurant, InvalidCount {
+            throws DifferentRestaurant, InvalidCount, SQLException {
         cart.addItem(restaurantId, foodName);
     }
 
@@ -80,7 +80,7 @@ public class User {
         return cart.getCartItemCount(restaurantId, foodName);
     }
 
-    public void removeFromCart(String restaurantId, String foodName) throws CartItemDoesntExist {
+    public void removeFromCart(String restaurantId, String foodName) throws CartItemDoesntExist, SQLException {
         cart.removeItem(restaurantId, foodName);
     }
 

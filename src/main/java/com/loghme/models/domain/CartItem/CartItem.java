@@ -40,15 +40,15 @@ public class CartItem {
         return restaurantId;
     }
 
-    public void increaseCount() {
+    public void increaseCount() throws SQLException {
         count++;
-        CartRepository.getInstance().updateCartItem(this);
+        CartRepository.getInstance().updateCount(userId, restaurantId, foodName, count);
     }
 
-    public void decreaseCount() {
+    public void decreaseCount() throws SQLException {
         count--;
         if (count > 0) {
-            CartRepository.getInstance().updateCartItem(this);
+            CartRepository.getInstance().updateCount(userId, restaurantId, foodName, count);
         } else {
             CartRepository.getInstance().deleteCartItem(userId, restaurantId, foodName);
         }

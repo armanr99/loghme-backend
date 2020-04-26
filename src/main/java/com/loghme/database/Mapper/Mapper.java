@@ -56,7 +56,7 @@ public abstract class Mapper<T, I> implements IMapper<T, I> {
             st.executeUpdate();
             closeStatement(con, st);
         } catch (SQLException ex) {
-            System.out.println("error in Mapper.insert query.");
+            System.out.println("error in Mapper.executeUpdate query: " + ex.toString());
             throw ex;
         }
     }
@@ -66,7 +66,7 @@ public abstract class Mapper<T, I> implements IMapper<T, I> {
             st.executeBatch();
             closeStatement(con, st);
         } catch (SQLException ex) {
-            System.out.println("error in Mapper.insert query.");
+            System.out.println("error in Mapper.executeUpdateBatch query: " + ex.toString());
             throw ex;
         }
     }
