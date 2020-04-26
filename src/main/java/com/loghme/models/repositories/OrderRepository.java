@@ -7,12 +7,12 @@ import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.Order.OrderIdHandler;
 import com.loghme.models.domain.OrderItem.OrderItem;
 import com.loghme.models.domain.Restaurant.Restaurant;
+import com.loghme.models.mappers.Order.OrderMapper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderRepository {
-    private ArrayList<Order> orders;
     private ArrayList<OrderItem> orderItems;
     private static OrderRepository instance = null;
 
@@ -24,36 +24,25 @@ public class OrderRepository {
     }
 
     private OrderRepository() {
-        orders = new ArrayList<>();
         orderItems = new ArrayList<>();
     }
 
-    public ArrayList<Order> getOrders(int userId) {
-        ArrayList<Order> userOrders = new ArrayList<>();
-
-        for (Order order : orders) {
-            if (userId == order.getUserId()) {
-                userOrders.add(order);
-            }
-        }
-
-        return userOrders;
+    public ArrayList<Order> getOrders(int userId) throws SQLException {
+        return OrderMapper.getInstance().findAll(userId);
     }
 
-    public Order getOrder(int id) throws OrderDoesntExist {
-        for (Order order : orders) {
-            if (id == order.getId()) {
-                return order;
-            }
-        }
+    public Order getOrder(int orderId) throws OrderDoesntExist, SQLException {
+        Order order = OrderMapper.getInstance().find(orderId);
 
-        throw new OrderDoesntExist(id);
+        if (order == null) {
+            throw new OrderDoesntExist(orderId);
+        } else {
+            return order;
+        }
     }
 
-    public void addAndSetOrder(Order order) {
-        int id = OrderIdHandler.getNextId();
-        order.setId(id);
-        orders.add(order);
+    public void addAndSetOrder(Order order) throws SQLException {
+        OrderMapper.getInstance().insert(order);
     }
 
     public void addOrderItems(ArrayList<OrderItem> newOrderItems) {

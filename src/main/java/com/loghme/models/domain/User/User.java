@@ -88,7 +88,7 @@ public class User {
         wallet.charge(amount);
     }
 
-    public ArrayList<Order> getOrders() {
+    public ArrayList<Order> getOrders() throws SQLException {
         return OrderRepository.getInstance().getOrders(this.id);
     }
 

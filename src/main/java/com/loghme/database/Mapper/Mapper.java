@@ -10,7 +10,7 @@ public abstract class Mapper<T, I> implements IMapper<T, I> {
 
     protected abstract T convertResultSetToObject(ResultSet rs) throws SQLException;
 
-    private void closeStatement(Connection con, Statement st) throws SQLException {
+    protected void closeStatement(Connection con, Statement st) throws SQLException {
         st.close();
         con.close();
     }

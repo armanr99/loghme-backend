@@ -20,7 +20,7 @@ public class UserRepository {
 
     public void addSampleUser() throws SQLException {
         User sampleUser = getSampleUser();
-        UserMapper.getInstance().insert(sampleUser);
+//        UserMapper.getInstance().insert(sampleUser);
     }
 
     public User getUser(int userId) throws UserDoesntExist, SQLException {

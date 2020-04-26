@@ -40,6 +40,6 @@ public class PartyFood extends Food {
     public void sell(int count) throws InvalidCount, SQLException {
         validateCount(count);
         this.count -= count;
-        PartyFoodRepository.getInstance().updateCount(getRestaurantId(), getName(), count);
+        PartyFoodRepository.getInstance().updateCount(getRestaurantId(), getName(), this.count);
     }
 }

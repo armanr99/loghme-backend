@@ -95,7 +95,7 @@ public class Cart {
             finalizeItems(cartItems);
             Order order = createOrder(cartItems);
             CartRepository.getInstance().deleteCart(userId);
-            DeliveryService.getInstance().addDelivery(order);
+//            DeliveryService.getInstance().addDelivery(order);
         } catch (InvalidCount | RestaurantDoesntExist | FoodDoesntExist ex) {
             CartRepository.getInstance().deleteCart(userId);
             throw ex;
@@ -109,7 +109,7 @@ public class Cart {
         }
     }
 
-    private Order createOrder(ArrayList<CartItem> cartItems) {
+    private Order createOrder(ArrayList<CartItem> cartItems) throws SQLException {
         Order order = new Order(userId);
         OrderRepository.getInstance().addAndSetOrder(order);
         order.addOrderItems(cartItems);

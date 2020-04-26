@@ -71,7 +71,7 @@ public class UserService {
         return user.getOrders();
     }
 
-    public Order getOrder(int orderId) throws OrderDoesntExist {
+    public Order getOrder(int orderId) throws OrderDoesntExist, SQLException {
         return OrderRepository.getInstance().getOrder(orderId);
     }
 
