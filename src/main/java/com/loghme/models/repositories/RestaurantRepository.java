@@ -33,8 +33,8 @@ public class RestaurantRepository {
         }
     }
 
-    public Collection<Restaurant> getRestaurants() throws SQLException {
-        return RestaurantMapper.getInstance().findAll();
+    public Collection<Restaurant> getRestaurants(int limit, int offset) throws SQLException {
+        return RestaurantMapper.getInstance().findAll(limit, offset);
     }
 
     public ArrayList<Restaurant> searchRestaurants(String restaurantName, String foodName) throws SQLException {

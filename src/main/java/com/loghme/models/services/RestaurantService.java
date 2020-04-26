@@ -117,11 +117,11 @@ public class RestaurantService {
         }
     }
 
-    public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance)
+    public ArrayList<Restaurant> getRestaurantsWithinDistance(Location source, double distance, int limit, int offset)
             throws SQLException {
         ArrayList<Restaurant> restaurantsWithinDistance = new ArrayList<>();
 
-        for (Restaurant restaurant : RestaurantRepository.getInstance().getRestaurants()) {
+        for (Restaurant restaurant : RestaurantRepository.getInstance().getRestaurants(limit, offset)) {
             if (isRestaurantInRange(restaurant, source, distance)) {
                 restaurantsWithinDistance.add(restaurant);
             }

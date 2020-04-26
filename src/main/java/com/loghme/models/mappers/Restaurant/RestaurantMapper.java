@@ -49,9 +49,11 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
         return findOne(con, st);
     }
 
-    public ArrayList<Restaurant> findAll() throws SQLException {
+    public ArrayList<Restaurant> findAll(int limit, int offset) throws SQLException {
         Connection con = ConnectionPool.getInstance().getConnection();
         PreparedStatement st = con.prepareStatement(getFindAllStatement());
+        st.setInt(1, limit);
+        st.setInt(2, offset);
 
         return findAll(con, st);
     }
@@ -82,7 +84,7 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
     }
 
     private String getFindAllStatement() {
-        return String.format("SELECT * FROM %s;", TABLE_NAME);
+        return String.format("SELECT * FROM %s LIMIT ? OFFSET ?;", TABLE_NAME);
     }
 
     @Override
