@@ -93,4 +93,18 @@ public class RestaurantMapper extends Mapper<Restaurant, String> implements IRes
         Location location = new Location(rs.getDouble(4), rs.getDouble(5));
         return new Restaurant(id, name, logo, location);
     }
+
+    public ArrayList<Restaurant> search(String restaurantName, String foodName)
+            throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getSearchStatement(restaurantName, foodName));
+
+        return findAll(con, st);
+    }
+
+    private String getSearchStatement(String restaurantName, String foodName) {
+        return String.format(
+                "select distinct R.* from %s R, Food F where R.id = F.restaurantId and (R.name like '%%%s%%' and F.name like '%%%s%%');",
+                TABLE_NAME, restaurantName, foodName);
+    }
 }
