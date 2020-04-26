@@ -4,12 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loghme.configs.DeliveryConfigs;
 import com.loghme.configs.ServerConfigs;
-import com.loghme.models.Delivery.Delivery;
-import com.loghme.models.Location.Location;
-import com.loghme.models.Order.Order;
-import com.loghme.repositories.UserRepository;
+import com.loghme.exceptions.OrderItemDoesntExist;
+import com.loghme.exceptions.RestaurantDoesntExist;
+import com.loghme.exceptions.UserDoesntExist;
+import com.loghme.models.domain.Delivery.Delivery;
+import com.loghme.models.domain.Location.Location;
+import com.loghme.models.domain.DeliveryInfo.DeliveryInfo;
+import com.loghme.models.domain.Order.Order;
+import com.loghme.models.services.UserService;
 import com.loghme.utils.HTTPRequester;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.Executors;
@@ -28,29 +33,52 @@ public class OrderScheduler {
     }
 
     public void handleOrder() {
-        final Runnable deliverRequester = () -> {
-            String deliveriesJson = HTTPRequester.get(ServerConfigs.DELIVERIES_URL);
-            ArrayList<Delivery> deliveries = gson.fromJson(deliveriesJson, new TypeToken<ArrayList<Delivery>>() {}.getType());
+        final Runnable deliverRequester =
+                () -> {
+                    String deliveriesJson = HTTPRequester.get(ServerConfigs.DELIVERIES_URL);
+                    ArrayList<Delivery> deliveries =
+                            gson.fromJson(
+                                    deliveriesJson,
+                                    new TypeToken<ArrayList<Delivery>>() {}.getType());
 
-            if(deliveries != null && deliveries.size() != 0) {
-                scheduler.shutdown();
-                assignDelivery(deliveries);
-            }
-        };
+                    if (deliveries != null && deliveries.size() != 0) {
+                        scheduler.shutdown();
+                        try {
+                            assignDelivery(deliveries);
+                        } catch (UserDoesntExist
+                                | RestaurantDoesntExist
+                                | OrderItemDoesntExist
+                                | SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                };
 
-        scheduler.scheduleAtFixedRate(deliverRequester, 0, DeliveryConfigs.CHECK_TIME_SEC, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(
+                deliverRequester, 0, DeliveryConfigs.CHECK_TIME_SEC, TimeUnit.SECONDS);
     }
 
-    private void assignDelivery(ArrayList<Delivery> deliveries) {
-        Delivery bestDelivery = getBestDelivery(deliveries);
-        order.setDelivery(bestDelivery);
+    private void assignDelivery(ArrayList<Delivery> deliveries)
+            throws UserDoesntExist, OrderItemDoesntExist, RestaurantDoesntExist, SQLException {
+        Location restaurantLocation = order.getRestaurant().getLocation();
+
+        Delivery bestDelivery = getBestDelivery(deliveries, restaurantLocation);
+        DeliveryInfo deliveryInfo = new DeliveryInfo(order.getId(), bestDelivery);
+
+        order.setDelivery(deliveryInfo);
     }
 
-    private Delivery getBestDelivery(ArrayList<Delivery> deliveries) {
-        Location restaurantLocation = order.getRestaurantLocation();
-        Location userLocation = UserRepository.getInstance().getUser().getLocation();
+    private Delivery getBestDelivery(ArrayList<Delivery> deliveries, Location restaurantLocation)
+            throws UserDoesntExist, SQLException {
+        assert (deliveries.size() > 0);
+        Location userLocation = UserService.getInstance().getUser(0).getLocation();
 
-        return deliveries.stream().min(Comparator.comparing(delivery -> delivery.getTotalTime(restaurantLocation, userLocation))).get();
+        return deliveries.stream()
+                .min(
+                        Comparator.comparing(
+                                delivery ->
+                                        delivery.getTotalTime(restaurantLocation, userLocation)))
+                .get();
     }
 
     public void shutdown() {

@@ -1,57 +1,64 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
-import com.loghme.controllers.wrappers.requests.Cart.CartRequest;
-import com.loghme.controllers.wrappers.responses.Cart.CartResponse;
-import com.loghme.controllers.wrappers.responses.Order.OrdersResponse;
-import com.loghme.models.Cart.Cart;
-import com.loghme.models.Cart.exceptions.CartItemDoesntExist;
-import com.loghme.models.Cart.exceptions.DifferentRestaurant;
-import com.loghme.models.Cart.exceptions.EmptyCartFinalize;
-import com.loghme.models.Food.exceptions.InvalidCount;
-import com.loghme.models.Order.Order;
-import com.loghme.models.Restaurant.exceptions.FoodDoesntExist;
-import com.loghme.models.Restaurant.exceptions.RestaurantDoesntExist;
-import com.loghme.models.Restaurant.exceptions.RestaurantOutOfRange;
-import com.loghme.models.Wallet.exceptions.NotEnoughBalance;
-import com.loghme.repositories.UserRepository;
+import com.loghme.configs.UserConfigs;
+import com.loghme.controllers.DTOs.requests.Cart.CartRequest;
+import com.loghme.controllers.DTOs.responses.Cart.CartResponse;
+import com.loghme.controllers.DTOs.responses.Order.OrdersResponse;
+import com.loghme.exceptions.*;
+import com.loghme.models.domain.Cart.Cart;
+import com.loghme.models.domain.Order.Order;
+import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
 @RequestMapping(Path.Web.CART)
 public class CartController {
     @GetMapping("")
-    public CartResponse getCart() {
-        Cart cart = UserRepository.getInstance().getUser().getCart();
+    public CartResponse getCart() throws UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, SQLException {
+        int userId = UserConfigs.DEFAULT_ID;
+        Cart cart = UserService.getInstance().getCart(userId);
         return new CartResponse(cart);
     }
 
     @PostMapping("")
-    public CartResponse addToCart(@RequestBody CartRequest request) throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, DifferentRestaurant, InvalidCount {
-        UserRepository.getInstance().addToCart(request.getFoodName(), request.getRestaurantId());
+    public CartResponse addToCart(@RequestBody CartRequest request)
+            throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist,
+            DifferentRestaurant, InvalidCount, UserDoesntExist, SQLException {
+        int userId = UserConfigs.DEFAULT_ID;
+        String restaurantId = request.getRestaurantId();
+        String foodName = request.getFoodName();
 
-        Cart cart = UserRepository.getInstance().getUser().getCart();
+        UserService.getInstance().addToCart(userId, restaurantId, foodName);
 
+        Cart cart = UserService.getInstance().getCart(userId);
         return new CartResponse(cart);
     }
 
     @DeleteMapping("")
-    public CartResponse removeFromCart(@RequestBody CartRequest request) throws CartItemDoesntExist {
-        UserRepository.getInstance().removeFromCart(request.getFoodName(), request.getRestaurantId());
+    public CartResponse removeFromCart(@RequestBody CartRequest request)
+            throws CartItemDoesntExist, UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, SQLException {
+        int userId = UserConfigs.DEFAULT_ID;
+        String restaurantId = request.getRestaurantId();
+        String foodName = request.getFoodName();
 
-        Cart cart = UserRepository.getInstance().getUser().getCart();
+        UserService.getInstance().removeFromCart(userId, restaurantId, foodName);
 
+        Cart cart = UserService.getInstance().getCart(userId);
         return new CartResponse(cart);
     }
 
     @PostMapping("/order")
-    public OrdersResponse finalizeOrder() throws InvalidCount, EmptyCartFinalize, NotEnoughBalance {
-        UserRepository.getInstance().finalizeOrder();
+    public OrdersResponse finalizeOrder()
+            throws InvalidCount, EmptyCart, NotEnoughBalance, UserDoesntExist,
+            RestaurantDoesntExist, FoodDoesntExist, WrongAmount, OrderItemDoesntExist, SQLException, OrderDoesntExist {
+        int userId = UserConfigs.DEFAULT_ID;
+        UserService.getInstance().finalizeOrder(userId);
 
-        ArrayList<Order> orders = UserRepository.getInstance().getUser().getOrdersList();
-
+        ArrayList<Order> orders = UserService.getInstance().getOrders(userId);
         return new OrdersResponse(orders);
     }
 }
