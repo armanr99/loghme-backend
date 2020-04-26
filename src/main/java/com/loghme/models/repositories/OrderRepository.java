@@ -4,16 +4,15 @@ import com.loghme.exceptions.OrderDoesntExist;
 import com.loghme.exceptions.OrderItemDoesntExist;
 import com.loghme.exceptions.RestaurantDoesntExist;
 import com.loghme.models.domain.Order.Order;
-import com.loghme.models.domain.Order.OrderIdHandler;
 import com.loghme.models.domain.OrderItem.OrderItem;
 import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.models.mappers.Order.OrderMapper;
+import com.loghme.models.mappers.OrderItem.OrderItemMapper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderRepository {
-    private ArrayList<OrderItem> orderItems;
     private static OrderRepository instance = null;
 
     public static OrderRepository getInstance() {
@@ -21,10 +20,6 @@ public class OrderRepository {
             instance = new OrderRepository();
         }
         return instance;
-    }
-
-    private OrderRepository() {
-        orderItems = new ArrayList<>();
     }
 
     public ArrayList<Order> getOrders(int userId) throws SQLException {
@@ -45,37 +40,23 @@ public class OrderRepository {
         OrderMapper.getInstance().insert(order);
     }
 
-    public void addOrderItems(ArrayList<OrderItem> newOrderItems) {
-        orderItems.addAll(newOrderItems);
+    public void addOrderItems(ArrayList<OrderItem> orderItems) throws SQLException {
+        OrderItemMapper.getInstance().insertBatch(orderItems);
     }
 
-    public ArrayList<OrderItem> getOrderItems(int orderId) {
-        ArrayList<OrderItem> outOrderItems = new ArrayList<>();
-
-        for (OrderItem orderItem : orderItems) {
-            if (orderId == orderItem.getOrderId()) {
-                outOrderItems.add(orderItem);
-            }
-        }
-
-        return outOrderItems;
+    public ArrayList<OrderItem> getOrderItems(int orderId) throws SQLException {
+        return OrderItemMapper.getInstance().findAll(orderId);
     }
 
     public Restaurant getOrderRestaurant(int orderId)
             throws OrderItemDoesntExist, RestaurantDoesntExist, SQLException {
-        OrderItem orderItem = getFirstOrderItem(orderId);
-        String restaurantId = orderItem.getRestaurantId();
+        OrderItem orderItem = OrderItemMapper.getInstance().findFirst(orderId);
 
-        return RestaurantRepository.getInstance().getRestaurant(restaurantId);
-    }
-
-    private OrderItem getFirstOrderItem(int orderId) throws OrderItemDoesntExist {
-        for (OrderItem orderItem : orderItems) {
-            if (orderId == orderItem.getOrderId()) {
-                return orderItem;
-            }
+        if (orderItem == null) {
+            throw new OrderItemDoesntExist();
+        } else {
+            String restaurantId = orderItem.getRestaurantId();
+            return RestaurantRepository.getInstance().getRestaurant(restaurantId);
         }
-
-        throw new OrderItemDoesntExist();
     }
 }

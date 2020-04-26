@@ -39,7 +39,7 @@ public class OrderItemMapper extends Mapper<OrderItem, TripleKey> implements IOr
                                 + "   foodName VARCHAR(255) NOT NULL,\n"
                                 + "   count INTEGER NOT NULL,\n"
                                 + "   PRIMARY KEY (orderId, restaurantId, foodName),\n"
-                                + "   FOREIGN KEY (orderId) REFERENCES Order(id) ON DELETE CASCADE\n"
+                                + "   FOREIGN KEY (orderId) REFERENCES Orders(id) ON DELETE CASCADE\n"
                                 + ");",
                         TABLE_NAME));
         return statements;

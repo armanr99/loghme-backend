@@ -38,7 +38,7 @@ public class Order {
         this.id = id;
     }
 
-    public void addOrderItems(ArrayList<CartItem> cartItems) {
+    public void addOrderItems(ArrayList<CartItem> cartItems) throws SQLException {
         ArrayList<OrderItem> orderItems = new ArrayList<>();
 
         for (CartItem cartItem : cartItems) {
@@ -62,7 +62,7 @@ public class Order {
         this.deliveryInfo = deliveryInfo;
     }
 
-    public ArrayList<OrderItem> getOrderItems() {
+    public ArrayList<OrderItem> getOrderItems() throws SQLException {
         return OrderRepository.getInstance().getOrderItems(id);
     }
 
