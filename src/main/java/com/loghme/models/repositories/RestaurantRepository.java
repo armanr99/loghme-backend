@@ -36,4 +36,8 @@ public class RestaurantRepository {
     public Collection<Restaurant> getRestaurants() throws SQLException {
         return RestaurantMapper.getInstance().findAll();
     }
+
+    public ArrayList<Restaurant> searchRestaurants(String restaurantName, String foodName) throws SQLException {
+        return RestaurantMapper.getInstance().search(restaurantName, foodName);
+    }
 }
