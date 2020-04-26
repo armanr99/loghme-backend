@@ -1,8 +1,11 @@
 package com.loghme.models.mappers.Order;
 
+import com.loghme.database.ConncetionPool.ConnectionPool;
 import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.Order.Order;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +13,7 @@ import java.util.ArrayList;
 public class OrderMapper extends Mapper<Order, Integer> implements IOrderMapper {
     private static OrderMapper instance = null;
     private static final String TABLE_NAME = "Order";
-    private static final String COLUMN_NAMES = " id, userId ";
+    private static final String COLUMN_NAMES = "id, userId";
 
     public static OrderMapper getInstance() throws SQLException {
         if (instance == null) {
@@ -39,18 +42,30 @@ public class OrderMapper extends Mapper<Order, Integer> implements IOrderMapper 
         return statements;
     }
 
-    public String getFindStatement() {
+    public Order find(int orderId) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getFindStatement());
+        st.setInt(1, orderId);
+
+        return findOne(con, st);
+    }
+
+    private String getFindStatement() {
         return String.format("SELECT * FROM %s WHERE id = ?;", TABLE_NAME);
     }
 
-    public String getInsertStatement(Order order) {
-        return String.format(
-                "INSERT INTO %s (%s) VALUES (%d, %d);",
-                TABLE_NAME, COLUMN_NAMES, order.getId(), order.getUserId());
+    public void insert(Order order) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getInsertStatement());
+
+        st.setInt(1, order.getId());
+        st.setInt(2, order.getUserId());
+
+        executeUpdate(con, st);
     }
 
-    public String getDeleteStatement() {
-        return String.format("DELETE FROM %s WHERE id = ?;", TABLE_NAME);
+    private String getInsertStatement() {
+        return String.format("INSERT INTO %s (%s) VALUES (?, ?);", TABLE_NAME, COLUMN_NAMES);
     }
 
     @Override
