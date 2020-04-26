@@ -1,9 +1,12 @@
 package com.loghme.models.mappers.CartItem;
 
+import com.loghme.database.ConncetionPool.ConnectionPool;
 import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.CartItem.CartItem;
 import com.loghme.models.utils.TripleKey.TripleKey;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICartItemMapper {
     private static CartItemMapper instance = null;
     private static final String TABLE_NAME = "CartItem";
-    private static final String COLUMN_NAMES = " userId, restaurantId, foodName, count ";
+    private static final String COLUMN_NAMES = "userId, restaurantId, foodName, count";
 
     public static CartItemMapper getInstance() throws SQLException {
         if (instance == null) {
@@ -28,10 +31,9 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
     public ArrayList<String> getCreateTableStatement() {
         ArrayList<String> statements = new ArrayList<>();
 
-        statements.add(String.format("DROP TABLE IF EXISTS %s", TABLE_NAME));
         statements.add(
                 String.format(
-                        "CREATE TABLE %s (\n"
+                        "CREATE TABLE IF NOT EXISTS %s (\n"
                                 + "   userId INTEGER NOT NULL,\n"
                                 + "   restaurantId VARCHAR(255) NOT NULL,\n"
                                 + "   foodName VARCHAR(255) NOT NULL,\n"
@@ -44,26 +46,83 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
         return statements;
     }
 
-    public String getFindStatement() {
+    public CartItem find(int userId, String restaurantId, String foodName) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getFindStatement());
+        st.setInt(1, userId);
+        st.setString(2, restaurantId);
+        st.setString(3, foodName);
+
+        return findOne(con, st);
+    }
+
+    private String getFindStatement() {
         return String.format(
                 "SELECT * FROM %s WHERE userId = ? AND restaurantId = ? AND foodName = ?;",
                 TABLE_NAME);
     }
 
-    public String getInsertStatement(CartItem cartItem) {
-        return String.format(
-                "INSERT INTO %s (%s) VALUES (%d, %s, %s, %d);",
-                TABLE_NAME,
-                COLUMN_NAMES,
-                cartItem.getUserId(),
-                cartItem.getRestaurantId(),
-                cartItem.getFoodName(),
-                cartItem.getCount());
+    public ArrayList<CartItem> findAll(int userId) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getFindUserCartItemsStatement());
+        st.setInt(1, userId);
+
+        return findAll(con, st);
     }
 
-    public String getDeleteStatement() {
+    private String getFindUserCartItemsStatement() {
+        return String.format("SELECT * FROM %s WHERE userId = ?;", TABLE_NAME);
+    }
+
+    public void insert(CartItem cartItem) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getInsertStatement());
+
+        st.setInt(1, cartItem.getUserId());
+        st.setString(2, cartItem.getRestaurantId());
+        st.setString(3, cartItem.getFoodName());
+        st.setDouble(4, cartItem.getCount());
+
+        executeUpdate(con, st);
+    }
+
+    private String getInsertStatement() {
+        return String.format("INSERT INTO %s (%s) VALUES (?, ?, ?, ?);", TABLE_NAME, COLUMN_NAMES);
+    }
+
+    public void delete(int userId, String restaurantId, String foodName) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getDeleteStatement());
+
+        st.setInt(1, userId);
+        st.setString(2, restaurantId);
+        st.setString(3, foodName);
+
+        executeUpdate(con, st);
+    }
+
+    private String getDeleteStatement() {
         return String.format(
-                "DELETE FROM %s WHERE WHERE userId = ? AND restaurantId = ? AND foodName = ?;",
+                "DELETE FROM %s WHERE userId = ? AND restaurantId = ? AND foodName = ?;",
+                TABLE_NAME);
+    }
+
+    public void updateCount(int userId, String restaurantId, String foodName, int count)
+            throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getUpdateCountStatement());
+
+        st.setInt(1, count);
+        st.setInt(2, userId);
+        st.setString(3, restaurantId);
+        st.setString(4, foodName);
+
+        executeUpdate(con, st);
+    }
+
+    private String getUpdateCountStatement() {
+        return String.format(
+                "UPDATE %s SET count = ? WHERE userId = ? AND restaurantId = ? AND name = ?;",
                 TABLE_NAME);
     }
 
