@@ -44,5 +44,7 @@ public class UserRepository {
         return new User(id, firstName, lastName, phoneNumber, email, credit, location);
     }
 
-    public void updateUser(User user) {}
+    public void updateCredit(int userId, double credit) throws SQLException {
+        UserMapper.getInstance().updateCredit(userId, credit);
+    }
 }

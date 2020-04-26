@@ -35,7 +35,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.location = location;
-        this.wallet = new Wallet(credit);
+        this.wallet = new Wallet(id, credit);
         this.cart = new Cart(id);
     }
 
@@ -84,7 +84,7 @@ public class User {
         cart.removeItem(restaurantId, foodName);
     }
 
-    public void chargeWallet(double amount) throws WrongAmount {
+    public void chargeWallet(double amount) throws WrongAmount, SQLException {
         wallet.charge(amount);
     }
 
@@ -100,10 +100,8 @@ public class User {
 
         try {
             cart.finalizeOrder();
-            UserRepository.getInstance().updateUser(this);
         } catch (InvalidCount | RestaurantDoesntExist | FoodDoesntExist | SQLException ex) {
             chargeWallet(totalPrice);
-            UserRepository.getInstance().updateUser(this);
             throw ex;
         }
     }

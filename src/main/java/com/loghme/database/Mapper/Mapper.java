@@ -80,7 +80,7 @@ public abstract class Mapper<T, I> implements IMapper<T, I> {
                 }
                 stmt.executeBatch();
             } catch (SQLException ex) {
-                System.out.println("error in Mapper.createTable query.");
+                System.out.println("error in Mapper.createTable query: " + ex.toString());
                 throw ex;
             }
         }

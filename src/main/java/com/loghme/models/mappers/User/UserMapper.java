@@ -90,10 +90,21 @@ public class UserMapper extends Mapper<User, Integer> implements IUserMapper {
 
     private String getInsertStatement() {
         return String.format(
-                "INSERT IGNORE INTO %s (%s) VALUES (?, ?, ?, ?, ?, ?, ?, ?);", TABLE_NAME, COLUMN_NAMES);
+                "INSERT IGNORE INTO %s (%s) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+                TABLE_NAME, COLUMN_NAMES);
     }
 
-    private String getFindAllStatement() {
-        return String.format("SELECT * FROM %s;", TABLE_NAME);
+    public void updateCredit(int userId, double credit) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getUpdateCreditStatement());
+
+        st.setDouble(1, credit);
+        st.setInt(2, userId);
+
+        executeUpdate(con, st);
+    }
+
+    private String getUpdateCreditStatement() {
+        return String.format("UPDATE %s SET credit = ? WHERE id = ?;", TABLE_NAME);
     }
 }
