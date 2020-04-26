@@ -39,8 +39,7 @@ public class CartItemMapper extends Mapper<CartItem, TripleKey> implements ICart
                                 + "   foodName VARCHAR(255) NOT NULL,\n"
                                 + "   count INTEGER NOT NULL,\n"
                                 + "   PRIMARY KEY (userId, restaurantId, foodName),\n"
-                                + "   FOREIGN KEY (userId) REFERENCES User(id) ON DELETE CASCADE,\n"
-                                + "   FOREIGN KEY (restaurantId, foodName) REFERENCES Food(restaurantId, name)\n"
+                                + "   FOREIGN KEY (userId) REFERENCES User(id) ON DELETE CASCADE\n"
                                 + ");",
                         TABLE_NAME));
         return statements;
