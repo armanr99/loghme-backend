@@ -38,7 +38,7 @@ public class RestaurantResponse {
             menu.add(new FoodResponse(restaurant, food));
     }
 
-    private void setFoodPartyMenu(Restaurant restaurant) {
+    private void setFoodPartyMenu(Restaurant restaurant) throws SQLException {
         foodPartyMenu = new ArrayList<>();
 
         for(PartyFood partyFood : restaurant.getFoodPartyMenu())

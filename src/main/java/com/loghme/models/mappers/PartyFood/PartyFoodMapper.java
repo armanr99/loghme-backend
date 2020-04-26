@@ -92,7 +92,8 @@ public class PartyFoodMapper extends Mapper<PartyFood, PairKey> implements IPart
 
     private String getInsertStatement() {
         return String.format(
-                "INSERT IGNORE INTO %s (%s) VALUES (?, ?, ?, ?, ?, ?, ?, ?);", TABLE_NAME, COLUMN_NAMES);
+                "INSERT IGNORE INTO %s (%s) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+                TABLE_NAME, COLUMN_NAMES);
     }
 
     private String getFindRestaurantFoodsStatement() {
@@ -110,6 +111,45 @@ public class PartyFoodMapper extends Mapper<PartyFood, PairKey> implements IPart
         double oldPrice = rs.getDouble(7);
         int count = rs.getInt(8);
 
-        return new PartyFood(name, restaurantId, description, image, popularity, price, count, oldPrice);
+        return new PartyFood(
+                name, restaurantId, description, image, popularity, price, count, oldPrice);
+    }
+
+    public void updateCount(String restaurantId, String name, int count) throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getUpdateCountStatement());
+
+        st.setInt(1, count);
+        st.setString(2, restaurantId);
+        st.setString(3, name);
+
+        executeUpdate(con, st);
+    }
+
+    private String getUpdateCountStatement() {
+        return String.format(
+                "UPDATE %s SET count = ? WHERE restaurantId = ? AND name = ?;", TABLE_NAME);
+    }
+
+    public ArrayList<PartyFood> findAll() throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getFindAllStatement());
+
+        return findAll(con, st);
+    }
+
+    private String getFindAllStatement() {
+        return String.format("SELECT * FROM %s;", TABLE_NAME);
+    }
+
+    public void deleteAll() throws SQLException {
+        Connection con = ConnectionPool.getInstance().getConnection();
+        PreparedStatement st = con.prepareStatement(getDeleteAllStatement());
+
+        executeUpdate(con, st);
+    }
+
+    private String getDeleteAllStatement() {
+        return String.format("DELETE FROM %s;", TABLE_NAME);
     }
 }

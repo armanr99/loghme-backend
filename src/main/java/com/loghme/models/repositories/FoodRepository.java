@@ -17,7 +17,7 @@ public class FoodRepository {
         return instance;
     }
 
-    public void addRestaurantsFoods(ArrayList<Food> foods) throws SQLException {
+    public void addFoods(ArrayList<Food> foods) throws SQLException {
         FoodMapper.getInstance().insertBatch(foods);
     }
 
@@ -33,26 +33,4 @@ public class FoodRepository {
     public ArrayList<Food> getFoods(String restaurantId) throws SQLException {
         return FoodMapper.getInstance().findAll(restaurantId);
     }
-
-    //    public void addRestaurantsFoods(ArrayList<Food> foods) {
-//        String restaurantId = restaurantInput.getId();
-//        ArrayList<FoodInput> restaurantFoodInputs = restaurantInput.getMenu();
-//
-//        for (FoodInput foodInput : restaurantFoodInputs) {
-//            addRestaurantFood(restaurantId, foodInput);
-//        }
-//    }
-
-//    private void addRestaurantFood(String restaurantId, FoodInput foodInput) {
-//        Food food =
-//                new Food(
-//                        foodInput.getName(),
-//                        restaurantId,
-//                        foodInput.getDescription(),
-//                        foodInput.getImage(),
-//                        foodInput.getPopularity(),
-//                        foodInput.getPrice());
-//
-//        addFood(food);
-//    }
 }

@@ -6,13 +6,13 @@ import com.loghme.exceptions.FoodDoesntExist;
 import com.loghme.exceptions.RestaurantDoesntExist;
 import com.loghme.exceptions.RestaurantOutOfRange;
 import com.loghme.models.DTOs.Food.FoodInput;
+import com.loghme.models.DTOs.Food.PartyFoodInput;
 import com.loghme.models.DTOs.Restaurant.FoodPartyRestaurantInput;
 import com.loghme.models.DTOs.Restaurant.RestaurantInput;
 import com.loghme.models.domain.Food.Food;
 import com.loghme.models.domain.Food.PartyFood;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Restaurant.Restaurant;
-import com.loghme.models.mappers.Food.FoodMapper;
 import com.loghme.models.repositories.FoodRepository;
 import com.loghme.models.repositories.PartyFoodRepository;
 import com.loghme.models.repositories.RestaurantRepository;
@@ -63,7 +63,7 @@ public class RestaurantService {
 
     private void addFoods(RestaurantInput[] restaurantInputs) throws SQLException {
         ArrayList<Food> foods = makeFoodInstances(restaurantInputs);
-        FoodMapper.getInstance().insertBatch(foods);
+        FoodRepository.getInstance().addFoods(foods);
     }
 
     private ArrayList<Food> makeFoodInstances(RestaurantInput[] restaurantInputs) {
@@ -135,7 +135,7 @@ public class RestaurantService {
                 <= 0);
     }
 
-    public ArrayList<PartyFood> getPartyFoods() {
+    public ArrayList<PartyFood> getPartyFoods() throws SQLException {
         return PartyFoodRepository.getInstance().getPartyFoods();
     }
 
@@ -169,10 +169,44 @@ public class RestaurantService {
         return restaurants;
     }
 
-    private void addPartyFoods(FoodPartyRestaurantInput[] foodPartyRestaurantInputs) {
-        for (FoodPartyRestaurantInput foodPartyRestaurantInput : foodPartyRestaurantInputs) {
-            PartyFoodRepository.getInstance().addRestaurantPartyFoods(foodPartyRestaurantInput);
+    private void addPartyFoods(FoodPartyRestaurantInput[] foodPartyRestaurantInputs)
+            throws SQLException {
+        ArrayList<PartyFood> partyFoods = makePartyFoodInstances(foodPartyRestaurantInputs);
+        PartyFoodRepository.getInstance().addPartyFoods(partyFoods);
+    }
+
+    private ArrayList<PartyFood> makePartyFoodInstances(
+            FoodPartyRestaurantInput[] foodPartyRestaurantInputs) {
+        ArrayList<PartyFood> foodInstances = new ArrayList<>();
+
+        for (FoodPartyRestaurantInput restaurantInput : foodPartyRestaurantInputs) {
+            foodInstances.addAll(makePartyFoodInstances(restaurantInput));
         }
+
+        return foodInstances;
+    }
+
+    private ArrayList<PartyFood> makePartyFoodInstances(FoodPartyRestaurantInput restaurantInput) {
+        ArrayList<PartyFood> foodInstances = new ArrayList<>();
+        String restaurantId = restaurantInput.getId();
+
+        for (PartyFoodInput foodInput : restaurantInput.getMenu()) {
+            foodInstances.add(makePartyFoodInstance(restaurantId, foodInput));
+        }
+
+        return foodInstances;
+    }
+
+    private PartyFood makePartyFoodInstance(String restaurantId, PartyFoodInput foodInput) {
+        return new PartyFood(
+                foodInput.getName(),
+                restaurantId,
+                foodInput.getDescription(),
+                foodInput.getImage(),
+                foodInput.getPopularity(),
+                foodInput.getPrice(),
+                foodInput.getCount(),
+                foodInput.getOldPrice());
     }
 
     private Restaurant makeRestaurantInstance(FoodPartyRestaurantInput foodPartyRestaurantInputs) {
@@ -183,7 +217,7 @@ public class RestaurantService {
                 foodPartyRestaurantInputs.getLocation());
     }
 
-    public void deletePartyFoods() {
+    public void deletePartyFoods() throws SQLException {
         PartyFoodRepository.getInstance().deletePartyFoods();
     }
 

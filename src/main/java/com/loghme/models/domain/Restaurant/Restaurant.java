@@ -44,7 +44,7 @@ public class Restaurant {
         return FoodRepository.getInstance().getFoods(this.id);
     }
 
-    public ArrayList<PartyFood> getFoodPartyMenu() {
+    public ArrayList<PartyFood> getFoodPartyMenu() throws SQLException {
         return PartyFoodRepository.getInstance().getPartyFoods(this.id);
     }
 

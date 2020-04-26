@@ -1,14 +1,13 @@
 package com.loghme.models.repositories;
 
 import com.loghme.exceptions.FoodDoesntExist;
-import com.loghme.models.DTOs.Food.PartyFoodInput;
-import com.loghme.models.DTOs.Restaurant.FoodPartyRestaurantInput;
 import com.loghme.models.domain.Food.PartyFood;
+import com.loghme.models.mappers.PartyFood.PartyFoodMapper;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PartyFoodRepository {
-    private ArrayList<PartyFood> partyFoods;
     private static PartyFoodRepository instance = null;
 
     public static PartyFoodRepository getInstance() {
@@ -18,77 +17,32 @@ public class PartyFoodRepository {
         return instance;
     }
 
-    private PartyFoodRepository() {
-        partyFoods = new ArrayList<>();
+    public void addPartyFoods(ArrayList<PartyFood> partyFoods) throws SQLException {
+        PartyFoodMapper.getInstance().insertBatch(partyFoods);
     }
 
-    public void addRestaurantPartyFoods(FoodPartyRestaurantInput restaurantInput) {
-        String restaurantId = restaurantInput.getId();
-        ArrayList<PartyFoodInput> restaurantPartyFoodInputs = restaurantInput.getMenu();
+    public PartyFood getPartyFood(String restaurantId, String foodName) throws FoodDoesntExist, SQLException {
+        PartyFood partyFood = PartyFoodMapper.getInstance().find(restaurantId, foodName);
 
-        for (PartyFoodInput partyFoodInput : restaurantPartyFoodInputs) {
-            addRestaurantPartyFood(restaurantId, partyFoodInput);
-        }
+        if(partyFood == null)
+            throw new FoodDoesntExist(foodName, restaurantId);
+        else
+            return partyFood;
     }
 
-    private void addRestaurantPartyFood(String restaurantId, PartyFoodInput partyFoodInput) {
-        PartyFood partyFood =
-                new PartyFood(
-                        partyFoodInput.getName(),
-                        restaurantId,
-                        partyFoodInput.getDescription(),
-                        partyFoodInput.getImage(),
-                        partyFoodInput.getPopularity(),
-                        partyFoodInput.getPrice(),
-                        partyFoodInput.getCount(),
-                        partyFoodInput.getOldPrice());
-
-        addPartyFood(partyFood);
+    public ArrayList<PartyFood> getPartyFoods(String restaurantId) throws SQLException {
+        return PartyFoodMapper.getInstance().findAll(restaurantId);
     }
 
-    private void addPartyFood(PartyFood partyFood) {
-        if (!hasPartyFood(partyFood)) {
-            partyFoods.add(partyFood);
-        }
+    public ArrayList<PartyFood> getPartyFoods() throws SQLException {
+        return PartyFoodMapper.getInstance().findAll();
     }
 
-    private boolean hasPartyFood(PartyFood partyFood) {
-        try {
-            getPartyFood(partyFood.getRestaurantId(), partyFood.getName());
-            return true;
-        } catch (FoodDoesntExist foodDoesntExist) {
-            return false;
-        }
+    public void deletePartyFoods() throws SQLException {
+        PartyFoodMapper.getInstance().deleteAll();
     }
 
-    public PartyFood getPartyFood(String restaurantId, String foodName) throws FoodDoesntExist {
-        for (PartyFood partyFood : partyFoods) {
-            if (restaurantId.equals(partyFood.getRestaurantId())
-                    && foodName.equals(partyFood.getName())) {
-                return partyFood;
-            }
-        }
-
-        throw new FoodDoesntExist(foodName, restaurantId);
-    }
-
-    public ArrayList<PartyFood> getPartyFoods(String restaurantId) {
-        ArrayList<PartyFood> restaurantPartyFoods = new ArrayList<>();
-
-        for (PartyFood partyFood : partyFoods) {
-            if (restaurantId.equals(partyFood.getRestaurantId())) {
-                restaurantPartyFoods.add(partyFood);
-            }
-        }
-
-        return restaurantPartyFoods;
-    }
-
-    public ArrayList<PartyFood> getPartyFoods() {
-        return partyFoods;
-    }
-
-    public void deletePartyFoods() {
-        partyFoods.clear();
+    public void updateCount(String restaurantId, String foodName, int count) throws SQLException {
+        PartyFoodMapper.getInstance().updateCount(restaurantId, foodName, count);
     }
 }

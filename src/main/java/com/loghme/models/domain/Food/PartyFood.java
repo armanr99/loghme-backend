@@ -1,6 +1,9 @@
 package com.loghme.models.domain.Food;
 
 import com.loghme.exceptions.InvalidCount;
+import com.loghme.models.repositories.PartyFoodRepository;
+
+import java.sql.SQLException;
 
 public class PartyFood extends Food {
     private int count;
@@ -34,8 +37,9 @@ public class PartyFood extends Food {
     }
 
     @Override
-    public void sell(int count) throws InvalidCount {
+    public void sell(int count) throws InvalidCount, SQLException {
         validateCount(count);
         this.count -= count;
+        PartyFoodRepository.getInstance().updateCount(getRestaurantId(), getName(), count);
     }
 }

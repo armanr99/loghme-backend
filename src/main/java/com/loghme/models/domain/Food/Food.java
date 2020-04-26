@@ -56,7 +56,7 @@ public class Food {
 
     public void validateCount(double count) throws InvalidCount {}
 
-    public void sell(int count) throws InvalidCount {}
+    public void sell(int count) throws InvalidCount, SQLException {}
 
     public void setRestaurantId(String restaurantId) {
         this.restaurantId = restaurantId;
