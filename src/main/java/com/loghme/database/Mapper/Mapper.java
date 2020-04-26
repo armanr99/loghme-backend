@@ -5,7 +5,7 @@ import com.loghme.database.ConncetionPool.ConnectionPool;
 import java.sql.*;
 import java.util.ArrayList;
 
-public abstract class Mapper<T> implements IMapper<T> {
+public abstract class Mapper<T> {
     protected abstract ArrayList<String> getCreateTableStatement();
 
     protected abstract T convertResultSetToObject(ResultSet rs) throws SQLException;
