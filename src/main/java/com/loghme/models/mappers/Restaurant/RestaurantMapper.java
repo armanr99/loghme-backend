@@ -8,7 +8,7 @@ import com.loghme.models.domain.Restaurant.Restaurant;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class RestaurantMapper extends Mapper<Restaurant, String> implements IRestaurantMapper {
+public class RestaurantMapper extends Mapper<Restaurant> implements IRestaurantMapper {
     private static RestaurantMapper instance = null;
     private static final String TABLE_NAME = "Restaurant";
     private static final String COLUMN_NAMES = "id, name, logo, posX, posY";

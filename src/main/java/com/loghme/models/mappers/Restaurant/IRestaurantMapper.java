@@ -6,7 +6,7 @@ import com.loghme.models.domain.Restaurant.Restaurant;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-interface IRestaurantMapper extends IMapper<Restaurant, String> {
+interface IRestaurantMapper extends IMapper<Restaurant> {
     Restaurant find(String restaurantId) throws SQLException;
     void insertBatch(ArrayList<Restaurant> restaurants) throws SQLException;
     ArrayList<Restaurant> findAll(int limit, int offset) throws SQLException;

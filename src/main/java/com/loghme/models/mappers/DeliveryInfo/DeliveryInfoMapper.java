@@ -8,7 +8,7 @@ import com.loghme.models.domain.Location.Location;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DeliveryInfoMapper extends Mapper<DeliveryInfo, Integer>
+public class DeliveryInfoMapper extends Mapper<DeliveryInfo>
         implements IDeliveryInfoMapper {
     private static DeliveryInfoMapper instance = null;
     private static final String TABLE_NAME = "DeliveryInfo";

@@ -3,7 +3,6 @@ package com.loghme.models.mappers.Food;
 import com.loghme.database.ConncetionPool.ConnectionPool;
 import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.Food.Food;
-import com.loghme.models.utils.PairKey.PairKey;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class FoodMapper extends Mapper<Food, PairKey> implements IFoodMapper {
+public class FoodMapper extends Mapper<Food> implements IFoodMapper {
     private static FoodMapper instance = null;
     private static final String TABLE_NAME = "Food";
     private static final String COLUMN_NAMES =

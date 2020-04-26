@@ -3,7 +3,6 @@ package com.loghme.models.mappers.OrderItem;
 import com.loghme.database.ConncetionPool.ConnectionPool;
 import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.OrderItem.OrderItem;
-import com.loghme.models.utils.TripleKey.TripleKey;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class OrderItemMapper extends Mapper<OrderItem, TripleKey> implements IOrderItemMapper {
+public class OrderItemMapper extends Mapper<OrderItem> implements IOrderItemMapper {
     private static OrderItemMapper instance = null;
     private static final String TABLE_NAME = "OrderItem";
     private static final String COLUMN_NAMES = "orderId, restaurantId, foodName, count";

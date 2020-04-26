@@ -7,7 +7,7 @@ import com.loghme.models.domain.Order.Order;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class OrderMapper extends Mapper<Order, Integer> implements IOrderMapper {
+public class OrderMapper extends Mapper<Order> implements IOrderMapper {
     private static OrderMapper instance = null;
     private static final String TABLE_NAME = "Orders";
     private static final String COLUMN_NAMES = "userId";

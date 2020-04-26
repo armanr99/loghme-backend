@@ -1,4 +1,4 @@
 package com.loghme.database.Mapper;
 
-public interface IMapper<T, I> {
+public interface IMapper<T> {
 }
