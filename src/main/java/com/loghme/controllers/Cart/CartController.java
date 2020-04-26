@@ -54,7 +54,7 @@ public class CartController {
     @PostMapping("/order")
     public OrdersResponse finalizeOrder()
             throws InvalidCount, EmptyCart, NotEnoughBalance, UserDoesntExist,
-            RestaurantDoesntExist, FoodDoesntExist, WrongAmount, OrderItemDoesntExist, SQLException {
+            RestaurantDoesntExist, FoodDoesntExist, WrongAmount, OrderItemDoesntExist, SQLException, OrderDoesntExist {
         int userId = UserConfigs.DEFAULT_ID;
         UserService.getInstance().finalizeOrder(userId);
 

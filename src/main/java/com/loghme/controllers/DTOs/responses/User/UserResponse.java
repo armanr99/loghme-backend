@@ -2,10 +2,7 @@ package com.loghme.controllers.DTOs.responses.User;
 
 import com.loghme.controllers.DTOs.responses.Cart.CartResponse;
 import com.loghme.controllers.DTOs.responses.Order.OrderResponse;
-import com.loghme.exceptions.EmptyCart;
-import com.loghme.exceptions.FoodDoesntExist;
-import com.loghme.exceptions.OrderItemDoesntExist;
-import com.loghme.exceptions.RestaurantDoesntExist;
+import com.loghme.exceptions.*;
 import com.loghme.models.domain.Cart.Cart;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Order.Order;
@@ -25,7 +22,7 @@ public class UserResponse {
     private CartResponse cart;
     private ArrayList<OrderResponse> orders;
 
-    public UserResponse(User user) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
+    public UserResponse(User user) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException, UserDoesntExist, OrderDoesntExist {
         setInfo(user);
         setCart(user.getCart());
         setOrders(user);
@@ -45,7 +42,7 @@ public class UserResponse {
         this.cart = new CartResponse(cart);
     }
 
-    private void setOrders(User user) throws RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException {
+    private void setOrders(User user) throws RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException, UserDoesntExist, OrderDoesntExist {
         orders = new ArrayList<>();
 
         for(Order order : user.getOrders()) {

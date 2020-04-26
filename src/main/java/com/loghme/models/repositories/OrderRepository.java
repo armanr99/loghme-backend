@@ -3,9 +3,11 @@ package com.loghme.models.repositories;
 import com.loghme.exceptions.OrderDoesntExist;
 import com.loghme.exceptions.OrderItemDoesntExist;
 import com.loghme.exceptions.RestaurantDoesntExist;
+import com.loghme.exceptions.UserDoesntExist;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.OrderItem.OrderItem;
 import com.loghme.models.domain.Restaurant.Restaurant;
+import com.loghme.models.domain.User.User;
 import com.loghme.models.mappers.Order.OrderMapper;
 import com.loghme.models.mappers.OrderItem.OrderItemMapper;
 
@@ -58,5 +60,11 @@ public class OrderRepository {
             String restaurantId = orderItem.getRestaurantId();
             return RestaurantRepository.getInstance().getRestaurant(restaurantId);
         }
+    }
+
+    public User getOrderUser(int orderId) throws SQLException, OrderDoesntExist, UserDoesntExist {
+        Order order = getOrder(orderId);
+        int userId = order.getUserId();
+        return UserRepository.getInstance().getUser(userId);
     }
 }

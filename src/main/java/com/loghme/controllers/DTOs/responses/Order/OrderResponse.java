@@ -1,14 +1,9 @@
 package com.loghme.controllers.DTOs.responses.Order;
 
-import com.loghme.controllers.DTOs.responses.Cart.CartResponse;;
-import com.loghme.exceptions.FoodDoesntExist;
-import com.loghme.exceptions.OrderItemDoesntExist;
-import com.loghme.exceptions.RestaurantDoesntExist;
+import com.loghme.exceptions.*;
 import com.loghme.models.domain.Order.Order;
-import com.loghme.models.domain.OrderItem.OrderItem;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 
 public class OrderResponse {
@@ -16,7 +11,7 @@ public class OrderResponse {
     private OrderItemsResponse cart;
     private String state;
 
-    public OrderResponse(Order order) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
+    public OrderResponse(Order order) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException, UserDoesntExist, OrderDoesntExist {
         this.id = order.getId();
         this.cart = new OrderItemsResponse(order);
         this.state = order.getState();

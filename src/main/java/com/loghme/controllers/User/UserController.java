@@ -17,7 +17,7 @@ import java.sql.SQLException;
 @RequestMapping(Path.Web.USER)
 public class UserController {
     @GetMapping("")
-    public UserResponse getUser() throws UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
+    public UserResponse getUser() throws UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException, OrderDoesntExist {
         int userId = UserConfigs.DEFAULT_ID;
         User user = UserService.getInstance().getUser(userId);
         return new UserResponse(user);

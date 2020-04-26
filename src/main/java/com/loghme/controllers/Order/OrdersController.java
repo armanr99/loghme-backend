@@ -16,14 +16,14 @@ import java.util.ArrayList;
 @RequestMapping(Path.Web.ORDERS)
 public class OrdersController {
     @GetMapping("")
-    public OrdersResponse getOrders() throws UserDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException {
+    public OrdersResponse getOrders() throws UserDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException, OrderDoesntExist {
         int userId = UserConfigs.DEFAULT_ID;
         ArrayList<Order> orders = UserService.getInstance().getOrders(userId);
         return new OrdersResponse(orders);
     }
 
     @GetMapping("{id}")
-    public OrderResponse getOrder(@PathVariable(value = "id") int id) throws OrderDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException {
+    public OrderResponse getOrder(@PathVariable(value = "id") int id) throws OrderDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException, UserDoesntExist {
         Order order = UserService.getInstance().getOrder(id);
         return new OrderResponse(order);
     }

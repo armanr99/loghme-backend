@@ -95,7 +95,7 @@ public class Cart {
             finalizeItems(cartItems);
             Order order = createOrder(cartItems);
             CartRepository.getInstance().deleteCart(userId);
-//            DeliveryService.getInstance().addDelivery(order);
+            DeliveryService.getInstance().addDelivery(order);
         } catch (InvalidCount | RestaurantDoesntExist | FoodDoesntExist ex) {
             CartRepository.getInstance().deleteCart(userId);
             throw ex;

@@ -9,7 +9,7 @@ import com.loghme.exceptions.RestaurantDoesntExist;
 import com.loghme.exceptions.UserDoesntExist;
 import com.loghme.models.domain.Delivery.Delivery;
 import com.loghme.models.domain.Location.Location;
-import com.loghme.models.domain.Order.DeliveryInfo;
+import com.loghme.models.domain.DeliveryInfo.DeliveryInfo;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.services.UserService;
 import com.loghme.utils.HTTPRequester;
@@ -61,8 +61,9 @@ public class OrderScheduler {
     private void assignDelivery(ArrayList<Delivery> deliveries)
             throws UserDoesntExist, OrderItemDoesntExist, RestaurantDoesntExist, SQLException {
         Location restaurantLocation = order.getRestaurant().getLocation();
+
         Delivery bestDelivery = getBestDelivery(deliveries, restaurantLocation);
-        DeliveryInfo deliveryInfo = new DeliveryInfo(bestDelivery, restaurantLocation);
+        DeliveryInfo deliveryInfo = new DeliveryInfo(order.getId(), bestDelivery);
 
         order.setDelivery(deliveryInfo);
     }
