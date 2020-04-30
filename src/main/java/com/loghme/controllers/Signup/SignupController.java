@@ -2,17 +2,20 @@ package com.loghme.controllers.Signup;
 
 import com.loghme.configs.Path;
 import com.loghme.controllers.DTOs.requests.Signup.SignupRequest;
+import com.loghme.exceptions.EmailAlreadyExists;
 import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
+
 @RestController
 @RequestMapping(Path.Web.SIGNUP)
 public class SignupController {
     @PostMapping("")
-    public String signupUser(@RequestBody SignupRequest request) {
+    public String signupUser(@RequestBody SignupRequest request) throws SQLException, EmailAlreadyExists {
         String firstName = request.getFirstName();
         String lastName = request.getLastName();
         String email = request.getEmail();

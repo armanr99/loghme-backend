@@ -37,7 +37,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         FoodDoesntExist.class,
         DifferentRestaurant.class,
         InvalidCount.class,
-        CartItemDoesntExist.class
+        CartItemDoesntExist.class,
+        EmailAlreadyExists.class
     })
     public final ResponseEntity<ExceptionResponse> handleBadRequest(
             Exception exception, WebRequest request) {

@@ -7,6 +7,7 @@ import com.loghme.models.domain.Food.Food;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.models.domain.User.User;
+import com.loghme.models.mappers.User.UserMapper;
 import com.loghme.models.repositories.OrderRepository;
 import com.loghme.models.repositories.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
@@ -83,8 +84,21 @@ public class UserService {
         user.finalizeOrder();
     }
 
-    public void signupUser(String firstName, String lastName, String phoneNumber, String email, String password) {
+    public void signupUser(String firstName, String lastName, String phoneNumber, String email, String password) throws SQLException, EmailAlreadyExists {
+        validateEmailDoesntExist(email);
+        addUser(firstName, lastName, phoneNumber, email, password);
+    }
+
+    private void addUser(String firstName, String lastName, String phoneNumber, String email, String password) throws SQLException {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        User newUser = new User(firstName, lastName, phoneNumber, email, password);
+        User newUser = new User(firstName, lastName, phoneNumber, email, hashedPassword);
+        UserMapper.getInstance().insert(newUser);
+    }
+
+    private void validateEmailDoesntExist(String email) throws SQLException, EmailAlreadyExists {
+        User emailUser = UserMapper.getInstance().findByEmail(email);
+        if(emailUser != null) {
+            throw new EmailAlreadyExists(email);
+        }
     }
 }
