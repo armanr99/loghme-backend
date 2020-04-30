@@ -86,19 +86,23 @@ public class UserService {
         user.finalizeOrder();
     }
 
-    public void signupUser(
+    public String signupUser(
             String firstName, String lastName, String phoneNumber, String email, String password)
             throws SQLException, EmailAlreadyExists {
         validateEmailDoesntExist(email);
-        addUser(firstName, lastName, phoneNumber, email, password);
+        User newUser = addUser(firstName, lastName, phoneNumber, email, password);
+
+        return JWTService.getInstance().createToken(newUser.getId());
     }
 
-    private void addUser(
+    private User addUser(
             String firstName, String lastName, String phoneNumber, String email, String password)
             throws SQLException {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         User newUser = new User(firstName, lastName, phoneNumber, email, hashedPassword);
         UserMapper.getInstance().insert(newUser);
+
+        return newUser;
     }
 
     private void validateEmailDoesntExist(String email) throws SQLException, EmailAlreadyExists {

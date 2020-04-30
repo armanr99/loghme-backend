@@ -5,10 +5,7 @@ import com.loghme.database.Mapper.Mapper;
 import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.User.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class UserMapper extends Mapper<User> implements IUserMapper {
@@ -72,7 +69,7 @@ public class UserMapper extends Mapper<User> implements IUserMapper {
 
     public void insert(User user) throws SQLException {
         Connection con = ConnectionPool.getInstance().getConnection();
-        PreparedStatement st = con.prepareStatement(getInsertStatement());
+        PreparedStatement st = con.prepareStatement(getInsertStatement(), Statement.RETURN_GENERATED_KEYS);
 
         st.setString(1, user.getFirstName());
         st.setString(2, user.getLastName());
@@ -83,7 +80,15 @@ public class UserMapper extends Mapper<User> implements IUserMapper {
         st.setDouble(7, user.getLocation().getX());
         st.setDouble(8, user.getLocation().getY());
 
-        executeUpdate(con, st);
+        st.executeUpdate();
+
+        ResultSet rs = st.getGeneratedKeys();
+        if (rs.next()) {
+            int userId = rs.getInt(1);
+            user.setId(userId);
+        }
+
+        closeStatement(con, st);
     }
 
     private String getFindStatement() {
