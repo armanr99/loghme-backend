@@ -2,6 +2,7 @@ package com.loghme.controllers.Login;
 
 import com.loghme.configs.Path;
 import com.loghme.controllers.DTOs.requests.Login.LoginRequest;
+import com.loghme.controllers.DTOs.responses.Token.TokenResponse;
 import com.loghme.exceptions.WrongLogin;
 import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +16,12 @@ import java.sql.SQLException;
 @RequestMapping(Path.Web.LOGIN)
 public class LoginController {
     @PostMapping("")
-    public String loginUser(@RequestBody LoginRequest request) throws SQLException, WrongLogin {
+    public TokenResponse loginUser(@RequestBody LoginRequest request)
+            throws SQLException, WrongLogin {
         String email = request.getEmail();
         String password = request.getPassword();
 
-        UserService.getInstance().loginUser(email, password);
-        return "Success";
+        String token = UserService.getInstance().loginUser(email, password);
+        return new TokenResponse(token);
     }
 }

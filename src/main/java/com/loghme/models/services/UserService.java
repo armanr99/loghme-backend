@@ -36,7 +36,7 @@ public class UserService {
 
     public void addToCart(int userId, String restaurantId, String foodName)
             throws RestaurantDoesntExist, FoodDoesntExist, DifferentRestaurant,
-            RestaurantOutOfRange, InvalidCount, UserDoesntExist, SQLException {
+                    RestaurantOutOfRange, InvalidCount, UserDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
 
         validateAddToCart(user, restaurantId, foodName);
@@ -44,7 +44,8 @@ public class UserService {
     }
 
     private void validateAddToCart(User user, String restaurantId, String foodName)
-            throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, InvalidCount, SQLException {
+            throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist, InvalidCount,
+                    SQLException {
         Restaurant restaurant =
                 RestaurantService.getInstance()
                         .getRestaurantInstanceIfInRange(
@@ -63,7 +64,8 @@ public class UserService {
         user.removeFromCart(restaurantId, foodName);
     }
 
-    public void chargeUser(int userId, double amount) throws WrongAmount, UserDoesntExist, SQLException {
+    public void chargeUser(int userId, double amount)
+            throws WrongAmount, UserDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
         user.chargeWallet(amount);
     }
@@ -79,17 +81,21 @@ public class UserService {
 
     public void finalizeOrder(int userId)
             throws EmptyCart, NotEnoughBalance, InvalidCount, UserDoesntExist, WrongAmount,
-            FoodDoesntExist, RestaurantDoesntExist, SQLException {
+                    FoodDoesntExist, RestaurantDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
         user.finalizeOrder();
     }
 
-    public void signupUser(String firstName, String lastName, String phoneNumber, String email, String password) throws SQLException, EmailAlreadyExists {
+    public void signupUser(
+            String firstName, String lastName, String phoneNumber, String email, String password)
+            throws SQLException, EmailAlreadyExists {
         validateEmailDoesntExist(email);
         addUser(firstName, lastName, phoneNumber, email, password);
     }
 
-    private void addUser(String firstName, String lastName, String phoneNumber, String email, String password) throws SQLException {
+    private void addUser(
+            String firstName, String lastName, String phoneNumber, String email, String password)
+            throws SQLException {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         User newUser = new User(firstName, lastName, phoneNumber, email, hashedPassword);
         UserMapper.getInstance().insert(newUser);
@@ -97,17 +103,19 @@ public class UserService {
 
     private void validateEmailDoesntExist(String email) throws SQLException, EmailAlreadyExists {
         User emailUser = UserMapper.getInstance().findByEmail(email);
-        if(emailUser != null) {
+        if (emailUser != null) {
             throw new EmailAlreadyExists(email);
         }
     }
 
-    public void loginUser(String email, String password) throws SQLException, WrongLogin {
+    public String loginUser(String email, String password) throws SQLException, WrongLogin {
         User emailUser = UserMapper.getInstance().findByEmail(email);
-        if(emailUser == null) {
+        if (emailUser == null) {
             throw new WrongLogin();
-        } else if(!BCrypt.checkpw(password, emailUser.getPassword())) {
+        } else if (!BCrypt.checkpw(password, emailUser.getPassword())) {
             throw new WrongLogin();
         }
+
+        return JWTService.getInstance().createToken(emailUser.getId());
     }
 }
