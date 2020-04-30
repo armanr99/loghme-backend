@@ -101,4 +101,13 @@ public class UserService {
             throw new EmailAlreadyExists(email);
         }
     }
+
+    public void loginUser(String email, String password) throws SQLException, WrongLogin {
+        User emailUser = UserMapper.getInstance().findByEmail(email);
+        if(emailUser == null) {
+            throw new WrongLogin();
+        } else if(!BCrypt.checkpw(password, emailUser.getPassword())) {
+            throw new WrongLogin();
+        }
+    }
 }
