@@ -9,6 +9,7 @@ import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.models.domain.User.User;
 import com.loghme.models.repositories.OrderRepository;
 import com.loghme.models.repositories.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -80,5 +81,10 @@ public class UserService {
             FoodDoesntExist, RestaurantDoesntExist, SQLException {
         User user = UserRepository.getInstance().getUser(userId);
         user.finalizeOrder();
+    }
+
+    public void signupUser(String firstName, String lastName, String phoneNumber, String email, String password) {
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        User newUser = new User(firstName, lastName, phoneNumber, email, password);
     }
 }

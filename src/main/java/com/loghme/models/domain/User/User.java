@@ -17,6 +17,7 @@ public class User {
     private String lastName;
     private String phoneNumber;
     private String email;
+    private String password;
     private Location location;
     private Wallet wallet;
     private Cart cart;
@@ -37,6 +38,14 @@ public class User {
         this.location = location;
         this.wallet = new Wallet(id, credit);
         this.cart = new Cart(id);
+    }
+
+    public User(String firstName, String lastName, String phoneNumber, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
     }
 
     public int getId() {
