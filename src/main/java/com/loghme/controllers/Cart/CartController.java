@@ -18,17 +18,16 @@ import java.util.ArrayList;
 @RequestMapping(Path.Web.CART)
 public class CartController {
     @GetMapping("")
-    public CartResponse getCart() throws UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, SQLException {
-        int userId = UserConfigs.DEFAULT_ID;
+    public CartResponse getCart(@RequestAttribute int userId)
+            throws UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, SQLException {
         Cart cart = UserService.getInstance().getCart(userId);
         return new CartResponse(cart);
     }
 
     @PostMapping("")
-    public CartResponse addToCart(@RequestBody CartRequest request)
+    public CartResponse addToCart(@RequestBody CartRequest request, @RequestAttribute int userId)
             throws FoodDoesntExist, RestaurantOutOfRange, RestaurantDoesntExist,
-            DifferentRestaurant, InvalidCount, UserDoesntExist, SQLException {
-        int userId = UserConfigs.DEFAULT_ID;
+                    DifferentRestaurant, InvalidCount, UserDoesntExist, SQLException {
         String restaurantId = request.getRestaurantId();
         String foodName = request.getFoodName();
 
@@ -39,9 +38,10 @@ public class CartController {
     }
 
     @DeleteMapping("")
-    public CartResponse removeFromCart(@RequestBody CartRequest request)
-            throws CartItemDoesntExist, UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist, SQLException {
-        int userId = UserConfigs.DEFAULT_ID;
+    public CartResponse removeFromCart(
+            @RequestBody CartRequest request, @RequestAttribute int userId)
+            throws CartItemDoesntExist, UserDoesntExist, FoodDoesntExist, RestaurantDoesntExist,
+                    SQLException {
         String restaurantId = request.getRestaurantId();
         String foodName = request.getFoodName();
 
@@ -52,10 +52,10 @@ public class CartController {
     }
 
     @PostMapping("/order")
-    public OrdersResponse finalizeOrder()
+    public OrdersResponse finalizeOrder(@RequestAttribute int userId)
             throws InvalidCount, EmptyCart, NotEnoughBalance, UserDoesntExist,
-            RestaurantDoesntExist, FoodDoesntExist, WrongAmount, OrderItemDoesntExist, SQLException, OrderDoesntExist {
-        int userId = UserConfigs.DEFAULT_ID;
+                    RestaurantDoesntExist, FoodDoesntExist, WrongAmount, OrderItemDoesntExist,
+                    SQLException, OrderDoesntExist {
         UserService.getInstance().finalizeOrder(userId);
 
         ArrayList<Order> orders = UserService.getInstance().getOrders(userId);

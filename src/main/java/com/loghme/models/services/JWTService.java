@@ -2,7 +2,6 @@ package com.loghme.models.services;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;

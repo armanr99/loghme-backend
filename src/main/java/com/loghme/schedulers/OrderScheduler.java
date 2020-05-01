@@ -70,8 +70,8 @@ public class OrderScheduler {
 
     private Delivery getBestDelivery(ArrayList<Delivery> deliveries, Location restaurantLocation)
             throws UserDoesntExist, SQLException {
-        assert (deliveries.size() > 0);
-        Location userLocation = UserService.getInstance().getUser(0).getLocation();
+        int userId = order.getUserId();
+        Location userLocation = UserService.getInstance().getUser(userId).getLocation();
 
         return deliveries.stream()
                 .min(

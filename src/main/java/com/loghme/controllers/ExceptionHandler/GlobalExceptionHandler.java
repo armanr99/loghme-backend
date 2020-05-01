@@ -17,7 +17,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<ExceptionResponse>(exceptionResponse, httpStatus);
     }
 
-    @ExceptionHandler({RestaurantOutOfRange.class, WrongLogin.class})
+    @ExceptionHandler({RestaurantOutOfRange.class, WrongLogin.class, ForbiddenAccess.class})
     public final ResponseEntity<ExceptionResponse> handleForbidden(
             Exception exception, WebRequest request) {
         return getExceptionResponse(exception, HttpStatus.FORBIDDEN);

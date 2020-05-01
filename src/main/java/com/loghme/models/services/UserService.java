@@ -75,8 +75,14 @@ public class UserService {
         return user.getOrders();
     }
 
-    public Order getOrder(int orderId) throws OrderDoesntExist, SQLException {
-        return OrderRepository.getInstance().getOrder(orderId);
+    public Order getOrder(int userId, int orderId)
+            throws OrderDoesntExist, SQLException, ForbiddenAccess {
+        Order order = OrderRepository.getInstance().getOrder(orderId);
+        if (userId != order.getUserId()) {
+            throw new ForbiddenAccess();
+        } else {
+            return order;
+        }
     }
 
     public void finalizeOrder(int userId)
