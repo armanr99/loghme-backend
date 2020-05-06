@@ -15,9 +15,11 @@ public class SearchController {
     @GetMapping("/restaurants")
     public RestaurantsResponse getRestaurants(
             @RequestParam(required = false, defaultValue = "") String restaurantName,
-            @RequestParam(required = false, defaultValue = "") String foodName) throws SQLException {
+            @RequestParam(required = false, defaultValue = "") String foodName)
+            throws SQLException {
 
-        ArrayList<Restaurant> restaurants = RestaurantRepository.getInstance().searchRestaurants(restaurantName, foodName);
+        ArrayList<Restaurant> restaurants =
+                RestaurantRepository.getInstance().searchRestaurants(restaurantName, foodName);
         return new RestaurantsResponse(restaurants);
     }
 }

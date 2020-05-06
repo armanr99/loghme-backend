@@ -1,6 +1,5 @@
 package com.loghme.controllers.DTOs.responses.Order;
 
-import com.loghme.exceptions.EmptyCart;
 import com.loghme.exceptions.FoodDoesntExist;
 import com.loghme.exceptions.OrderItemDoesntExist;
 import com.loghme.exceptions.RestaurantDoesntExist;
@@ -15,12 +14,14 @@ class OrderItemsResponse {
     private ArrayList<OrderItemResponse> items;
     private double totalPrice;
 
-    OrderItemsResponse(Order order) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
+    OrderItemsResponse(Order order)
+            throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException {
         totalPrice = order.getTotalPrice();
         setItems(order);
     }
 
-    private void setItems(Order order) throws RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException {
+    private void setItems(Order order)
+            throws RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException {
         this.items = new ArrayList<>();
         Restaurant restaurant = order.getRestaurant();
 

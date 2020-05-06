@@ -18,7 +18,7 @@ public class AuthFilter implements Filter {
     private static final Gson gson = new Gson();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {}
+    public void init(FilterConfig filterConfig) {}
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

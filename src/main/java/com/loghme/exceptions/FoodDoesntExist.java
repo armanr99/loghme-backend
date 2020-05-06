@@ -10,6 +10,7 @@ public class FoodDoesntExist extends Exception {
     }
 
     public String toString() {
-        return String.format("Restaurant with id %s does not have food named %s", restaurantId, foodName);
+        return String.format(
+                "Restaurant with id %s does not have food named %s", restaurantId, foodName);
     }
 }

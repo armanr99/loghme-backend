@@ -53,7 +53,9 @@ public class Order {
         OrderRepository.getInstance().addOrderItems(orderItems);
     }
 
-    public String getState() throws OrderItemDoesntExist, SQLException, UserDoesntExist, RestaurantDoesntExist, OrderDoesntExist {
+    public String getState()
+            throws OrderItemDoesntExist, SQLException, UserDoesntExist, RestaurantDoesntExist,
+                    OrderDoesntExist {
         try {
             DeliveryInfo deliveryInfo =
                     DeliveryInfoRepository.getInstance().getDeliveryInfo(this.id);

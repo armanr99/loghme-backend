@@ -16,13 +16,15 @@ class OrderItemResponse {
     private RestaurantSmallResponse restaurant;
     private int count;
 
-    OrderItemResponse(Restaurant restaurant, OrderItem orderItem) throws FoodDoesntExist, SQLException {
+    OrderItemResponse(Restaurant restaurant, OrderItem orderItem)
+            throws FoodDoesntExist, SQLException {
         setFood(restaurant, orderItem);
         this.restaurant = new RestaurantSmallResponse(restaurant);
         this.count = orderItem.getCount();
     }
 
-    private void setFood(Restaurant restaurant, OrderItem orderItem) throws FoodDoesntExist, SQLException {
+    private void setFood(Restaurant restaurant, OrderItem orderItem)
+            throws FoodDoesntExist, SQLException {
         Food food = orderItem.getFood();
         if (food instanceof PartyFood) {
             this.food = new PartyFoodResponse(restaurant, (PartyFood) food);

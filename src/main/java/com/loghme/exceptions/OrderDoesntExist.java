@@ -1,6 +1,5 @@
 package com.loghme.exceptions;
 
-
 public class OrderDoesntExist extends Exception {
     private int inavlidOrderId;
 

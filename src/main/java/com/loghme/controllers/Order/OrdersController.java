@@ -1,7 +1,6 @@
 package com.loghme.controllers.Order;
 
 import com.loghme.configs.Path;
-import com.loghme.configs.UserConfigs;
 import com.loghme.controllers.DTOs.responses.Order.OrderResponse;
 import com.loghme.controllers.DTOs.responses.Order.OrdersResponse;
 import com.loghme.exceptions.*;
@@ -26,7 +25,7 @@ public class OrdersController {
     @GetMapping("{id}")
     public OrderResponse getOrder(@PathVariable int id, @RequestAttribute int userId)
             throws OrderDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist,
-            SQLException, UserDoesntExist, ForbiddenAccess {
+                    SQLException, UserDoesntExist, ForbiddenAccess {
         Order order = UserService.getInstance().getOrder(userId, id);
         return new OrderResponse(order);
     }

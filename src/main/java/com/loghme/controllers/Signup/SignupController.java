@@ -16,14 +16,17 @@ import java.sql.SQLException;
 @RequestMapping(Path.Web.SIGNUP)
 public class SignupController {
     @PostMapping("")
-    public TokenResponse signupUser(@RequestBody SignupRequest request) throws SQLException, EmailAlreadyExists {
+    public TokenResponse signupUser(@RequestBody SignupRequest request)
+            throws SQLException, EmailAlreadyExists {
         String firstName = request.getFirstName();
         String lastName = request.getLastName();
         String email = request.getEmail();
         String phoneNumber = request.getPhoneNumber();
         String password = request.getPassword();
 
-        String token = UserService.getInstance().signupUser(firstName, lastName, phoneNumber, email, password);
+        String token =
+                UserService.getInstance()
+                        .signupUser(firstName, lastName, phoneNumber, email, password);
         return new TokenResponse(token);
     }
 }

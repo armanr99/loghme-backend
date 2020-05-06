@@ -19,7 +19,8 @@ public class DeliveryInfo {
     private Date startDate;
     private Delivery delivery;
 
-    public DeliveryInfo(int orderId, String deliveryId, double velocity, Location location, Date startDate) {
+    public DeliveryInfo(
+            int orderId, String deliveryId, double velocity, Location location, Date startDate) {
         this.orderId = orderId;
         this.startDate = startDate;
         this.delivery = new Delivery(deliveryId, velocity, location);
@@ -51,13 +52,17 @@ public class DeliveryInfo {
         return delivery.getLocation();
     }
 
-    public String getState() throws RestaurantDoesntExist, SQLException, UserDoesntExist, OrderItemDoesntExist, OrderDoesntExist {
+    public String getState()
+            throws RestaurantDoesntExist, SQLException, UserDoesntExist, OrderItemDoesntExist,
+                    OrderDoesntExist {
         return (getRemainingSeconds() == 0
                 ? DeliveryConfigs.State.DELIVERED
                 : DeliveryConfigs.State.DELIVERING);
     }
 
-    private long getRemainingSeconds() throws SQLException, OrderItemDoesntExist, UserDoesntExist, RestaurantDoesntExist, OrderDoesntExist {
+    private long getRemainingSeconds()
+            throws SQLException, OrderItemDoesntExist, UserDoesntExist, RestaurantDoesntExist,
+                    OrderDoesntExist {
         long timeDiff = new Date().getTime() - startDate.getTime();
         long timeDiffSeconds = timeDiff / 1000;
         long totalTime = getTotalTime();
@@ -65,11 +70,12 @@ public class DeliveryInfo {
         return (totalTime - timeDiffSeconds < 0 ? 0 : totalTime - timeDiffSeconds);
     }
 
-    private long getTotalTime() throws RestaurantDoesntExist, OrderItemDoesntExist, SQLException, UserDoesntExist, OrderDoesntExist {
+    private long getTotalTime()
+            throws RestaurantDoesntExist, OrderItemDoesntExist, SQLException, UserDoesntExist,
+                    OrderDoesntExist {
         Restaurant restaurant = OrderRepository.getInstance().getOrderRestaurant(orderId);
         User user = OrderRepository.getInstance().getOrderUser(orderId);
 
         return delivery.getTotalTime(restaurant.getLocation(), user.getLocation());
     }
-
 }
