@@ -1,7 +1,6 @@
 package com.loghme.controllers.Cart;
 
 import com.loghme.configs.Path;
-import com.loghme.configs.UserConfigs;
 import com.loghme.controllers.DTOs.requests.Cart.CartRequest;
 import com.loghme.controllers.DTOs.responses.Cart.CartResponse;
 import com.loghme.controllers.DTOs.responses.Order.OrdersResponse;

@@ -2,7 +2,6 @@ package com.loghme.controllers.Restaurant;
 
 import com.loghme.configs.Configs;
 import com.loghme.configs.Path;
-import com.loghme.configs.UserConfigs;
 import com.loghme.controllers.DTOs.responses.Restaurant.RestaurantResponse;
 import com.loghme.controllers.DTOs.responses.Restaurant.RestaurantsResponse;
 import com.loghme.exceptions.UserDoesntExist;

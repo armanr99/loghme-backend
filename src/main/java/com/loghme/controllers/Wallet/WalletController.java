@@ -1,7 +1,6 @@
 package com.loghme.controllers.Wallet;
 
 import com.loghme.configs.Path;
-import com.loghme.configs.UserConfigs;
 import com.loghme.controllers.DTOs.requests.Wallet.WalletRequest;
 import com.loghme.controllers.DTOs.responses.Wallet.WalletResponse;
 import com.loghme.exceptions.UserDoesntExist;

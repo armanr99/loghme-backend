@@ -1,7 +1,6 @@
 package com.loghme.controllers.Order;
 
 import com.loghme.configs.Path;
-import com.loghme.configs.UserConfigs;
 import com.loghme.controllers.DTOs.responses.Order.OrderResponse;
 import com.loghme.controllers.DTOs.responses.Order.OrdersResponse;
 import com.loghme.exceptions.*;

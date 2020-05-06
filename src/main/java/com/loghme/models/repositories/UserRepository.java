@@ -1,8 +1,6 @@
 package com.loghme.models.repositories;
 
-import com.loghme.configs.UserConfigs;
 import com.loghme.exceptions.UserDoesntExist;
-import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.User.User;
 import com.loghme.models.mappers.User.UserMapper;
 

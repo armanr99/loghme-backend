@@ -1,7 +1,6 @@
 package com.loghme.controllers.User;
 
 import com.loghme.configs.Path;
-import com.loghme.configs.UserConfigs;
 import com.loghme.controllers.DTOs.responses.User.UserResponse;
 import com.loghme.exceptions.*;
 import com.loghme.models.domain.User.User;
