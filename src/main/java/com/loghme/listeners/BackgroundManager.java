@@ -16,7 +16,6 @@ public class BackgroundManager implements ServletContextListener {
 
     @Override
     public final void contextInitialized(final ServletContextEvent sce) {
-        addSampleUser();
         fetchRestaurants();
         FoodPartyScheduler.getInstance().handleFoodParty();
     }
@@ -32,14 +31,6 @@ public class BackgroundManager implements ServletContextListener {
             RestaurantService.getInstance().fetchRestaurants(ServerConfigs.DATA_URL);
         } catch (Exception ex) {
             System.out.println("Error in fetching restaurants data: " + ex.toString());
-        }
-    }
-
-    private void addSampleUser() {
-        try {
-            UserRepository.getInstance().addSampleUser();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

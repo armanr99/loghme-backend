@@ -6,7 +6,6 @@ import com.loghme.models.domain.Location.Location;
 import com.loghme.models.domain.Order.Order;
 import com.loghme.models.domain.Wallet.Wallet;
 import com.loghme.models.repositories.OrderRepository;
-import com.loghme.models.repositories.UserRepository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ public class User {
     private String lastName;
     private String phoneNumber;
     private String email;
+    private String password;
     private Location location;
     private Wallet wallet;
     private Cart cart;
@@ -27,6 +27,7 @@ public class User {
             String lastName,
             String phoneNumber,
             String email,
+            String password,
             double credit,
             Location location) {
         this.id = id;
@@ -34,9 +35,20 @@ public class User {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.password = password;
         this.location = location;
         this.wallet = new Wallet(id, credit);
         this.cart = new Cart(id);
+    }
+
+    public User(String firstName, String lastName, String phoneNumber, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.location = new Location(0, 0);
+        this.wallet = null;
     }
 
     public int getId() {
@@ -59,8 +71,12 @@ public class User {
         return email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public double getCredit() {
-        return wallet.getCredit();
+        return (wallet == null ? 0 : wallet.getCredit());
     }
 
     public Location getLocation() {
@@ -69,6 +85,10 @@ public class User {
 
     public Cart getCart() {
         return cart;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void addToCart(String restaurantId, String foodName)

@@ -10,5 +10,7 @@ public class Path {
         public static final String FOOD_PARTY = "/foodparty";
         public static final String FOOD_PARTY_TIME = "/remainingSeconds";
         public static final String SEARCH = "/search";
+        public static final String SIGNUP = "/signup";
+        public static final String LOGIN = "/login";
     }
 }

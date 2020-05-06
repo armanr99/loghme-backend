@@ -24,13 +24,15 @@ import static com.loghme.configs.Pagination.*;
 public class RestaurantsController {
     @GetMapping("")
     public RestaurantsResponse getRestaurants(
-            @RequestParam(value = "limit", required = false, defaultValue = defaultLimitStr) String limitStr,
-            @RequestParam(value = "offset", required = false, defaultValue = defaultOffsetStr) String offsetStr)
+            @RequestParam(value = "limit", required = false, defaultValue = defaultLimitStr)
+                    String limitStr,
+            @RequestParam(value = "offset", required = false, defaultValue = defaultOffsetStr)
+                    String offsetStr,
+            @RequestAttribute int userId)
             throws UserDoesntExist, SQLException {
 
         int limit = Integer.parseInt(limitStr);
         int offset = Integer.parseInt(offsetStr);
-        int userId = UserConfigs.DEFAULT_ID;
         Location userLocation = UserService.getInstance().getUser(userId).getLocation();
 
         ArrayList<Restaurant> restaurants =
@@ -42,9 +44,8 @@ public class RestaurantsController {
     }
 
     @GetMapping("{id}")
-    public RestaurantResponse getRestaurant(@PathVariable(value = "id") String id)
+    public RestaurantResponse getRestaurant(@PathVariable String id, @RequestAttribute int userId)
             throws RestaurantOutOfRange, RestaurantDoesntExist, UserDoesntExist, SQLException {
-        int userId = UserConfigs.DEFAULT_ID;
         Location userLocation = UserService.getInstance().getUser(userId).getLocation();
         RestaurantService restaurantService = RestaurantService.getInstance();
         Restaurant restaurant =

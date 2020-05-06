@@ -18,10 +18,6 @@ public class UserRepository {
         return instance;
     }
 
-    public void addSampleUser() throws SQLException {
-        User sampleUser = getSampleUser();
-        UserMapper.getInstance().insert(sampleUser);
-    }
 
     public User getUser(int userId) throws UserDoesntExist, SQLException {
         User user = UserMapper.getInstance().find(userId);
@@ -31,17 +27,6 @@ public class UserRepository {
         } else {
             return user;
         }
-    }
-
-    private User getSampleUser() {
-        int id = UserConfigs.DEFAULT_ID;
-        String firstName = "احسان";
-        String lastName = "خامس‌پناه";
-        String phoneNumber = "+989123456789";
-        String email = "ekhamespanah@yahoo.com";
-        double credit = 100000;
-        Location location = new Location(0, 0);
-        return new User(id, firstName, lastName, phoneNumber, email, credit, location);
     }
 
     public void updateCredit(int userId, double credit) throws SQLException {

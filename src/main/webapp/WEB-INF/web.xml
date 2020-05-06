@@ -32,6 +32,16 @@
     </filter-mapping>
 
     <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.loghme.filters.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>DelayFilter</filter-name>
         <filter-class>com.loghme.filters.DelayFilter</filter-class>
     </filter>

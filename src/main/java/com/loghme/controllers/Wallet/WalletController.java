@@ -15,8 +15,9 @@ import java.sql.SQLException;
 @RequestMapping(Path.Web.WALLET)
 public class WalletController {
     @PostMapping("")
-    public WalletResponse chargeUser(@RequestBody WalletRequest request) throws WrongAmount, UserDoesntExist, SQLException {
-        int userId = UserConfigs.DEFAULT_ID;
+    public WalletResponse chargeUser(
+            @RequestBody WalletRequest request, @RequestAttribute int userId)
+            throws WrongAmount, UserDoesntExist, SQLException {
         double amount = request.getAmount();
 
         UserService.getInstance().chargeUser(userId, amount);
