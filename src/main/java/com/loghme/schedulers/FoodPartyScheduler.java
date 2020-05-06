@@ -14,8 +14,7 @@ public class FoodPartyScheduler {
     private static FoodPartyScheduler instance = null;
 
     public static FoodPartyScheduler getInstance() {
-        if(instance == null)
-            instance = new FoodPartyScheduler();
+        if (instance == null) instance = new FoodPartyScheduler();
         return instance;
     }
 
@@ -24,17 +23,19 @@ public class FoodPartyScheduler {
     }
 
     public void handleFoodParty() {
-        final Runnable foodPartyRequester = () -> {
-            try {
-                restartDate = new Date();
-                RestaurantService.getInstance().deletePartyFoods();
-                RestaurantService.getInstance().fetchPartyFoods();
-            } catch (Exception exception) {
-                System.out.println("Error in fetching data: " + exception.toString());
-            }
-        };
+        final Runnable foodPartyRequester =
+                () -> {
+                    try {
+                        restartDate = new Date();
+                        RestaurantService.getInstance().deletePartyFoods();
+                        RestaurantService.getInstance().fetchPartyFoods();
+                    } catch (Exception exception) {
+                        System.out.println("Error in fetching data: " + exception.toString());
+                    }
+                };
 
-        scheduler.scheduleAtFixedRate(foodPartyRequester, 0, FoodPartyConfigs.CHECK_TIME_MINUTE, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(
+                foodPartyRequester, 0, FoodPartyConfigs.CHECK_TIME_MINUTE, TimeUnit.MINUTES);
     }
 
     public void shutdown() {
@@ -46,6 +47,6 @@ public class FoodPartyScheduler {
         long timeDiffSeconds = timeDiff / 1000;
         long checkTime = FoodPartyConfigs.CHECK_TIME_MINUTE * 60;
 
-        return (checkTime  - timeDiffSeconds < 0 ? 0 : checkTime - timeDiffSeconds);
+        return (checkTime - timeDiffSeconds < 0 ? 0 : checkTime - timeDiffSeconds);
     }
 }

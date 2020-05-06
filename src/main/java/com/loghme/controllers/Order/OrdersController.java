@@ -25,7 +25,7 @@ public class OrdersController {
     @GetMapping("{id}")
     public OrderResponse getOrder(@PathVariable int id, @RequestAttribute int userId)
             throws OrderDoesntExist, RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist,
-            SQLException, UserDoesntExist, ForbiddenAccess {
+                    SQLException, UserDoesntExist, ForbiddenAccess {
         Order order = UserService.getInstance().getOrder(userId, id);
         return new OrderResponse(order);
     }

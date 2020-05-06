@@ -10,6 +10,8 @@ public class CartItemDoesntExist extends Exception {
     }
 
     public String toString() {
-        return String.format("There isn't cart item with food name %s and restaurant id %s", foodName, restaurantId);
+        return String.format(
+                "There isn't cart item with food name %s and restaurant id %s",
+                foodName, restaurantId);
     }
 }

@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class FoodPartyResponse {
     ArrayList<PartyFoodResponse> partyFoods;
 
-    public FoodPartyResponse(ArrayList<PartyFood> inPartyFoods) throws RestaurantDoesntExist, SQLException {
+    public FoodPartyResponse(ArrayList<PartyFood> inPartyFoods)
+            throws RestaurantDoesntExist, SQLException {
         partyFoods = new ArrayList<>();
 
         for (PartyFood partyFood : inPartyFoods) {

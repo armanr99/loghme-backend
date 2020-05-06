@@ -8,6 +8,7 @@ public class DifferentRestaurant extends Exception {
     }
 
     public String toString() {
-        return String.format("There are foods from different restaurant with id %s in cart", cartRestaurantId);
+        return String.format(
+                "There are foods from different restaurant with id %s in cart", cartRestaurantId);
     }
 }

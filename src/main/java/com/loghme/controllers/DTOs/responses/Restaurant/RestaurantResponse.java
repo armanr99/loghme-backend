@@ -34,14 +34,13 @@ public class RestaurantResponse {
     private void setMenu(Restaurant restaurant) throws SQLException {
         menu = new ArrayList<>();
 
-        for(Food food : restaurant.getMenu())
-            menu.add(new FoodResponse(restaurant, food));
+        for (Food food : restaurant.getMenu()) menu.add(new FoodResponse(restaurant, food));
     }
 
     private void setFoodPartyMenu(Restaurant restaurant) throws SQLException {
         foodPartyMenu = new ArrayList<>();
 
-        for(PartyFood partyFood : restaurant.getFoodPartyMenu())
+        for (PartyFood partyFood : restaurant.getFoodPartyMenu())
             foodPartyMenu.add(new PartyFoodResponse(restaurant, partyFood));
     }
 }

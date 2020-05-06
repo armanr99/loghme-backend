@@ -22,7 +22,9 @@ public class UserResponse {
     private CartResponse cart;
     private ArrayList<OrderResponse> orders;
 
-    public UserResponse(User user) throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException, UserDoesntExist, OrderDoesntExist {
+    public UserResponse(User user)
+            throws FoodDoesntExist, RestaurantDoesntExist, OrderItemDoesntExist, SQLException,
+                    UserDoesntExist, OrderDoesntExist {
         setInfo(user);
         setCart(user.getCart());
         setOrders(user);
@@ -42,10 +44,12 @@ public class UserResponse {
         this.cart = new CartResponse(cart);
     }
 
-    private void setOrders(User user) throws RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException, UserDoesntExist, OrderDoesntExist {
+    private void setOrders(User user)
+            throws RestaurantDoesntExist, FoodDoesntExist, OrderItemDoesntExist, SQLException,
+                    UserDoesntExist, OrderDoesntExist {
         orders = new ArrayList<>();
 
-        for(Order order : user.getOrders()) {
+        for (Order order : user.getOrders()) {
             orders.add(new OrderResponse(order));
         }
     }

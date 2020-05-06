@@ -41,7 +41,8 @@ public class User {
         this.cart = new Cart(id);
     }
 
-    public User(String firstName, String lastName, String phoneNumber, String email, String password) {
+    public User(
+            String firstName, String lastName, String phoneNumber, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -100,7 +101,8 @@ public class User {
         return cart.getCartItemCount(restaurantId, foodName);
     }
 
-    public void removeFromCart(String restaurantId, String foodName) throws CartItemDoesntExist, SQLException {
+    public void removeFromCart(String restaurantId, String foodName)
+            throws CartItemDoesntExist, SQLException {
         cart.removeItem(restaurantId, foodName);
     }
 
@@ -114,7 +116,7 @@ public class User {
 
     public void finalizeOrder()
             throws EmptyCart, NotEnoughBalance, InvalidCount, FoodDoesntExist, WrongAmount,
-            RestaurantDoesntExist, SQLException {
+                    RestaurantDoesntExist, SQLException {
         double totalPrice = cart.getTotalPrice();
         wallet.withdraw(totalPrice);
 

@@ -22,7 +22,8 @@ public class Cart {
         return CartRepository.getInstance().getCartItems(userId);
     }
 
-    public void addItem(String restaurantId, String foodName) throws DifferentRestaurant, SQLException {
+    public void addItem(String restaurantId, String foodName)
+            throws DifferentRestaurant, SQLException {
         validateSameRestaurant(restaurantId);
         handleAddItem(restaurantId, foodName);
     }

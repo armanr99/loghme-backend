@@ -14,7 +14,7 @@ public class RestaurantsResponse {
     private void setRestaurants(ArrayList<Restaurant> restaurants) {
         this.restaurants = new ArrayList<>();
 
-        for(Restaurant restaurant : restaurants) {
+        for (Restaurant restaurant : restaurants) {
             this.restaurants.add(new RestaurantSmallResponse(restaurant));
         }
     }

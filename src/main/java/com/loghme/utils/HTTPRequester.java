@@ -21,7 +21,10 @@ public class HTTPRequester {
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                    System.out.println(String.format("Fetching data failed with status code %d", response.getStatusLine().getStatusCode()));
+                    System.out.println(
+                            String.format(
+                                    "Fetching data failed with status code %d",
+                                    response.getStatusLine().getStatusCode()));
                 } else {
                     HttpEntity entity = response.getEntity();
                     if (entity != null) {
