@@ -1,6 +1,7 @@
 package com.loghme.controllers.Login;
 
 import com.loghme.configs.Path;
+import com.loghme.controllers.DTOs.requests.Login.LoginGoogleRequest;
 import com.loghme.controllers.DTOs.requests.Login.LoginRequest;
 import com.loghme.controllers.DTOs.responses.Token.TokenResponse;
 import com.loghme.exceptions.WrongLogin;
@@ -23,5 +24,12 @@ public class LoginController {
 
         String token = UserService.getInstance().loginUser(email, password);
         return new TokenResponse(token);
+    }
+
+    @PostMapping("/google")
+    public TokenResponse loginGoogleUser(@RequestBody LoginGoogleRequest request)
+            throws SQLException, WrongLogin {
+        String googleToken = request.getToken();
+        return new TokenResponse(googleToken);
     }
 }
