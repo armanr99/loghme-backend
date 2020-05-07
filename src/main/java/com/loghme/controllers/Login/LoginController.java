@@ -22,8 +22,8 @@ public class LoginController {
             throws SQLException, WrongLogin {
         String email = request.getEmail();
         String password = request.getPassword();
-
         String token = UserService.getInstance().loginUser(email, password);
+
         return new TokenResponse(token);
     }
 
@@ -31,9 +31,8 @@ public class LoginController {
     public TokenResponse loginGoogleUser(@RequestBody LoginGoogleRequest request)
             throws SQLException, WrongLogin {
         String googleToken = request.getToken();
-        String googleEmail = JWTService.getInstance().getGoogleEmail(googleToken);
+        String token = UserService.getInstance().loginGoogleUser(googleToken);
 
-        String token = UserService.getInstance().loginGoogleUser(googleEmail);
         return new TokenResponse(token);
     }
 }

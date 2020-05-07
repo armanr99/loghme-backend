@@ -62,7 +62,7 @@ public class JWTService {
         }
     }
 
-    public String getGoogleEmail(String googleToken) {
+    String getGoogleEmail(String googleToken) {
         try {
             GoogleIdToken idToken = googleVerifier.verify(googleToken);
             if (idToken == null) return null;
