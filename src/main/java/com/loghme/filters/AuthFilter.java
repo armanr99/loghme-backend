@@ -24,35 +24,17 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        String uri = httpServletRequest.getRequestURI();
+        String uri = ((HttpServletRequest) request).getRequestURI();
 
         if (!uri.equals(Path.Web.LOGIN)
                 && !uri.equals(Path.Web.LOGIN + "/google")
                 && !uri.equals(Path.Web.SIGNUP)) {
-            String header = httpServletRequest.getHeader("Authorization");
+            String header = ((HttpServletRequest) request).getHeader("Authorization");
 
             if (header != null) {
-                String token = header.substring(Configs.BEARER_SIZE);
-                String subject = JWTService.getInstance().getSubject(token);
-
-                if (subject != null) {
-                    int userId = Integer.parseInt(subject);
-                    request.setAttribute("userId", userId);
-                } else {
-                    ExceptionResponse exceptionResponse =
-                            new ExceptionResponse(new UserNotAuthenticated(), HttpStatus.FORBIDDEN);
-                    httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());
-                    writeErrorResponse(response, exceptionResponse);
-                    return;
-                }
-
+                authenticateHeader(header, request, response);
             } else {
-                ExceptionResponse exceptionResponse =
-                        new ExceptionResponse(new UserNotAuthorized(), HttpStatus.UNAUTHORIZED);
-                httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-                writeErrorResponse(response, exceptionResponse);
+                setJWTError(response);
                 return;
             }
         }
@@ -63,9 +45,27 @@ public class AuthFilter implements Filter {
     @Override
     public void destroy() {}
 
-    private byte[] getJsonBytes(ExceptionResponse exceptionResponse) {
-        String objectStr = gson.toJson(exceptionResponse);
-        return objectStr.getBytes();
+    private void authenticateHeader(String header, ServletRequest request, ServletResponse response)
+            throws IOException {
+        String token = header.substring(Configs.BEARER_SIZE);
+        String subject = JWTService.getInstance().getSubject(token);
+
+        if (subject != null) {
+            int userId = Integer.parseInt(subject);
+            request.setAttribute("userId", userId);
+        } else {
+            ExceptionResponse exceptionResponse =
+                    new ExceptionResponse(new UserNotAuthenticated(), HttpStatus.FORBIDDEN);
+            ((HttpServletResponse) response).setStatus(HttpStatus.FORBIDDEN.value());
+            writeErrorResponse(response, exceptionResponse);
+        }
+    }
+
+    private void setJWTError(ServletResponse response) throws IOException {
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(new UserNotAuthorized(), HttpStatus.UNAUTHORIZED);
+        ((HttpServletResponse) response).setStatus(HttpStatus.UNAUTHORIZED.value());
+        writeErrorResponse(response, exceptionResponse);
     }
 
     private void writeErrorResponse(ServletResponse response, ExceptionResponse exceptionResponse)
@@ -73,5 +73,10 @@ public class AuthFilter implements Filter {
         byte[] responseToSend = getJsonBytes(exceptionResponse);
         ((HttpServletResponse) response).setHeader("Content-Type", "application/json");
         response.getOutputStream().write(responseToSend);
+    }
+
+    private byte[] getJsonBytes(ExceptionResponse exceptionResponse) {
+        String objectStr = gson.toJson(exceptionResponse);
+        return objectStr.getBytes();
     }
 }
