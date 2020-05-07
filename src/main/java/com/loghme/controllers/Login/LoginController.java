@@ -5,6 +5,7 @@ import com.loghme.controllers.DTOs.requests.Login.LoginGoogleRequest;
 import com.loghme.controllers.DTOs.requests.Login.LoginRequest;
 import com.loghme.controllers.DTOs.responses.Token.TokenResponse;
 import com.loghme.exceptions.WrongLogin;
+import com.loghme.models.services.JWTService;
 import com.loghme.models.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,9 @@ public class LoginController {
     public TokenResponse loginGoogleUser(@RequestBody LoginGoogleRequest request)
             throws SQLException, WrongLogin {
         String googleToken = request.getToken();
-        return new TokenResponse(googleToken);
+        String googleEmail = JWTService.getInstance().getGoogleEmail(googleToken);
+
+        String token = UserService.getInstance().loginGoogleUser(googleEmail);
+        return new TokenResponse(token);
     }
 }

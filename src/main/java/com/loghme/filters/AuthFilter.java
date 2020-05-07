@@ -28,7 +28,9 @@ public class AuthFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         String uri = httpServletRequest.getRequestURI();
 
-        if (!uri.equals(Path.Web.LOGIN) && !uri.equals(Path.Web.SIGNUP)) {
+        if (!uri.equals(Path.Web.LOGIN)
+                && !uri.equals(Path.Web.LOGIN + "/google")
+                && !uri.equals(Path.Web.SIGNUP)) {
             String header = httpServletRequest.getHeader("Authorization");
 
             if (header != null) {
