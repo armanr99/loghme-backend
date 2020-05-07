@@ -128,4 +128,15 @@ public class UserService {
 
         return JWTService.getInstance().createToken(emailUser.getId());
     }
+
+    public String loginGoogleUser(String googleToken) throws SQLException, WrongLogin {
+        String googleEmail = JWTService.getInstance().getGoogleEmail(googleToken);
+        User emailUser = UserMapper.getInstance().findByEmail(googleEmail);
+
+        if (emailUser == null) {
+            throw new WrongLogin();
+        } else {
+            return JWTService.getInstance().createToken(emailUser.getId());
+        }
+    }
 }

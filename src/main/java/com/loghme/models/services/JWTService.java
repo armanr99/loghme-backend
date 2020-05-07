@@ -1,10 +1,15 @@
 package com.loghme.models.services;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Date;
 
 public class JWTService {
@@ -12,15 +17,26 @@ public class JWTService {
     private static final String ISSUER = "loghme.com";
     private static final long EXPIRATION_TIME_MS = 24 * 60 * 60 * 1000;
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
-    private static final SecretKey key =
+    private static final SecretKey JWT_KEY =
             Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    private static final String CLIENT_ID =
+            "1055649283438-ehegliqteop5d72c91otdtpbouiiol3i.apps.googleusercontent.com";
+
     private static JWTService instance = null;
+    private static GoogleIdTokenVerifier googleVerifier;
 
     public static JWTService getInstance() {
         if (instance == null) {
             instance = new JWTService();
         }
         return instance;
+    }
+
+    private JWTService() {
+        googleVerifier =
+                new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                        .setAudience(Collections.singletonList(CLIENT_ID))
+                        .build();
     }
 
     String createToken(int userId) {
@@ -32,14 +48,28 @@ public class JWTService {
                 .setExpiration(expirationTime)
                 .setIssuer(ISSUER)
                 .setSubject(Integer.toString(userId))
-                .signWith(key, SIGNATURE_ALGORITHM)
+                .signWith(JWT_KEY, SIGNATURE_ALGORITHM)
                 .compact();
     }
 
     public String getSubject(String token) {
         try {
-            Jws<Claims> jws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jws<Claims> jws =
+                    Jwts.parserBuilder().setSigningKey(JWT_KEY).build().parseClaimsJws(token);
             return jws.getBody().getSubject();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    String getGoogleEmail(String googleToken) {
+        try {
+            GoogleIdToken idToken = googleVerifier.verify(googleToken);
+            if (idToken == null) return null;
+            else {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                return payload.getEmail();
+            }
         } catch (Exception ex) {
             return null;
         }
