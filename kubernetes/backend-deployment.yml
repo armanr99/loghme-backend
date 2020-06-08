@@ -15,14 +15,16 @@ spec:
         app: loghme-backend
     spec:
       containers:
-        - name: loghme-backend
-          image: registry.gitlab.com/internet-engineering-spring99/loghme-backend:latest
-          ports:
-            - containerPort: 8080
-          resources:
-            limits:
-              cpu: "550m"
-              memory: "500Mi"
-            requests:
-              cpu: "400m"
-              memory: "400Mi"
+      - name: loghme-backend
+        image: registry.gitlab.com/internet-engineering-spring99/loghme-backend:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "550m"
+            memory: "500Mi"
+          requests:
+            cpu: "400m"
+            memory: "400Mi"
+      imagePullSecrets:
+      - name: regcred
