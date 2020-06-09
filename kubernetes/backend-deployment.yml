@@ -22,9 +22,9 @@ spec:
         resources:
           limits:
             cpu: "275m"
-            memory: "435Mi"
+            memory: "475Mi"
           requests:
             cpu: "200m"
-            memory: "200Mi"
+            memory: "300Mi"
       imagePullSecrets:
       - name: regcred
