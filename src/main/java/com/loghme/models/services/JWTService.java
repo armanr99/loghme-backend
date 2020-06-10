@@ -20,7 +20,7 @@ public class JWTService {
     private static final SecretKey JWT_KEY =
             Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     private static final String CLIENT_ID =
-            "1055649283438-ehegliqteop5d72c91otdtpbouiiol3i.apps.googleusercontent.com";
+            "941686033847-nojkfumil3h3p0hv978kbgcrr39htjsq.apps.googleusercontent.com";
 
     private static JWTService instance = null;
     private static GoogleIdTokenVerifier googleVerifier;
