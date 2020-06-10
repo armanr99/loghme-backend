@@ -4,8 +4,9 @@ stages:
 
 variables:
   VERSION_NAME: ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHA}
-  IMAGE_NAME: ${CI_REGISTRY_IMAGE}:${VERSION_NAME}
+  IMAGE_NAME: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHA}
   DEPLOYMENT_PATH: kubernetes/backend-deployment.yml
+  VPN_CONF_PATH: /etc/openvpn/client.conf
 
 build:prod:
     stage: build
@@ -13,28 +14,25 @@ build:prod:
     services:
       - docker:dind
     before_script:
-      - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+      - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
     script:
-      - docker build --pull -t "$IMAGE_NAME" .
-      - docker push "$IMAGE_NAME"
+      - docker build --pull -t ${IMAGE_NAME} .
+      - docker push ${IMAGE_NAME}
     only:
       - master
 
 deploy:prod:
   stage: deploy
   when: manual
-  image: ubuntu
+  image: dtzar/helm-kubectl
   script:
-    - which ping || (apt-get update -y -qq && apt-get install -y -qq iputils-ping)
-    - which openvpn || (apt-get update -y -qq && apt-get install -y -qq openvpn)
-    - which curl || (apt-get update -y -qq && apt-get install -y -qq curl)
-    - curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-    - chmod +x ./kubectl
-    - mv ./kubectl /usr/local/bin/kubectl
-    - cat <<< $CLIENT_OVPN > /etc/openvpn/client.conf
-    - openvpn --daemon --config /etc/openvpn/client.conf
-    - sleep 5s
+    - apk add openvpn
+    - cat <<< ${CLIENT_OVPN} > ${VPN_CONF_PATH}
+    - openvpn --daemon --config ${VPN_CONF_PATH}
+    - sleep 10s
     - mkdir ~/.kube
-    - cat <<< $CLIENT_KUBERNETES > ~/.kube/config
+    - cat <<< ${CLIENT_KUBERNETES} > ~/.kube/config
     - sed -i "s/<VERSION>/${VERSION_NAME}/g" ${DEPLOYMENT_PATH}
     - kubectl apply -f ${DEPLOYMENT_PATH}
+  only:
+    - master
