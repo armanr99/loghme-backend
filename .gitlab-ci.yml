@@ -1,44 +1,40 @@
 stages:
-  # - build
+  - build
   - deploy
 
 variables:
-  K8S_SERVER: https://130.185.123.110:6443
-  K8S_CLUSTER: my-cluster
-  K8S_NAMESPACE: arman-parsa-ns
-  K8S_CERTIFICATE_AUTHORITY_DATA: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN5RENDQWJDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJd01EVXdNVEV6TURrMU9Wb1hEVE13TURReU9URXpNRGsxT1Zvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTldyCjgwK0RyaFZ2QklqWmdvUVJBcm1WandaODc1b0l4QmQzSHovQURxMThTbzBmOE8xQWdmeFAxN0hsTDJsN05QZVcKaElVR1l5MVV6SnVEaTByanFVZWt6eW1lTG9ud2t3ZEZ1Y0RPNmdSdEdobjdyQi8zd0VrSjQ3OXdMK0pSdFgzSwpSVEQxNjE1dEFjQ3V5QnlobjRUUFpYVXRPTzloUEkreVRoSGIyWUxRRkU3Zk5VeGZrVzhOZEd0bmJnZnhmWHY3CnZ1MVhOREpTU1BFS0lPZFZzVEhGNWVaSkpicCtWNm5RKzhmT3c4bVNoaXZocHRENTFHbHlnOFl0b09ncCtndzYKdkJwZGl4dHhyL1g5Wm1GeHZTYmZkWVJ0d0U1RTdZZE5aU2dWdXR2UXpoeVRUcjRMU05yYVJDSTdVS2x3QWdjdQpRZTFnaDgzSjFKVkdZTy9sWmlzQ0F3RUFBYU1qTUNFd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFLdkltcno5TEt0eGJYdGNqNG9aNlBacElLcVAKVkN2TmJ4UmxvVitmNFBnbExCblJiSkUwWVcvL3QwTGdqcGZVTUw1ZFNmMTJkWi9IaEFIOUtjak5oMTgzRzZuVQpZbEQrYmx4cWo4K21BU1Fjcy9BSlZxK3FUK1M5cStQY1pYRVR6Y2VBSHFmUFdmVTFlT0RUYjh3OXA1aitzaUcyCjVad0ZGb21VSGNJZElJemxqQ1EvSHBJYnplU1hmZ0FaSGdtYWlFNGVESWJqRTQ5dWkxVUgyYllGVFNpRnhzcC8KbmdrVHpIc0ExTkZWa1MwMmNFeFdRVmIzNDFVT1pYbDZWU1JUQUNsU0l1Tk9UN1BUR244bXVEZHh1THRhNTdMSQoxSHdPeWdxWGpGYUJDMFBpZ2pRdnQwcWpRdGd0bmFTS01HN1RMRTkrbEpqazFOaUp1ZG9aNzNDLzRKND0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
-  K8S_USER_TOKEN: eyJhbGciOiJSUzI1NiIsImtpZCI6InBnUE9BMDkxemhDeFNzUXZ3cGFSWFpWaUwtb0Q4bW8xRXhVSVBtbjduYUEifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJhcm1hbi1wYXJzYS1ucyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhcm1hbi1wYXJzYS1ucy11c2VyLXRva2VuLXh0bGI4Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFybWFuLXBhcnNhLW5zLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJjYmUyMmRkMS0xOGMzLTQ0NTItODc1Yi02YzExYTU4NDFlNWMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6YXJtYW4tcGFyc2EtbnM6YXJtYW4tcGFyc2EtbnMtdXNlciJ9.irRrmrE-s-Aj2JYwy_jV91Ladl3KR-xCwKEGefa9sj45bH8YGPboJI9nTIAjEGE440AkIweOeyfn7JhHkC8dDDuTOjJ3vlw_NE5FQoOAmA7fbIwKLjpQfsq9uFR58qCNzyzrQQp5nvbuqrZlVRIOHMhlTPki3VkidkVzsfaSxnJTwEeb2LFUxqzXzlM5UW5jzYBzJ3GrxFOmyfJmOKAdtzUj2ANOd7YGV12tFDNUlPeZHsIEd1K0JYzko_JjRQGPSKhmgPsp62rwT54POcZEu-MNzlqBetyYXioNSYN_RUUPn22tDzUgZvyVEPhnFEZUnbwIQFND6i64guDD98vG0w
-  K8S_CLIENT_KEY_DATA: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN5RENDQWJDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJd01EVXdNVEV6TURrMU9Wb1hEVE13TURReU9URXpNRGsxT1Zvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTldyCjgwK0RyaFZ2QklqWmdvUVJBcm1WandaODc1b0l4QmQzSHovQURxMThTbzBmOE8xQWdmeFAxN0hsTDJsN05QZVcKaElVR1l5MVV6SnVEaTByanFVZWt6eW1lTG9ud2t3ZEZ1Y0RPNmdSdEdobjdyQi8zd0VrSjQ3OXdMK0pSdFgzSwpSVEQxNjE1dEFjQ3V5QnlobjRUUFpYVXRPTzloUEkreVRoSGIyWUxRRkU3Zk5VeGZrVzhOZEd0bmJnZnhmWHY3CnZ1MVhOREpTU1BFS0lPZFZzVEhGNWVaSkpicCtWNm5RKzhmT3c4bVNoaXZocHRENTFHbHlnOFl0b09ncCtndzYKdkJwZGl4dHhyL1g5Wm1GeHZTYmZkWVJ0d0U1RTdZZE5aU2dWdXR2UXpoeVRUcjRMU05yYVJDSTdVS2x3QWdjdQpRZTFnaDgzSjFKVkdZTy9sWmlzQ0F3RUFBYU1qTUNFd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFLdkltcno5TEt0eGJYdGNqNG9aNlBacElLcVAKVkN2TmJ4UmxvVitmNFBnbExCblJiSkUwWVcvL3QwTGdqcGZVTUw1ZFNmMTJkWi9IaEFIOUtjak5oMTgzRzZuVQpZbEQrYmx4cWo4K21BU1Fjcy9BSlZxK3FUK1M5cStQY1pYRVR6Y2VBSHFmUFdmVTFlT0RUYjh3OXA1aitzaUcyCjVad0ZGb21VSGNJZElJemxqQ1EvSHBJYnplU1hmZ0FaSGdtYWlFNGVESWJqRTQ5dWkxVUgyYllGVFNpRnhzcC8KbmdrVHpIc0ExTkZWa1MwMmNFeFdRVmIzNDFVT1pYbDZWU1JUQUNsU0l1Tk9UN1BUR244bXVEZHh1THRhNTdMSQoxSHdPeWdxWGpGYUJDMFBpZ2pRdnQwcWpRdGd0bmFTS01HN1RMRTkrbEpqazFOaUp1ZG9aNzNDLzRKND0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
-  K8S_USER: arman-parsa-ns-user
-  IMAGE_NAME: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHA}
+  VERSION_NAME: ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHA}
+  IMAGE_NAME: ${CI_REGISTRY_IMAGE}:${VERSION_NAME}
+  DEPLOYMENT_PATH: kubernetes/backend-deployment.yml
 
-# build:prod:
-#     stage: build
-#     image: docker:latest
-#     services:
-#       - docker:dind
-#     before_script:
-#       - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-#     script:
-#       - docker build --pull -t "$IMAGE_NAME" .
-#       - docker push "$IMAGE_NAME"
-#     only:
-#       - master
+build:prod:
+    stage: build
+    image: docker:latest
+    services:
+      - docker:dind
+    before_script:
+      - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    script:
+      - docker build --pull -t "$IMAGE_NAME" .
+      - docker push "$IMAGE_NAME"
+    only:
+      - master
 
 deploy:prod:
   stage: deploy
-  # when: manual
-  image: dtzar/helm-kubectl
+  when: manual
+  image: ubuntu
   script:
-    - ping -c 4 google.com
-    - ping -c 4 130.185.123.110
-    - kubectl config set-cluster ${K8S_CLUSTER} --server="${K8S_SERVER}"
-    - kubectl config set clusters.${K8S_CLUSTER}.certificate-authority-data ${K8S_CERTIFICATE_AUTHORITY_DATA}
-    - kubectl config set-credentials ${K8S_USER} --token="${K8S_USER_TOKEN}"
-    - kubectl config set users.${K8S_USER}.client-key-data ${K8S_CLIENT_KEY_DATA}
-    - kubectl config set-context default --cluster=${K8S_CLUSTER} --namespace="${K8S_NAMESPACE}" --user=${K8S_USER}
-    - kubectl config use-context default
-    - kubectl config view
-    - cat ~/.kube/config
-    - sed -i "s/<VERSION>/${CI_COMMIT_REFNAME}${CI_COMMIT_SHA}/g" kubernetes/backend-deployment.yml
-    - kubectl apply -f kubernetes/backend-deployment.yml
+    - which ping || (apt-get update -y -qq && apt-get install -y -qq iputils-ping)
+    - which openvpn || (apt-get update -y -qq && apt-get install -y -qq openvpn)
+    - which curl || (apt-get update -y -qq && apt-get install -y -qq curl)
+    - curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+    - chmod +x ./kubectl
+    - mv ./kubectl /usr/local/bin/kubectl
+    - cat <<< $CLIENT_OVPN > /etc/openvpn/client.conf
+    - openvpn --daemon --config /etc/openvpn/client.conf
+    - sleep 5s
+    - mkdir ~/.kube
+    - cat <<< $CLIENT_KUBERNETES > ~/.kube/config
+    - sed -i "s/<VERSION>/${VERSION_NAME}/g" ${DEPLOYMENT_PATH}
+    - kubectl apply -f ${DEPLOYMENT_PATH}
