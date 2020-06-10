@@ -19,10 +19,10 @@ spec:
         name: mysql
         resources:
           limits:
-            cpu: "400m"
+            cpu: "300m"
             memory: "400Mi"
           requests:
-            cpu: "250m"
+            cpu: "200m"
             memory: "350Mi"
         env:
         - name: MYSQL_DATABASE
