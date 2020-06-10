@@ -9,6 +9,10 @@ spec:
   selector:
     matchLabels:
       app: loghme-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
   template:
     metadata:
       labels:
