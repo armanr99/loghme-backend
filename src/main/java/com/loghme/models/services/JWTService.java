@@ -4,6 +4,9 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.gson.Gson;
+import com.loghme.controllers.DTOs.responses.Google.GoogleResponse;
+import com.loghme.utils.HTTPRequester;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
@@ -12,7 +15,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Date;
 
+import static com.loghme.configs.Configs.GOOGLE_TOKEN_URL;
+
 public class JWTService {
+    private Gson gson;
     private static final String SECRET = "loghmeloghmeloghmeloghmeloghmeloghme";
     private static final String ISSUER = "loghme.com";
     private static final long EXPIRATION_TIME_MS = 24 * 60 * 60 * 1000;
@@ -37,6 +43,7 @@ public class JWTService {
                 new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                         .setAudience(Collections.singletonList(CLIENT_ID))
                         .build();
+        gson = new Gson();
     }
 
     String createToken(int userId) {
@@ -63,6 +70,20 @@ public class JWTService {
     }
 
     String getGoogleEmail(String googleToken) {
+        try {
+            String tokenUrl = GOOGLE_TOKEN_URL + googleToken;
+            String googleResponseStr = HTTPRequester.get(tokenUrl);
+            if (googleResponseStr == null) return null;
+            else {
+                GoogleResponse googleResponse = gson.fromJson(googleResponseStr, GoogleResponse.class);
+                return googleResponse.getEmail();
+            }
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    String getGoogleEmailWithVerifier(String googleToken) {
         try {
             GoogleIdToken idToken = googleVerifier.verify(googleToken);
             if (idToken == null) return null;
