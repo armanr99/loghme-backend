@@ -5,7 +5,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.gson.Gson;
-import com.loghme.controllers.DTOs.responses.Google.GoogleResponse;
+import com.loghme.models.DTOs.Google.GoogleInput;
 import com.loghme.utils.HTTPRequester;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -72,11 +72,11 @@ public class JWTService {
     String getGoogleEmail(String googleToken) {
         try {
             String tokenUrl = GOOGLE_TOKEN_URL + googleToken;
-            String googleResponseStr = HTTPRequester.get(tokenUrl);
-            if (googleResponseStr == null) return null;
+            String googleInputStr = HTTPRequester.get(tokenUrl);
+            if (googleInputStr == null) return null;
             else {
-                GoogleResponse googleResponse = gson.fromJson(googleResponseStr, GoogleResponse.class);
-                return googleResponse.getEmail();
+                GoogleInput googleInput = gson.fromJson(googleInputStr, GoogleInput.class);
+                return googleInput.getEmail();
             }
         } catch (Exception ex) {
             return null;

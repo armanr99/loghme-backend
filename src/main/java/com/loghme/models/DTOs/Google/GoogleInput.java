@@ -1,6 +1,6 @@
-package com.loghme.controllers.DTOs.responses.Google;
+package com.loghme.models.DTOs.Google;
 
-public class GoogleResponse {
+public class GoogleInput {
     private String email;
 
     public String getEmail() {
