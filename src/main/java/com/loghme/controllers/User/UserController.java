@@ -1,6 +1,6 @@
 package com.loghme.controllers.User;
 
-import com.loghme.configs.Path;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.responses.User.UserResponse;
 import com.loghme.exceptions.*;
 import com.loghme.models.domain.User.User;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping(Path.Web.USER)
+@RequestMapping(PathConfigs.Web.USER)
 public class UserController {
     @GetMapping("")
     public UserResponse getUser(@RequestAttribute int userId)

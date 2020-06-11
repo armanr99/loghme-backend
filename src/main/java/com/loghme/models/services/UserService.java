@@ -51,7 +51,7 @@ public class UserService {
                         .getRestaurantInstanceIfInRange(
                                 restaurantId,
                                 user.getLocation(),
-                                Configs.VISIBLE_RESTAURANTS_DISTANCE);
+                                GeneralConfigs.VISIBLE_RESTAURANTS_DISTANCE);
         Food food = restaurant.getFood(foodName);
 
         int cartItemCount = user.getCartItemCount(restaurantId, foodName);

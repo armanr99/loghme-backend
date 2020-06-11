@@ -1,6 +1,6 @@
 package com.loghme.controllers.Cart;
 
-import com.loghme.configs.Path;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.requests.Cart.CartRequest;
 import com.loghme.controllers.DTOs.responses.Cart.CartResponse;
 import com.loghme.controllers.DTOs.responses.Order.OrdersResponse;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(Path.Web.CART)
+@RequestMapping(PathConfigs.Web.CART)
 public class CartController {
     @GetMapping("")
     public CartResponse getCart(@RequestAttribute int userId)

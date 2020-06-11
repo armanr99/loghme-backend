@@ -1,6 +1,6 @@
 package com.loghme.controllers.FoodParty;
 
-import com.loghme.configs.Path;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.responses.FoodParty.FoodPartyResponse;
 import com.loghme.controllers.DTOs.responses.FoodParty.RemainingTimeResponse;
 import com.loghme.exceptions.RestaurantDoesntExist;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(Path.Web.FOOD_PARTY)
+@RequestMapping(PathConfigs.Web.FOOD_PARTY)
 public class FoodPartyController {
     @GetMapping("")
     public FoodPartyResponse getPartyFoods() throws RestaurantDoesntExist, SQLException {
@@ -22,7 +22,7 @@ public class FoodPartyController {
         return new FoodPartyResponse(partyFoods);
     }
 
-    @GetMapping(Path.Web.FOOD_PARTY_TIME)
+    @GetMapping(PathConfigs.Web.FOOD_PARTY_TIME)
     public RemainingTimeResponse getFoodPartyTime() {
         long remainingSeconds = RestaurantService.getInstance().getRemainingFoodPartySeconds();
         return new RemainingTimeResponse(remainingSeconds);

@@ -1,7 +1,7 @@
 package com.loghme.controllers.Restaurant;
 
-import com.loghme.configs.Configs;
-import com.loghme.configs.Path;
+import com.loghme.configs.GeneralConfigs;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.responses.Restaurant.RestaurantResponse;
 import com.loghme.controllers.DTOs.responses.Restaurant.RestaurantsResponse;
 import com.loghme.exceptions.UserDoesntExist;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static com.loghme.configs.Pagination.*;
+import static com.loghme.configs.PaginationConfigs.*;
 
 @RestController
-@RequestMapping(Path.Web.RESTAURANTS)
+@RequestMapping(PathConfigs.Web.RESTAURANTS)
 public class RestaurantsController {
     @GetMapping("")
     public RestaurantsResponse getRestaurants(
@@ -37,7 +37,7 @@ public class RestaurantsController {
         ArrayList<Restaurant> restaurants =
                 RestaurantService.getInstance()
                         .getRestaurantsWithinDistance(
-                                userLocation, Configs.VISIBLE_RESTAURANTS_DISTANCE, limit, offset);
+                                userLocation, GeneralConfigs.VISIBLE_RESTAURANTS_DISTANCE, limit, offset);
 
         return new RestaurantsResponse(restaurants);
     }
@@ -49,7 +49,7 @@ public class RestaurantsController {
         RestaurantService restaurantService = RestaurantService.getInstance();
         Restaurant restaurant =
                 restaurantService.getRestaurantInstanceIfInRange(
-                        id, userLocation, Configs.VISIBLE_RESTAURANTS_DISTANCE);
+                        id, userLocation, GeneralConfigs.VISIBLE_RESTAURANTS_DISTANCE);
         return new RestaurantResponse(restaurant);
     }
 }

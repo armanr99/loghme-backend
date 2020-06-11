@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Date;
 
-import static com.loghme.configs.Configs.GOOGLE_TOKEN_URL;
+import static com.loghme.configs.GeneralConfigs.GOOGLE_TOKEN_URL;
 
 public class JWTService {
     private Gson gson;

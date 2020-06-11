@@ -1,6 +1,6 @@
 package com.loghme.controllers.Signup;
 
-import com.loghme.configs.Path;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.requests.Signup.SignupRequest;
 import com.loghme.controllers.DTOs.responses.Token.TokenResponse;
 import com.loghme.exceptions.EmailAlreadyExists;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping(Path.Web.SIGNUP)
+@RequestMapping(PathConfigs.Web.SIGNUP)
 public class SignupController {
     @PostMapping("")
     public TokenResponse signupUser(@RequestBody SignupRequest request)

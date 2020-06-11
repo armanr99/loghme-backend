@@ -1,6 +1,6 @@
 package com.loghme.controllers.Order;
 
-import com.loghme.configs.Path;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.responses.Order.OrderResponse;
 import com.loghme.controllers.DTOs.responses.Order.OrdersResponse;
 import com.loghme.exceptions.*;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(Path.Web.ORDERS)
+@RequestMapping(PathConfigs.Web.ORDERS)
 public class OrdersController {
     @GetMapping("")
     public OrdersResponse getOrders(@RequestAttribute int userId)

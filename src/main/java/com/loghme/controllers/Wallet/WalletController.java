@@ -1,6 +1,6 @@
 package com.loghme.controllers.Wallet;
 
-import com.loghme.configs.Path;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.requests.Wallet.WalletRequest;
 import com.loghme.controllers.DTOs.responses.Wallet.WalletResponse;
 import com.loghme.exceptions.UserDoesntExist;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping(Path.Web.WALLET)
+@RequestMapping(PathConfigs.Web.WALLET)
 public class WalletController {
     @PostMapping("")
     public WalletResponse chargeUser(

@@ -1,6 +1,6 @@
 package com.loghme.controllers.Search;
 
-import com.loghme.configs.Path;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.responses.Restaurant.RestaurantsResponse;
 import com.loghme.models.domain.Restaurant.Restaurant;
 import com.loghme.models.repositories.RestaurantRepository;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(Path.Web.SEARCH)
+@RequestMapping(PathConfigs.Web.SEARCH)
 public class SearchController {
     @GetMapping("/restaurants")
     public RestaurantsResponse getRestaurants(

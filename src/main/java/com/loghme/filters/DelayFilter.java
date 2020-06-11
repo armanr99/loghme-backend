@@ -3,7 +3,7 @@ package com.loghme.filters;
 import javax.servlet.*;
 import java.io.IOException;
 
-import com.loghme.configs.Configs;
+import com.loghme.configs.GeneralConfigs;
 
 public class DelayFilter implements Filter {
     @Override
@@ -13,7 +13,7 @@ public class DelayFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         try {
-            Thread.sleep(Configs.FILTER_DELAY);
+            Thread.sleep(GeneralConfigs.FILTER_DELAY);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

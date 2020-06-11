@@ -1,6 +1,6 @@
 package com.loghme.configs;
 
-public class Path {
+public class PathConfigs {
     public static class Web {
         public static final String RESTAURANTS = "/restaurants";
         public static final String USER = "/user";

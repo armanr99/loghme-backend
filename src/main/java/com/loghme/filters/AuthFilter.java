@@ -1,8 +1,8 @@
 package com.loghme.filters;
 
 import com.google.gson.Gson;
-import com.loghme.configs.Configs;
-import com.loghme.configs.Path;
+import com.loghme.configs.GeneralConfigs;
+import com.loghme.configs.PathConfigs;
 import com.loghme.controllers.DTOs.responses.Exception.ExceptionResponse;
 import com.loghme.exceptions.UserNotAuthenticated;
 import com.loghme.exceptions.UserNotAuthorized;
@@ -26,9 +26,9 @@ public class AuthFilter implements Filter {
 
         String uri = ((HttpServletRequest) request).getRequestURI();
 
-        if (!uri.equals(Path.Web.LOGIN)
-                && !uri.equals(Path.Web.LOGIN + "/google")
-                && !uri.equals(Path.Web.SIGNUP)) {
+        if (!uri.equals(PathConfigs.Web.LOGIN)
+                && !uri.equals(PathConfigs.Web.LOGIN + "/google")
+                && !uri.equals(PathConfigs.Web.SIGNUP)) {
             String header = ((HttpServletRequest) request).getHeader("Authorization");
 
             if (header != null) {
@@ -47,7 +47,7 @@ public class AuthFilter implements Filter {
 
     private void authenticateHeader(String header, ServletRequest request, ServletResponse response)
             throws IOException {
-        String token = header.substring(Configs.BEARER_SIZE);
+        String token = header.substring(GeneralConfigs.BEARER_SIZE);
         String subject = JWTService.getInstance().getSubject(token);
 
         if (subject != null) {
